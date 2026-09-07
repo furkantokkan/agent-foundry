@@ -1,0 +1,10 @@
+{
+  "name": "agent-foundry",
+  "interface": {"displayName": "Agent Foundry"},
+  "plugins": [{
+    "name": "agent-foundry",
+    "source": {"source": "local", "path": "./plugins/agent-foundry"},
+    "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+    "category": "Engineering"
+  }]
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unity Optimization"
+  short_description: "Profile and optimize Unity performance."
+  default_prompt: "Use $unity-optimization to diagnose and optimize this Unity performance issue with measured before/after evidence."
+policy:
+  allow_implicit_invocation: true

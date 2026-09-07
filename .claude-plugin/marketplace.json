@@ -1,0 +1,11 @@
+{
+  "name": "agent-foundry",
+  "owner": {"name": "Furkan Tokkan"},
+  "metadata": {"description": "Task-first development skills and workflows for Codex and Claude Code."},
+  "plugins": [{
+    "name": "agent-foundry",
+    "source": "./plugins/agent-foundry",
+    "description": "92 skills for task-first development with Codex and Claude Code.",
+    "version": "0.1.0"
+  }]
+}

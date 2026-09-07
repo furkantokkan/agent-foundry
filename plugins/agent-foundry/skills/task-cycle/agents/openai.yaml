@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Cycle"
+  short_description: "Resume linked defects through one lifecycle writer"
+  default_prompt: "Use $task-cycle. Repair linked defects, independently verify, refresh evidence identities, and finish READY_TO_CLOSE or blocked."

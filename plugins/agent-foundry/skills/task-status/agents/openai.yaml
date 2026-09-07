@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Status"
+  short_description: "Show concise status for selected production tasks"
+  default_prompt: "Use $task-status to show concise evidence and choose the next command: task-done for ready_to_close, implement-task for empty-ledger initial or non-defect verification work, or task-cycle for recorded defects and reopened/resumed cycles."

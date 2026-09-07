@@ -1,0 +1,4 @@
+interface:
+  display_name: "Steam Store Launch"
+  short_description: "Steam page, CRM, and wishlist launch planning"
+  default_prompt: "Help me prepare a Steam store page launch plan for my game, including assets, copy, tags, trailer, CRM outreach, wishlist beats, festivals, and review readiness."

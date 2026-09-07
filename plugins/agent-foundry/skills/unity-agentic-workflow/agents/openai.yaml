@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Agentic Workflow"
+  short_description: "Design or audit a shared Claude and Codex Unity workflow"
+  default_prompt: "Use $unity-agentic-workflow to teach, audit, design, or bootstrap the contract-first Unity workflow, including same-task defect cycles and provider parity."

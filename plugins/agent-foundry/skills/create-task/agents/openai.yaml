@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Task"
+  short_description: "Create a task from a short or structured brief"
+  default_prompt: "Use $create-task to create one production task contract from this short request or optional structured brief; do not implement it."

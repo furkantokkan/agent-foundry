@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Task"
+  short_description: "Turn a compact request into a verified change"
+  default_prompt: "Use $implement-task. For Unity load unity-preflight then unity-game-dev; verify and finalize a green direct task READY_TO_CLOSE."

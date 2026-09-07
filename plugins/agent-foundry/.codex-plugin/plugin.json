@@ -1,0 +1,19 @@
+{
+  "name": "agent-foundry",
+  "version": "0.1.0",
+  "description": "92 skills for Codex and Claude Code: task contracts, Unity, game design, Firebase, QA and release workflows.",
+  "author": {"name": "Furkan Tokkan"},
+  "license": "MIT",
+  "keywords": ["codex", "claude-code", "skills", "unity", "game-development"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Foundry",
+    "shortDescription": "From a rough idea to a verified task",
+    "longDescription": "A curated collection of task-first development skills, Unity workflows, game design references, review checklists and release procedures for coding agents.",
+    "developerName": "Furkan Tokkan",
+    "category": "Engineering",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["Use create-task to scope this feature", "Run a read-only Unity preflight", "Review this change with game-code-review"],
+    "brandColor": "#F97316"
+  }
+}

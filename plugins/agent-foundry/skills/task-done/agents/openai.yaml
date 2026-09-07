@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Done"
+  short_description: "Close exact task(s) on an explicit user order"
+  default_prompt: "Close the exact task(s) the user explicitly names. Treat an unambiguous ordinary-language close order as $task-done without requesting proof; preserve unmet acceptance criteria and unresolved defects under a lifecycle lock, unless the user requests --strict."

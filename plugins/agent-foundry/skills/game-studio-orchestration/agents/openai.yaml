@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Studio Orchestration"
+  short_description: "Coordinate safe parallel Unity task execution"
+  default_prompt: "Use $game-studio-orchestration to coordinate independent task contracts in disjoint worktrees. Keep one lifecycle owner and a sequential role chain per task: $implement-task finalizes a clean direct empty-ledger pass as READY_TO_CLOSE with $task-done next; $task-cycle owns active defects and is the sole defect-ledger/record writer."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily Handoff"
+  short_description: "Create a concise multi-task end-of-day handoff"
+  default_prompt: "Use $daily-handoff to checkpoint selected tasks and choose task-done for ready_to_close, implement-task for empty-ledger initial or non-defect verification work, or task-cycle for recorded defects and reopened/resumed cycles."

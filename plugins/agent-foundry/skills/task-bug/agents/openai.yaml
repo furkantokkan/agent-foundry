@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Bug"
+  short_description: "Route bug evidence to a task or create one"
+  default_prompt: "Load and follow $task-bug before choosing a route. Match the evidence first: an existing owner goes to task-cycle, a natural-language no-match goes once to create-task and stops before implementation, and an unchanged ready pre-implementation task returns READY_TASK_EXISTS."

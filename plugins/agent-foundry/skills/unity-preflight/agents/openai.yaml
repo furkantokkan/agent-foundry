@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Preflight"
+  short_description: "Verify a Unity repository and automation target before work"
+  default_prompt: "Run a read-only Unity preflight for the current repository and report READY, READY WITH WARNINGS, or BLOCKED."
