@@ -2,10 +2,18 @@
   "name": "agent-foundry",
   "owner": {"name": "Furkan Tokkan"},
   "metadata": {"description": "Task-first development skills and workflows for Codex and Claude Code."},
-  "plugins": [{
-    "name": "agent-foundry",
-    "source": "./plugins/agent-foundry",
-    "description": "92 skills for task-first development with Codex and Claude Code.",
-    "version": "0.1.0"
-  }]
+  "plugins": [
+    {
+      "name": "agent-foundry",
+      "source": "./plugins/agent-foundry",
+      "description": "92 skills for task-first development with Codex and Claude Code.",
+      "version": "0.1.1"
+    },
+    {
+      "name": "blender-texture-foundry",
+      "source": "./plugins/blender-texture-foundry",
+      "description": "16 skills for Blender modeling, PBR materials, CC0 texture discovery, baking, and Unity export.",
+      "version": "0.1.0"
+    }
+  ]
 }

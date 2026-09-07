@@ -1,0 +1,10 @@
+{
+  "name": "blender-texture-foundry",
+  "version": "0.1.0",
+  "description": "Blender modeling, PBR materials, CC0 texture discovery, baking, look development, rendering, and Unity export.",
+  "author": {"name": "Furkan Tokkan"},
+  "homepage": "https://github.com/furkantokkan/agent-foundry",
+  "repository": "https://github.com/furkantokkan/agent-foundry",
+  "license": "MIT",
+  "keywords": ["blender", "textures", "pbr", "materials", "unity"]
+}

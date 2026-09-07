@@ -4,7 +4,7 @@
 
 ### Give your coding agent a workflow worth repeating.
 
-**92 skills · 93 command definitions · 3 Unity agent roles · Codex + Claude Code**
+**108 skills · 95 command definitions · 3 Unity agent roles · Codex + Claude Code**
 
 [![Validate](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml/badge.svg)](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -12,10 +12,10 @@
 [![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757)](#install)
 [![GitHub stars](https://img.shields.io/github/stars/furkantokkan/agent-foundry?style=social)](https://github.com/furkantokkan/agent-foundry/stargazers)
 
-Task contracts, implementation handoffs, bug cycles, design reviews, and release checklists.
-Built around Unity and game development. Includes Clean OOP, Firebase, and JavaScript workflows.
+Task contracts, implementation handoffs, bug cycles, design reviews, release checklists, and visual-production workflows.
+Built around Unity and game development, with a Blender and CC0 texture-production companion. Includes Clean OOP, Firebase, JavaScript, PBR, UV, bake, and export workflows.
 
-[Get started](#install) · [Browse every skill](docs/CATALOG.md) · [Try a workflow](#your-first-workflow) · [Contribute](CONTRIBUTING.md)
+[Get started](#install) · [Browse core skills](docs/CATALOG.md) · [Browse Blender skills](docs/BLENDER_TEXTURES.md) · [Try a workflow](#your-first-workflow) · [Contribute](CONTRIBUTING.md)
 
 </div>
 
@@ -44,6 +44,7 @@ Use a recent CLI with plugin marketplace support. Restart your agent session aft
 ```bash
 codex plugin marketplace add furkantokkan/agent-foundry
 codex plugin add agent-foundry@agent-foundry
+codex plugin add blender-texture-foundry@agent-foundry
 ```
 
 Then ask: **“Use the create-task skill to scope a dash ability with a cooldown.”**
@@ -53,6 +54,7 @@ Then ask: **“Use the create-task skill to scope a dash ability with a cooldown
 ```bash
 claude plugin marketplace add furkantokkan/agent-foundry
 claude plugin install agent-foundry@agent-foundry
+claude plugin install blender-texture-foundry@agent-foundry
 ```
 
 Then run:
@@ -109,8 +111,10 @@ For Unity, start with `unity-preflight`. Implementation and bug-cycle skills inv
 | Build a Firebase game API | `firebase-game-backend` |
 | Plan QA or a release | `qa-plan`, `release-checklist` |
 | Prepare a Steam store launch | `steam-store-launch` |
+| Find CC0 textures or HDRIs | `texture-discovery`, `ambientcg-assets` |
+| Build or prepare a Blender asset | `blender-modeler`, `texture-workflow`, `unity-export` |
 
-**[Explore the complete catalog of 92 skills →](docs/CATALOG.md)**
+**[Explore the core catalog of 92 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)**
 
 ## What's in the box?
 
@@ -122,6 +126,9 @@ agent-foundry/
 │   ├── skills/            # 92 skills with bundled references
 │   ├── commands/          # 7 aliases; avoids duplicate skill names
 │   └── agents/            # Implementer, verifier, bugfixer
+├── plugins/blender-texture-foundry/
+│   ├── skills/            # 16 Blender, PBR and texture-production skills
+│   └── commands/          # Blender and texture discovery entry points
 ├── commands/              # Full archive of 93 command adapters
 ├── docs/                  # Catalog, setup and export provenance
 └── scripts/               # Package validation and export tooling
@@ -131,7 +138,7 @@ The studio skill also contains role, rule, template, and hook **references**. Th
 
 ## Project status
 
-**Initial public release, v0.1.0.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, or Unity project. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
+**Public release, v0.1.1.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
 
 Repository instructions and your agent's tool/approval policies remain authoritative. These Markdown workflows do not enforce a sandbox or grant tools they describe.
 
@@ -143,6 +150,6 @@ If a workflow saves you time, **star the repo** so other builders can find it. S
 
 ## Credits & license
 
-Maintained by [Furkan Tokkan](https://github.com/furkantokkan). Studio workflows and references include adaptations of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos. Upstream deserves a star too.
+Maintained by [Furkan Tokkan](https://github.com/furkantokkan). Studio workflows and references include adaptations of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos. Blender & Texture Foundry includes attributed MIT components from [Blender Skills](https://github.com/arjun988/blender-skills) and [dcc-asset-ambientcg](https://github.com/dcc-mcp/dcc-asset-ambientcg). Upstream deserves a star too.
 
 [MIT](LICENSE), with upstream notices preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Unaffiliated with OpenAI, Anthropic, or Unity.

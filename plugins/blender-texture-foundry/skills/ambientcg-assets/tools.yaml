@@ -1,0 +1,101 @@
+tools:
+  - name: search_ambientcg_assets
+    description: Search ambientCG CC0 PBR materials, HDRIs, atlases, terrains, and 3D models without login.
+    source_file: scripts/search_ambientcg_assets.py
+    execution: sync
+    affinity: any
+    timeout_hint_secs: 20
+    enforce_thread_affinity: true
+    annotations:
+      read_only_hint: true
+      idempotent_hint: true
+      open_world_hint: true
+    group: ambientcg
+    input_schema:
+      type: object
+      properties:
+        query:
+          type: string
+        asset_type:
+          type: string
+          enum: ["all", "3d-model", "material", "hdri", "atlas", "decal", "terrain", "plain-image", "substance", "brush", "3DModel", "Material", "HDRI", "Atlas", "Decal", "Terrain", "PlainTexture", "Substance", "Brush"]
+          default: "all"
+        sort:
+          type: string
+          enum: ["latest", "popular", "alphabet", "downloads", "oldest", "random", "Latest", "Popular", "Alphabet", "Downloads"]
+          default: "popular"
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 10
+    output_schema:
+      type: object
+
+  - name: list_ambientcg_downloads
+    description: List download archives for one ambientCG asset.
+    source_file: scripts/list_ambientcg_downloads.py
+    execution: sync
+    affinity: any
+    timeout_hint_secs: 20
+    enforce_thread_affinity: true
+    annotations:
+      read_only_hint: true
+      idempotent_hint: true
+      open_world_hint: true
+    group: ambientcg
+    input_schema:
+      type: object
+      required: ["asset_id"]
+      properties:
+        asset_id:
+          type: string
+    output_schema:
+      type: object
+
+  - name: download_ambientcg_asset
+    description: Download one ambientCG archive and return a validated CC0 AssetDescriptor.
+    source_file: scripts/download_ambientcg_asset.py
+    execution: sync
+    affinity: any
+    timeout_hint_secs: 180
+    enforce_thread_affinity: true
+    annotations:
+      read_only_hint: false
+      destructive_hint: false
+      idempotent_hint: false
+      open_world_hint: true
+    group: ambientcg
+    input_schema:
+      type: object
+      required: ["asset_id", "output_dir"]
+      properties:
+        asset_id:
+          type: string
+        output_dir:
+          type: string
+        download_attribute:
+          type: string
+          default: "2K-JPG"
+        use_raw_link:
+          type: boolean
+          default: false
+    output_schema:
+      type: object
+      required: [asset_descriptor]
+      properties:
+        asset_descriptor:
+          type: object
+          required: [asset_id, variants, attribution]
+          properties:
+            asset_id:
+              type: string
+            variants:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required: [local_path, format]
+            attribution:
+              type: object
+              required: [source_url, license_spdx]

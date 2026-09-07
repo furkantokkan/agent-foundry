@@ -1,0 +1,19 @@
+{
+  "name": "blender-texture-foundry",
+  "version": "0.1.0",
+  "description": "16 skills for Blender modeling, PBR materials, texture discovery, baking, look development, rendering, and Unity export.",
+  "author": {"name": "Furkan Tokkan"},
+  "license": "MIT",
+  "keywords": ["blender", "textures", "pbr", "materials", "rendering", "unity"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Blender & Texture Foundry",
+    "shortDescription": "CC0 textures to game-ready Blender assets",
+    "longDescription": "A practical Blender workflow collection for texture discovery, PBR materials, UVs, baking, look development, rendering, and Unity-ready export.",
+    "developerName": "Furkan Tokkan",
+    "category": "Design",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["Find a CC0 weathered wood texture at 2K", "Prepare this Blender prop for Unity", "Bake this high-poly model to a game-ready texture set"],
+    "brandColor": "#0EA5E9"
+  }
+}

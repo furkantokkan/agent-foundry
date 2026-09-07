@@ -2,7 +2,17 @@
 
 ## Plugin installation
 
-The README uses GitHub marketplace installation. Both marketplace manifests point to `plugins/agent-foundry`; both runtimes share the same skill source.
+The README uses GitHub marketplace installation. Both marketplace manifests expose two plugins: `agent-foundry` for task-first game-development workflows and `blender-texture-foundry` for Blender and CC0 texture production. Both runtimes share the same skill sources.
+
+Install the optional Blender companion when you need visual-production skills:
+
+```bash
+codex plugin add blender-texture-foundry@agent-foundry
+# or
+claude plugin install blender-texture-foundry@agent-foundry
+```
+
+See [Blender & Texture Foundry](BLENDER_TEXTURES.md) for its skill catalog and requirements.
 
 For local inspection:
 

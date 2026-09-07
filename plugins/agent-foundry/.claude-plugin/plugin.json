@@ -1,6 +1,6 @@
 {
   "name": "agent-foundry",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Task-first workflows for Unity, game design, Firebase, QA and releases. 92 skills, 7 command aliases and 3 Unity roles.",
   "author": {"name": "Furkan Tokkan"},
   "homepage": "https://github.com/furkantokkan/agent-foundry",
