@@ -13,6 +13,12 @@
       "source": {"source": "local", "path": "./plugins/blender-texture-foundry"},
       "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
       "category": "Design"
+    },
+    {
+      "name": "ai-3d-foundry",
+      "source": {"source": "local", "path": "./plugins/ai-3d-foundry"},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+      "category": "Design"
     }
   ]
 }

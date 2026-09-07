@@ -14,6 +14,12 @@
       "source": "./plugins/blender-texture-foundry",
       "description": "16 skills for Blender modeling, PBR materials, CC0 texture discovery, baking, and Unity export.",
       "version": "0.1.0"
+    },
+    {
+      "name": "ai-3d-foundry",
+      "source": "./plugins/ai-3d-foundry",
+      "description": "3 skills for reference-first Blender modeling, image-to-textured-3D generation, and safe AI 3D scene assembly.",
+      "version": "0.1.0"
     }
   ]
 }

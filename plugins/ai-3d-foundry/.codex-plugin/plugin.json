@@ -1,0 +1,19 @@
+{
+  "name": "ai-3d-foundry",
+  "version": "0.1.0",
+  "description": "3 skills for reference-first Blender modeling, image-to-textured-3D generation, and safe AI 3D scene assembly.",
+  "author": {"name": "Furkan Tokkan"},
+  "license": "MIT",
+  "keywords": ["ai-3d", "image-to-3d", "blender", "hunyuan3d", "textured-mesh"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI 3D Foundry",
+    "shortDescription": "Turn references into Blender-ready 3D assets",
+    "longDescription": "AI-assisted workflows for disciplined Blender modeling, image-to-textured-3D generation, and safely assembling generated assets into Blender scenes.",
+    "developerName": "Furkan Tokkan",
+    "category": "Design",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["Create a reference-first plan for this Blender prop", "Turn this image into a textured GLB and prepare it for Blender", "Plan an AI-generated scene without spending any provider credits yet"],
+    "brandColor": "#8B5CF6"
+  }
+}

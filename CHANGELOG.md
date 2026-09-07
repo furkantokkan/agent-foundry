@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 — 2026-09-07
+
+- Add AI 3D Foundry, an optional three-skill plugin for reference-first Blender modeling, image-to-textured-3D generation, and cost-aware AI scene assembly.
+- Add local environment-token guidance and remove the Hunyuan script's command-line token parameter so credentials are not placed in shell history.
+- Add marketplace entries, installation documentation, validation coverage, and MIT notices for the included upstream components.
+
 ## 0.1.1 — 2026-09-07
 
 - Add Blender & Texture Foundry, an optional 16-skill plugin for modeling, PBR materials, UVs, baking, look development, rendering, Unity export, and CC0 texture research.

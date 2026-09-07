@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blender SuperSkill"
+  short_description: "Disciplined reference-first Blender MCP asset modeling."
+  default_prompt: "Use Blender SuperSkill to model, critique, and iterate this Blender asset from reference one step at a time."

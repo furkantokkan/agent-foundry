@@ -1,0 +1,10 @@
+{
+  "name": "ai-3d-foundry",
+  "version": "0.1.0",
+  "description": "Reference-first Blender modeling, image-to-textured-3D generation, and safe AI 3D scene assembly.",
+  "author": {"name": "Furkan Tokkan"},
+  "homepage": "https://github.com/furkantokkan/agent-foundry",
+  "repository": "https://github.com/furkantokkan/agent-foundry",
+  "license": "MIT",
+  "keywords": ["ai-3d", "image-to-3d", "blender", "hunyuan3d"]
+}

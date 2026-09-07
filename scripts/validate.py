@@ -8,6 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / 'plugins/agent-foundry'
 BLENDER_PLUGIN = ROOT / 'plugins/blender-texture-foundry'
+AI_3D_PLUGIN = ROOT / 'plugins/ai-3d-foundry'
+PACKAGED_PLUGINS = [PLUGIN, BLENDER_PLUGIN, AI_3D_PLUGIN]
 
 
 def check(condition, message):
@@ -33,12 +35,14 @@ def main():
     args = parser.parse_args()
     skills = sorted((PLUGIN / 'skills').glob('*/SKILL.md'))
     blender_skills = sorted((BLENDER_PLUGIN / 'skills').glob('*/SKILL.md'))
+    ai_3d_skills = sorted((AI_3D_PLUGIN / 'skills').glob('*/SKILL.md'))
     names = {p.parent.name for p in skills}
     commands = sorted((ROOT / 'commands').glob('*.md'))
     aliases = sorted((PLUGIN / 'commands').glob('*.md'))
     agents = sorted((PLUGIN / 'agents').glob('*.md'))
     check(len(skills) == 92, 'Expected 92 skills; update documented inventory for an intentional change')
     check(len(blender_skills) == 16, 'Expected 16 Blender & Texture Foundry skills; update documented inventory for an intentional change')
+    check(len(ai_3d_skills) == 3, 'Expected 3 AI 3D Foundry skills; update documented inventory for an intentional change')
     check(len(commands) == 93 and len(aliases) == 7 and len(agents) == 3, 'Unexpected command/agent inventory')
     check(not names.intersection(p.stem for p in aliases), 'Alias shadows a skill')
     for skill in skills:
@@ -49,7 +53,7 @@ def main():
         for target in re.findall(r'`(references/[^`\n]+)`', text):
             if not any(char in target for char in '*<> ') and not target.endswith('/'):
                 check((skill.parent / target).exists(), f'Missing bundled reference: {skill.parent.name}/{target}')
-    for skill in blender_skills:
+    for skill in blender_skills + ai_3d_skills:
         text = skill.read_text(encoding='utf-8')
         check(text.startswith('---\n'), f'Missing frontmatter: {skill}')
         check(re.search(r'^name:\s*' + re.escape(skill.parent.name) + r'\s*$', text, re.M), f'Name mismatch: {skill}')
@@ -60,7 +64,7 @@ def main():
     for path in ROOT.rglob('*.json'):
         if '.git' not in path.parts and '.validation' not in path.parts:
             json.loads(path.read_text(encoding='utf-8'))
-    for plugin in [PLUGIN, BLENDER_PLUGIN]:
+    for plugin in PACKAGED_PLUGINS:
         codex = json.loads((plugin / '.codex-plugin/plugin.json').read_text())
         claude = json.loads((plugin / '.claude-plugin/plugin.json').read_text())
         check(codex['name'] == claude['name'] == plugin.name, f'Plugin names disagree: {plugin.name}')
@@ -68,8 +72,8 @@ def main():
     for rel in ['.agents/plugins/marketplace.json', '.claude-plugin/marketplace.json']:
         market = json.loads((ROOT / rel).read_text())
         entries = {entry['name']: entry for entry in market['plugins']}
-        check(set(entries) == {PLUGIN.name, BLENDER_PLUGIN.name}, f'Marketplace entries disagree: {rel}')
-        for plugin in [PLUGIN, BLENDER_PLUGIN]:
+        check(set(entries) == {plugin.name for plugin in PACKAGED_PLUGINS}, f'Marketplace entries disagree: {rel}')
+        for plugin in PACKAGED_PLUGINS:
             source = entries[plugin.name]['source']
             target = source['path'] if isinstance(source, dict) else source
             check((ROOT / target).resolve() == plugin, f'Marketplace points elsewhere: {rel}/{plugin.name}')
@@ -83,11 +87,12 @@ def main():
         'live provider key': r'(?:sk|rk)_live_[A-Za-z0-9]{16,}',
         'JWT credential': r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}',
     }
-    for path in BLENDER_PLUGIN.rglob('*'):
-        if path.is_file() and path.suffix in {'.json', '.md', '.py', '.yaml', '.yml'}:
-            text = path.read_text(encoding='utf-8')
-            for label, pattern in patterns.items():
-                check(not re.search(pattern, text), f'{label} detected in {path.relative_to(ROOT)}')
+    for plugin in PACKAGED_PLUGINS:
+        for path in plugin.rglob('*'):
+            if path.is_file() and path.suffix in {'.json', '.md', '.py', '.yaml', '.yml'}:
+                text = path.read_text(encoding='utf-8')
+                for label, pattern in patterns.items():
+                    check(not re.search(pattern, text), f'{label} detected in {path.relative_to(ROOT)}')
     seen = set()
     for item in manifest:
         path = (ROOT / item['path']).resolve()
@@ -111,7 +116,7 @@ def main():
         manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8', newline='\n')
         catalog_path.write_text(catalog, encoding='utf-8', newline='\n')
     check(catalog_path.exists() and catalog_path.read_text(encoding='utf-8') == catalog, 'Catalog is stale; run --refresh')
-    print(f'PASS: {len(skills)} core skills, {len(blender_skills)} Blender skills, {len(commands)} commands, {len(aliases)} aliases, {len(agents)} roles, {len(manifest)} export hashes')
+    print(f'PASS: {len(skills)} core skills, {len(blender_skills)} Blender skills, {len(ai_3d_skills)} AI 3D skills, {len(commands)} commands, {len(aliases)} aliases, {len(agents)} roles, {len(manifest)} export hashes')
 
 
 if __name__ == '__main__':
