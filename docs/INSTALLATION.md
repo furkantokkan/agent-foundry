@@ -2,7 +2,7 @@
 
 ## Plugin installation
 
-The README uses GitHub marketplace installation. Both marketplace manifests expose two plugins: `agent-foundry` for task-first game-development workflows and `blender-texture-foundry` for Blender and CC0 texture production. Both runtimes share the same skill sources.
+The README uses GitHub marketplace installation. Both marketplace manifests expose three plugins: `agent-foundry` for task-first game-development workflows (including the `game-feel-polish` juice skill), `blender-texture-foundry` for Blender and CC0 texture production, and `ai-3d-foundry` for AI-assisted 3D creation. Both runtimes share the same skill sources.
 
 Install the optional Blender companion when you need visual-production skills:
 
@@ -12,7 +12,7 @@ codex plugin add blender-texture-foundry@agent-foundry
 claude plugin install blender-texture-foundry@agent-foundry
 ```
 
-See [Blender & Texture Foundry](BLENDER_TEXTURES.md) for its skill catalog and requirements.
+See [Blender & Texture Foundry](BLENDER_TEXTURES.md) for its skill catalog and requirements, and [AI 3D Foundry](AI_3D.md) for the optional AI 3D companion.
 
 For local inspection:
 
@@ -30,7 +30,7 @@ Codex does not load Claude agent declarations. Treat the bundled roles as refere
 
 ## Commands and aliases
 
-The root `commands/` directory archives 93 local command definitions for inspection or manual adaptation. The installed Claude plugin adds only these seven aliases, because the other names are already exposed by skills:
+The root `commands/` directory archives 94 local command definitions for inspection or manual adaptation. The installed Claude plugin adds only these seven aliases, because the other names are already exposed by skills:
 
 | Alias | Skill |
 | --- | --- |
@@ -70,4 +70,4 @@ Use your runtime's marketplace update and plugin removal commands; consult `code
 
 `scripts/validate.py` checks expected inventory, manifests, entry-point names, command alias collisions, private-path/credential patterns, and export hashes. It does not run the workflows against an LLM or certify Unity behavior. Runtime manifest validators are useful additional checks. Report the exact CLI version and failing command when filing an installation issue.
 
-For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 92 skills.
+For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 93 skills.

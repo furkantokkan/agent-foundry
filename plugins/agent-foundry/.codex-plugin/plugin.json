@@ -1,10 +1,10 @@
 {
   "name": "agent-foundry",
-  "version": "0.1.1",
-  "description": "92 skills for Codex and Claude Code: task contracts, Unity, game design, Firebase, QA and release workflows.",
+  "version": "0.1.2",
+  "description": "93 skills for Codex and Claude Code: task contracts, Unity, game design, game feel polish, Firebase, QA and release workflows.",
   "author": {"name": "Furkan Tokkan"},
   "license": "MIT",
-  "keywords": ["codex", "claude-code", "skills", "unity", "game-development"],
+  "keywords": ["codex", "claude-code", "skills", "unity", "game-development", "game-feel"],
   "skills": "./skills/",
   "interface": {
     "displayName": "Agent Foundry",
@@ -13,7 +13,7 @@
     "developerName": "Furkan Tokkan",
     "category": "Engineering",
     "capabilities": ["Read", "Write"],
-    "defaultPrompt": ["Use create-task to scope this feature", "Run a read-only Unity preflight", "Review this change with game-code-review"],
+    "defaultPrompt": ["Use create-task to scope this feature", "Run a read-only Unity preflight", "Review this change with game-code-review", "Polish this hit or menu with game-feel-polish"],
     "brandColor": "#F97316"
   }
 }

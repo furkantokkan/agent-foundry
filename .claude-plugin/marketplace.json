@@ -6,8 +6,8 @@
     {
       "name": "agent-foundry",
       "source": "./plugins/agent-foundry",
-      "description": "92 skills for task-first development with Codex and Claude Code.",
-      "version": "0.1.1"
+      "description": "93 skills for task-first development with Codex and Claude Code.",
+      "version": "0.1.2"
     },
     {
       "name": "blender-texture-foundry",

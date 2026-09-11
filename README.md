@@ -4,7 +4,7 @@
 
 ### Give your coding agent a workflow worth repeating.
 
-**111 skills · 96 command definitions · 3 Unity agent roles · Codex + Claude Code**
+**112 skills · 97 command definitions · 3 Unity agent roles · Codex + Claude Code**
 
 [![Validate](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml/badge.svg)](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -13,7 +13,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/furkantokkan/agent-foundry?style=social)](https://github.com/furkantokkan/agent-foundry/stargazers)
 
 Task contracts, implementation handoffs, bug cycles, design reviews, release checklists, and visual-production workflows.
-Built around Unity and game development, with a Blender and CC0 texture-production companion. Includes Clean OOP, Firebase, JavaScript, PBR, UV, bake, and export workflows.
+Built around Unity and game development, with a Blender and CC0 texture-production companion. Includes Clean OOP, Firebase, JavaScript, game feel polish, PBR, UV, bake, and export workflows.
 
 [Get started](#install) · [Browse core skills](docs/CATALOG.md) · [Browse Blender skills](docs/BLENDER_TEXTURES.md) · [Browse AI 3D skills](docs/AI_3D.md) · [Try a workflow](#your-first-workflow) · [Contribute](CONTRIBUTING.md)
 
@@ -110,6 +110,7 @@ For Unity, start with `unity-preflight`. Implementation and bug-cycle skills inv
 | Improve Unity performance | `unity-optimization` |
 | Review code and boundaries | `game-code-review`, `clean-oop-architecture` |
 | Design a mechanic | `quick-design`, `design-system` |
+| Add game feel and UI polish (shake, hitstop, tweens, toasts, SFX) | `game-feel-polish` |
 | Build a Firebase game API | `firebase-game-backend` |
 | Plan QA or a release | `qa-plan`, `release-checklist` |
 | Prepare a Steam store launch | `steam-store-launch` |
@@ -117,7 +118,7 @@ For Unity, start with `unity-preflight`. Implementation and bug-cycle skills inv
 | Build or prepare a Blender asset | `blender-modeler`, `texture-workflow`, `unity-export` |
 | Turn an image into a textured 3D asset | `hunyuan3d`, `blender-superskill` |
 
-**[Explore the core catalog of 92 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)** · **[Browse AI 3D Foundry →](docs/AI_3D.md)**
+**[Explore the core catalog of 93 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)** · **[Browse AI 3D Foundry →](docs/AI_3D.md)**
 
 ## What's in the box?
 
@@ -126,7 +127,7 @@ agent-foundry/
 ├── plugins/agent-foundry/
 │   ├── .codex-plugin/     # Codex manifest
 │   ├── .claude-plugin/    # Claude Code manifest
-│   ├── skills/            # 92 skills with bundled references
+│   ├── skills/            # 93 skills with bundled references
 │   ├── commands/          # 7 aliases; avoids duplicate skill names
 │   └── agents/            # Implementer, verifier, bugfixer
 ├── plugins/blender-texture-foundry/
@@ -135,7 +136,7 @@ agent-foundry/
 ├── plugins/ai-3d-foundry/
 │   ├── skills/            # 3 AI-assisted 3D creation skills
 │   └── commands/          # Image-to-3D entry point
-├── commands/              # Full archive of 93 command adapters
+├── commands/              # Full archive of 94 command adapters
 ├── docs/                  # Catalog, setup and export provenance
 └── scripts/               # Package validation and export tooling
 ```
@@ -144,7 +145,7 @@ The studio skill also contains role, rule, template, and hook **references**. Th
 
 ## Project status
 
-**Public release, v0.1.2.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
+**Public release, v0.1.3.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
 
 Repository instructions and your agent's tool/approval policies remain authoritative. These Markdown workflows do not enforce a sandbox or grant tools they describe.
 
@@ -156,6 +157,6 @@ If a workflow saves you time, **star the repo** so other builders can find it. S
 
 ## Credits & license
 
-Maintained by [Furkan Tokkan](https://github.com/furkantokkan). Studio workflows and references include adaptations of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos. Blender & Texture Foundry and AI 3D Foundry include attributed MIT components from [Blender Skills](https://github.com/arjun988/blender-skills), [dcc-asset-ambientcg](https://github.com/dcc-mcp/dcc-asset-ambientcg), [Blender SuperSkill](https://github.com/powerhouse90/Blender-Superskill), [Alpha3D scene generation](https://github.com/ig-shadow-walker/BlenderXAlpha-3DGenSkill), and [skill-clusters](https://github.com/Sheshiyer/skill-clusters). Upstream deserves a star too.
+Maintained by [Furkan Tokkan](https://github.com/furkantokkan). Studio workflows and references include adaptations of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos. The `game-feel-polish` skill adapts the [Liquid UI Kit](https://github.com/Miisan-png/godot-liquid-ui) by Miisan. Blender & Texture Foundry and AI 3D Foundry include attributed MIT components from [Blender Skills](https://github.com/arjun988/blender-skills), [dcc-asset-ambientcg](https://github.com/dcc-mcp/dcc-asset-ambientcg), [Blender SuperSkill](https://github.com/powerhouse90/Blender-Superskill), [Alpha3D scene generation](https://github.com/ig-shadow-walker/BlenderXAlpha-3DGenSkill), and [skill-clusters](https://github.com/Sheshiyer/skill-clusters). Upstream deserves a star too.
 
 [MIT](LICENSE), with upstream notices preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Unaffiliated with OpenAI, Anthropic, or Unity.

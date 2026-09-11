@@ -1,6 +1,6 @@
 # Skill catalog
 
-92 skills from the public v0.1.0 snapshot. Descriptions come from each skill's frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.
+93 skills from the public v0.1.3 snapshot. Descriptions come from each skill's frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.
 
 | Skill | When to use it |
 | --- | --- |
@@ -33,6 +33,7 @@
 | [firebase-game-backend](../plugins/agent-foundry/skills/firebase-game-backend/SKILL.md) | Use when building or reviewing Firebase-backed game features for Unity or JavaScript, including Firebase Auth, Cloud Firestore, Realtime Database, Cloud Functions Gen2, Express.js HTTP APIs, Unity request/response clients, Cloud Storage, Remote Config, Analytics, App Check, security rules, local emulators, deployment, data modeling, and client/server boundaries. |
 | [game-code-review](../plugins/agent-foundry/skills/game-code-review/SKILL.md) | Use when reviewing game code or architecture, especially Unity C#, Firebase rules/functions, JavaScript/TypeScript tooling, gameplay systems, UI code, async code, dependency injection, tests, performance hot paths, and security-sensitive backend code. |
 | [game-design-studio](../plugins/agent-foundry/skills/game-design-studio/SKILL.md) | Use when designing a game or game feature, writing or reviewing GDDs, mapping systems, defining core loops, player fantasy, MDA, economy, pacing, risk/reward, fail states, UX requirements, acceptance criteria, or turning a rough idea into implementable design docs. |
+| [game-feel-polish](../plugins/agent-foundry/skills/game-feel-polish/SKILL.md) | Add or tune game feel and UI polish (juice) for a feature, menu, HUD, or hit. Covers screen shake, hitstop and slow motion, punch and squash tweens, hit flash, pooled damage numbers, toast stacks, animated counters and lag bars, staggered menu intros, CRT screen looks, and pooled SFX banks, using the Liquid UI juice-kit architecture and its tuned numbers for Godot 4 with a Unity port guide. Use when a request says juice, feel, feedback, impact, polish this menu/HUD/hit, or asks why an action feels flat. |
 | [game-studio-orchestration](../plugins/agent-foundry/skills/game-studio-orchestration/SKILL.md) | Coordinate Claude Code Game Studios style workflows in Codex, including several tracked production task IDs, conflict graphs, worktrees, sequential role handoffs, Unity Editor queuing, safe parallelism, studio hierarchy, quality gates, hooks, rules, and templates. Use when the user invokes $game-studio-orchestration, requests parallel independent tasks, or needs multi-discipline game-development coordination beyond one bounded implementation. |
 | [gate-check](../plugins/agent-foundry/skills/gate-check/SKILL.md) | Validate readiness to advance between development phases. Produces a PASS/CONCERNS/FAIL verdict with specific blockers and required artifacts. Use when user says 'are we ready to move to X', 'can we advance to production', 'check if we can start the next phase', 'pass the gate'. |
 | [help](../plugins/agent-foundry/skills/help/SKILL.md) | Analyzes what is done and the users query and offers advice on what to do next. Use if user says what should I do next or what do I do now or I'm stuck or I don't know what to do |
@@ -99,4 +100,4 @@
 
 ## Command definitions
 
-[Browse all 93 command adapters](../commands). The plugin activates seven aliases; the remaining names are exposed by skills.
+[Browse all 94 command adapters](../commands). The plugin activates seven aliases; the remaining names are exposed by skills.

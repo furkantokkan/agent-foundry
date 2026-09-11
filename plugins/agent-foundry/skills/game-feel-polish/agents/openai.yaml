@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Feel Polish"
+  short_description: "Add tuned juice: shake, hitstop, tweens, toasts, SFX"
+  default_prompt: "Use $game-feel-polish to audit this feature's feedback channels and add restrained, tuned game feel (screen shake, hitstop, punch tweens, hit flash, damage numbers, toasts, SFX banks) behind one enable switch, then verify it with an A/B comparison."

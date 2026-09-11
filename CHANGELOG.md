@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 — 2026-09-11
+
+- Add `game-feel-polish`, a core skill that packages the Liquid UI juice-kit architecture and tuned numbers (trauma screen shake, wall-clock hitstop and slow motion, rest-state tween helpers, hit flash, pooled damage numbers, pooled SFX banks, toast stacks, animated counters and lag bars, staggered menu intros, CRT screen looks) for Godot 4, with a Unity port guide and an A/B verification checklist.
+- Add the `game-feel-polish` command adapter, Codex/ChatGPT interface metadata, catalog entry, adaptive-skills routing, and MIT attribution for the upstream kit.
+- Bump the core plugin to 0.1.2 (93 skills) and correct the installation notes to list all three plugins.
+
 ## 0.1.2 — 2026-09-07
 
 - Add AI 3D Foundry, an optional three-skill plugin for reference-first Blender modeling, image-to-textured-3D generation, and cost-aware AI scene assembly.
