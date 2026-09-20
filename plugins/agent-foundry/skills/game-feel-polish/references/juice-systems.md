@@ -1,11 +1,16 @@
 # Liquid UI juice systems (Godot 4)
 
 Condensed from Miisan's Liquid UI Kit (`godot-liquid-ui`, MIT; see the
-repository `THIRD_PARTY_NOTICES.md`). The excerpts keep the algorithms, the
+skill's [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)). The excerpts keep the algorithms, the
 defaults, and the reasons behind them. Editor plumbing, `@tool` redraw
 setters, and most `_draw()` polygon code are described rather than copied.
 Target: Godot 4.7, no plugins or addons. Indentation is shown with spaces;
 Godot accepts spaces or tabs as long as one file is consistent.
+
+For Unity start with [unity-port.md](unity-port.md) and
+[unity-ui-toolkit.md](unity-ui-toolkit.md). This file preserves Godot behavior
+for comparison; its APIs, global resets and resource-loading patterns are not
+instructions to reproduce those mechanisms in a Unity project.
 
 ## Layout and setup
 

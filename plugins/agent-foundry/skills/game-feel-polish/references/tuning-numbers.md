@@ -4,6 +4,12 @@ Defaults from the Liquid UI Kit. Everything below lives in one config
 resource (`JuiceConfig`) or in a widget's exported properties, so a designer
 changes them in the inspector. Change one number at a time and A/B it.
 
+These are Godot source baselines, not verified Unity presets. Map them through
+the [Unity guide](unity-port.md) and [UI Toolkit guide](unity-ui-toolkit.md).
+Convert pixel distances to the project's panel/world scale, retain the existing
+configuration owner, and verify timing on the target device. Routine UI input
+does not require hitstop or camera shake. Reduced motion retains essential text.
+
 ## Impact tiers
 
 Trauma passed to `Juice.shake()`:

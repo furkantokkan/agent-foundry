@@ -106,7 +106,7 @@ def main():
         if args.refresh:
             item['sha256'] = digest
         check(item['sha256'] == digest, f'Export hash changed: {item["path"]}; review then use --refresh')
-    catalog = '# Skill catalog\n\n93 skills from the public v0.1.3 snapshot. Descriptions come from each skill\'s frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
+    catalog = '# Skill catalog\n\n93 skills from the public v0.1.4 snapshot. Descriptions come from each skill\'s frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
     for skill in skills:
         target = '../' + skill.relative_to(ROOT).as_posix()
         catalog += f'| [{skill.parent.name}]({target}) | {description(skill)} |\n'

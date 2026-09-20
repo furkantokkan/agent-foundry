@@ -12,7 +12,7 @@
   {
     "path": "plugins/agent-foundry/skills/adaptive-skills/SKILL.md",
     "source": "local Codex skill: adaptive-skills/SKILL.md",
-    "sha256": "4c68431def42475dc0f7de619a74ae4709fa72a568ed3a5705dd275038de8288"
+    "sha256": "60660167771e5f73fb391043d9990d03e90572215dab461b20fc06316c3fc56e"
   },
   {
     "path": "plugins/agent-foundry/skills/adopt/references/claude-skill.md",
@@ -347,7 +347,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/juice-systems.md",
     "source": "local Codex skill: game-feel-polish/references/juice-systems.md",
-    "sha256": "68cfee8a96696248b38409291d773269f7a57f81236776d3ffd525666e82bfe3"
+    "sha256": "46eb6850d3207db35378272999217fccbb15f38a42ce194b62a7e547279afd10"
   },
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/polish-checklist.md",
@@ -357,7 +357,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/tuning-numbers.md",
     "source": "local Codex skill: game-feel-polish/references/tuning-numbers.md",
-    "sha256": "6845cf61ce0cda45edff1d4e3f66924e48e084ec72534409cd065e49a05f7696"
+    "sha256": "61c492d4266636f4eba58663c7a2ef3dc775aa27116bbc9319072792bfdd8003"
   },
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/unity-port.md",

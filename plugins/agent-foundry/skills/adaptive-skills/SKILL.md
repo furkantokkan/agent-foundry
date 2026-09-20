@@ -37,7 +37,9 @@ Choose the smallest relevant skill set:
   `ux-review`.
 - Game feel, juice, impact feedback, screen shake, hitstop, punch tweens, hit
   flash, damage numbers, toasts, SFX banks, or CRT screen looks for a menu,
-  HUD, or hit: use `game-feel-polish`.
+  HUD, or hit: use `game-feel-polish`. For Liquid UI-style Unity widgets,
+  follow its Unity system and UI Toolkit references; Godot excerpts are source
+  references, not the Unity implementation route.
 - Tracked task lifecycle: use `create-task`, `implement-task`, `task-status`,
   `task-bug`, `task-cycle`, `task-done`, or `daily-handoff`; several ready
   tasks: use `game-studio-orchestration`.

@@ -2,6 +2,9 @@
 
 ## 0.1.4 - 2026-09-20
 
+- Document Unity Liquid UI invocation, standalone installation, source-reference
+  boundaries and adaptive routing; keep the generated catalog version current.
+
 - Adapt the existing `game-feel-polish` skill to Unity UI Toolkit with widget,
   input, lifetime and reduced-motion guidance for Claude Code and Codex.
 - Replace incomplete Unity code sketches with scoped system mappings; preserve

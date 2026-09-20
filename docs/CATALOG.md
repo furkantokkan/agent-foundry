@@ -1,6 +1,6 @@
 # Skill catalog
 
-93 skills from the public v0.1.3 snapshot. Descriptions come from each skill's frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.
+93 skills from the public v0.1.4 snapshot. Descriptions come from each skill's frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.
 
 | Skill | When to use it |
 | --- | --- |

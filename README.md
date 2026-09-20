@@ -96,6 +96,21 @@ flowchart LR
 
 For Unity, start with `unity-preflight`. Implementation and bug-cycle skills invoke the required readiness checks as part of their own flow.
 
+### Liquid UI for Unity
+
+Use `game-feel-polish` for animated buttons, staggered menus, counters, ghost
+bars, toasts, tooltips, palettes and optional audiovisual feedback in Unity.
+
+Example: **Use game-feel-polish to add Liquid UI hover, press and entrance
+feedback to this Unity menu, preserving keyboard/gamepad navigation and
+reduced-motion support.**
+
+Read the [Unity system guide](plugins/agent-foundry/skills/game-feel-polish/references/unity-port.md)
+and [UI Toolkit guide](plugins/agent-foundry/skills/game-feel-polish/references/unity-ui-toolkit.md).
+The skill provides implementation guidance, not a compiled Unity package or
+bundled art/audio. New screen-space UI uses UI Toolkit; existing UGUI contexts
+retain their stack. See [installation and invocation](docs/INSTALLATION.md#liquid-ui-for-unity).
+
 ## Pick your entry point
 
 | What you want to do | Start here |

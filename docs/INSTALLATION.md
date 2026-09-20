@@ -28,6 +28,37 @@ Claude Code discovers the plugin's `skills`, `commands`, and `agents` directorie
 
 Codex does not load Claude agent declarations. Treat the bundled roles as references and use the collaboration facilities allowed by the running host. A workflow must not invent an unavailable tool or bypass its host policy.
 
+## Liquid UI for Unity
+
+The core plugin includes `game-feel-polish`; no separate Liquid UI plugin is
+needed. Claude Code and Codex share the canonical skill.
+
+| Installation | Example invocation |
+| --- | --- |
+| Claude Code plugin | `/agent-foundry:game-feel-polish Add Liquid UI feedback to this Unity menu` |
+| Codex | `Use game-feel-polish to add Liquid UI feedback to this Unity menu.` |
+| Standalone | Ask for `game-feel-polish` in the host where the folder is installed |
+
+For standalone use, copy the whole
+[game-feel-polish folder](../plugins/agent-foundry/skills/game-feel-polish),
+including references, metadata and THIRD_PARTY_NOTICES.md, into
+`~/.codex/skills/` or `~/.claude/skills/`. Restart the agent session afterward.
+Check workflow dependencies before implementation: the core plugin bundles
+unity-preflight and implement-task; Editor transports are separate.
+Avoid maintaining both standalone and plugin copies unless you deliberately
+manage which version is invoked.
+
+Read the [Unity guide](../plugins/agent-foundry/skills/game-feel-polish/references/unity-port.md)
+for system responsibilities and the
+[UI Toolkit guide](../plugins/agent-foundry/skills/game-feel-polish/references/unity-ui-toolkit.md)
+for widgets, input, cancellation and acceptance scenarios. Godot excerpts are
+source references, not C# code to paste into Unity. New screen-space UI defaults
+to UI Toolkit; existing UGUI contexts retain their project stack.
+
+Installation does not import art/audio, install Unity packages or connect an
+Editor. Package checks do not prove rendering, input or runtime performance;
+verify those in the target Unity project.
+
 ## Commands and aliases
 
 The root `commands/` directory archives 94 local command definitions for inspection or manual adaptation. The installed Claude plugin adds only these seven aliases, because the other names are already exposed by skills:
