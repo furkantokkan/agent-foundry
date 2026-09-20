@@ -192,6 +192,11 @@ SOFTWARE.
 
 Source: https://github.com/Miisan-png/godot-liquid-ui
 
+Unity guide revision reviewed on 2026-09-20 against upstream commit
+`91311f7c4535ca29619add25a1ff72b0f9c6fa1b`. The Unity/UI Toolkit guides are
+behavioral adaptations, not a compiled Unity runtime or a redistribution of
+the upstream bundled assets.
+
 License: MIT, declared in the upstream README ("MIT. Do whatever you want
 with it."). When the adaptation was made on 2026-09-11 the upstream
 repository published no separate LICENSE file, so the standard MIT text is

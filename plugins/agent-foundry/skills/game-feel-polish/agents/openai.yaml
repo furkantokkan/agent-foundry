@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Feel Polish"
-  short_description: "Add tuned juice: shake, hitstop, tweens, toasts, SFX"
-  default_prompt: "Use $game-feel-polish to audit this feature's feedback channels and add restrained, tuned game feel (screen shake, hitstop, punch tweens, hit flash, damage numbers, toasts, SFX banks) behind one enable switch, then verify it with an A/B comparison."
+  short_description: "Unity Liquid UI, animated widgets and game feel"
+  default_prompt: "Use $game-feel-polish to adapt Liquid UI to this Unity menu or HUD with UI Toolkit, scoped feedback and reduced-motion support, then verify input parity and an A/B comparison."

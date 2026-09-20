@@ -31,8 +31,8 @@ Channel key:
 
 Hub and configuration:
 
-- [ ] One hub owns time scale, camera trauma, screen pass, voice pool, toast
-      stack, and pooled numbers. No second tween, audio, or DI stack added.
+- [ ] One hub routes scoped effects through existing time, camera, screen,
+      audio and UI owners. No second tween, audio, or DI stack added.
 - [ ] `enabled` resets every system when turned off; `intensity` (0 to 2)
       multiplies every amount.
 - [ ] Every default lives in one config resource; no magic numbers in
@@ -49,7 +49,8 @@ Camera and time:
       and roll; decays by real time; delta clamped to 0.1 s.
 - [ ] Hitstop and slowmo timed by the wall clock; hitstop wins over slowmo;
       a longer hitstop extends, a shorter one does not cut.
-- [ ] Time scale returns to 1 on reset, scene change, and hub disable.
+- [ ] Reset, scene change and hub disable release only feel time requests,
+      preserving active pause/slowmo and the physics owner's baseline.
 
 Tweens and sprites:
 
@@ -89,9 +90,9 @@ static end-state screenshot cannot prove timing.
 - [ ] A/B toggle: same screen with juice on and off. Note each effect that
       changes nothing visible and remove it.
 - [ ] Spam test: 20 rapid presses or hits. No node ends at the wrong scale,
-      rotation, or position; time scale is 1 afterwards; no audio clipping.
+      rotation, or position; no stale time requests remain; no audio clipping.
 - [ ] Pause, focus loss, and scene change during hitstop and during slowmo
-      restore time scale to 1.
+      preserve the time owner's resolved state, including an active pause.
 - [ ] Shake and screen grain keep moving during hitstop.
 - [ ] Busy scene: numbers, voices, and toasts stay within caps; allocations
       measured after warm-up.

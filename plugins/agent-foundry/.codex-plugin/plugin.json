@@ -1,6 +1,6 @@
 {
   "name": "agent-foundry",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "93 skills for Codex and Claude Code: task contracts, Unity, game design, game feel polish, Firebase, QA and release workflows.",
   "author": {"name": "Furkan Tokkan"},
   "license": "MIT",

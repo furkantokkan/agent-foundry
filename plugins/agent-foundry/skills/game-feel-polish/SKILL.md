@@ -5,8 +5,8 @@ description: >-
   Covers screen shake, hitstop and slow motion, punch and squash tweens, hit
   flash, pooled damage numbers, toast stacks, animated counters and lag bars,
   staggered menu intros, CRT screen looks, and pooled SFX banks, using the
-  Liquid UI juice-kit architecture and its tuned numbers for Godot 4 with a
-  Unity port guide. Use when a request says juice, feel, feedback, impact,
+  Liquid UI architecture adapted to Unity UI Toolkit, with Godot source
+  references. Use when a request says Liquid UI, juice, feel, feedback, impact,
   polish this menu/HUD/hit, or asks why an action feels flat.
 ---
 
@@ -15,20 +15,22 @@ description: >-
 Polish is feedback layered on top of a committed gameplay result. This skill
 gives an agent one architecture for that layer and the numbers that make it
 read as impact instead of noise. The systems are adapted from Miisan's Liquid
-UI Kit for Godot 4 (MIT, see the repository `THIRD_PARTY_NOTICES.md`); the
-same structure ports to Unity.
+UI Kit for Godot 4 (MIT, see this skill's `THIRD_PARTY_NOTICES.md`); the
+Unity workflow uses UI Toolkit for new screen-space widgets. This is an
+implementation skill and reference kit, not a precompiled Unity package.
 
 Use `team-polish` when the request is a multi-role release-hardening pass.
-Use `unity-feel-interactions` when the project already uses the More Mountains
-Feel package. Use this skill when the request is about how an action feels.
+When More Mountains Feel is installed, use its pinned project documentation
+and existing players; do not require an unbundled companion skill.
 
 ## Rules that hold in every engine
 
 1. **One hub, one switch.** Every effect is a call on one hub (`Juice`
    autoload in Godot, one service in Unity). The hub owns `enabled` and a
    0 to 2 `intensity` multiplier. Turning `enabled` off must reset every
-   system at once: time scale, camera, screen pass, pooled labels, voices,
-   toasts, rumble. Widgets must still work when the hub is missing; they
+   owned effect: release time requests, camera offsets, screen pulses,
+   transient labels, voices and rumble. Preserve pause and other owners' state.
+   Keep essential notifications visible. Widgets work when the hub is missing; they
    only skip sound and shake.
 2. **Feel never decides gameplay.** Fire feedback after the committed
    result. A refused action (a disabled button) gets a refusal shake and an
@@ -48,10 +50,10 @@ Feel package. Use this skill when the request is about how an action feels.
 6. **Fast out, slow settle.** Impact tweens spend about a fifth of their
    time going out (quad ease-out) and the rest coming back (elastic
    ease-out). An even in and out reads as a wobble, not an impact.
-7. **Every property is a float you can tween.** Draw widgets from polygons,
-   text, and palette colours so hover, press, intro, and refusal are
-   separate animated channels with their own tweens. A static style box or
-   theme cannot animate.
+7. **Separate presentation channels.** Use polygons, text and palette colours
+   where custom drawing helps; give hover, press, intro and refusal separate
+   state. Unity USS supports transitions: retain native styling, text and input
+   semantics rather than replacing everything with custom drawing.
 8. **Sound is randomised and de-duplicated.** Each sound is a bank of
    several takes; never repeat the previous take, vary pitch about 0.92 to
    1.08, and drop a second trigger of the same bank inside 25 ms. Two
@@ -79,6 +81,11 @@ Feel package. Use this skill when the request is about how an action feels.
   audio, or DI stack.
 - Existing feel code. If a hub or kill switch already exists, route through
   it instead of adding another.
+- For Unity implementation, run `unity-preflight`, confirm the target version
+  and pipeline, and follow `implement-task` for the bounded change. Declare
+  allowed paths and serialized ownership; new packages, scenes, config assets
+  and renderer settings need target approval. Skill authoring alone does not
+  require a connected Editor.
 - Whether the project relies on the engine's theme system. The kit's widgets
   draw themselves and ignore Godot themes; retrofitting a themed UI means
   configuring exported properties instead of inheriting colours.
@@ -106,9 +113,8 @@ table; the missing channels are the plan.
 - Pick two or three channels per action, not all of them. Reserve
   screen-wide effects (flash, aberration, zoom punch, slowmo) for the top
   tiers.
-- Decide ownership: the hub owns time scale, camera trauma, the screen
-  pass, the voice pool, the toast stack, and pooled numbers. Widgets call
-  the hub and degrade without it.
+- Decide ownership: the hub routes effects through existing time, camera,
+  screen, audio and UI owners. Widgets call the hub and work without it.
 - Put every tunable in one config resource (Godot `JuiceConfig`, a Unity
   ScriptableObject) so designers change numbers without code edits.
 - Respect the project's motion preference. When reduced motion is on, keep
@@ -118,10 +124,11 @@ table; the missing channels are the plan.
 
 ### Phase 4: Implement
 
-Follow `references/juice-systems.md` for the Godot 4 systems and
-`references/unity-port.md` for the Unity mapping. Build in this order: hub
-and `impact()`, camera, tween helpers and hit flash, sound, UI widgets,
-screen look. Keep each system in its own script and each widget's animation
+For Unity read `references/unity-port.md`; for procedural widgets also read
+`references/unity-ui-toolkit.md`. Read `references/juice-systems.md` only for
+Godot implementation or source comparison. Implement only requested systems;
+a menu does not require combat hitstop, camera shake or a CRT pass.
+Keep each system in its own script and each widget's animation
 channels on separate tweens so they overlap without fighting. Bake asset
 lists (sound banks) into a resource; scanning the resource tree at runtime
 works in the editor and fails in exported builds.
@@ -137,7 +144,7 @@ Run `references/polish-checklist.md`. Minimum evidence:
 - Spam test: repeated presses or hits leave no node at the wrong scale,
   rotation, or position, no stuck time scale, and no clipping audio.
 - Pause, focus loss, and scene change during an active hitstop or slowmo
-  restore the time scale to 1.
+  release only the effect's requests and preserve the time owner's current state.
 - Camera shake keeps moving during hitstop (real-time delta) and screen
   grain keeps moving (clock fed from script, not shader time).
 - Damage numbers, voices, and toasts stay within their caps in a busy
@@ -167,6 +174,7 @@ performance and unverified requirements separately.
 - `references/juice-systems.md`: the kit's systems with condensed source.
 - `references/tuning-numbers.md`: every default value in one place.
 - `references/unity-port.md`: mapping each system to Unity C#.
+- `references/unity-ui-toolkit.md`: procedural widgets, input, lifetime and UI checks.
 - `references/polish-checklist.md`: audit table, verification list, report.
 
 Related skills: `team-polish` for multi-role hardening, `unity-optimization`

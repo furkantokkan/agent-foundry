@@ -1,5 +1,15 @@
 [
   {
+    "path": "plugins/agent-foundry/skills/game-feel-polish/THIRD_PARTY_NOTICES.md",
+    "source": "Unity adaptation of Miisan Liquid UI Kit at 91311f7c4535ca29619add25a1ff72b0f9c6fa1b",
+    "sha256": "406effa2d395397813ed342713758b72ebed368ad0cb1e2d939a707a0e410b8f"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/game-feel-polish/references/unity-ui-toolkit.md",
+    "source": "Unity adaptation of Miisan Liquid UI Kit at 91311f7c4535ca29619add25a1ff72b0f9c6fa1b",
+    "sha256": "261f5eec4d038b645d21d1577c203aa6e0d5d7120d724420eaf6775504322914"
+  },
+  {
     "path": "plugins/agent-foundry/skills/adaptive-skills/SKILL.md",
     "source": "local Codex skill: adaptive-skills/SKILL.md",
     "sha256": "4c68431def42475dc0f7de619a74ae4709fa72a568ed3a5705dd275038de8288"
@@ -332,7 +342,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/agents/openai.yaml",
     "source": "local Codex skill: game-feel-polish/agents/openai.yaml",
-    "sha256": "d4219cb69ddef6c3912781e75550bc6029b52d448c96887d810998d26430b765"
+    "sha256": "f1ffbb1f994cde57c6dac7bdbcae4002e06fe8e92c0e783456a0b6e42b364293"
   },
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/juice-systems.md",
@@ -342,7 +352,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/polish-checklist.md",
     "source": "local Codex skill: game-feel-polish/references/polish-checklist.md",
-    "sha256": "63add7d0cc0d9f052d1fb86e92a5c06be8b20dc836358617ba9a3974b2b89a41"
+    "sha256": "f737ddcdc8bead4542726b2d53b127ff13fce1d4df70c99ed406c335e6dbbefd"
   },
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/tuning-numbers.md",
@@ -352,12 +362,12 @@
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/references/unity-port.md",
     "source": "local Codex skill: game-feel-polish/references/unity-port.md",
-    "sha256": "c09fbcbfdb86463bed06819837aac027c8e8fbc5e3d3fdc57209b6047878392b"
+    "sha256": "02e3d36f51e461545663cc2f6c1a51b0b3fb861ac5676005aca2eda99885edd5"
   },
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/SKILL.md",
     "source": "local Codex skill: game-feel-polish/SKILL.md",
-    "sha256": "5b83cdaf91d7d3ccb60b10dd40888221ed2768c926799ed0972075263f069114"
+    "sha256": "254fb183c8c9d7497393027801e3c8cb4f2804c80ece705d1811b026ba67af59"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/agents/openai.yaml",
@@ -1877,7 +1887,7 @@
   {
     "path": "commands/game-feel-polish.md",
     "source": "local personal-game-commands: game-feel-polish.md",
-    "sha256": "9afde25a6d1fdbb97c5768f8318d892c1af45351cb7157805ae7136955850ce0"
+    "sha256": "ec0ddf2c3fcb57d4bf6cd4a48d503800b7a61df5ca6dedefda3be888c69a6b3e"
   },
   {
     "path": "commands/game-studio-orchestration.md",

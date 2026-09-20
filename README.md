@@ -111,6 +111,7 @@ For Unity, start with `unity-preflight`. Implementation and bug-cycle skills inv
 | Review code and boundaries | `game-code-review`, `clean-oop-architecture` |
 | Design a mechanic | `quick-design`, `design-system` |
 | Add game feel and UI polish (shake, hitstop, tweens, toasts, SFX) | `game-feel-polish` |
+| Adapt Liquid UI menus and HUDs to Unity UI Toolkit | `game-feel-polish` with its Unity widget guide |
 | Build a Firebase game API | `firebase-game-backend` |
 | Plan QA or a release | `qa-plan`, `release-checklist` |
 | Prepare a Steam store launch | `steam-store-launch` |
@@ -145,7 +146,7 @@ The studio skill also contains role, rule, template, and hook **references**. Th
 
 ## Project status
 
-**Public release, v0.1.3.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
+**Public release, v0.1.4.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
 
 Repository instructions and your agent's tool/approval policies remain authoritative. These Markdown workflows do not enforce a sandbox or grant tools they describe.
 

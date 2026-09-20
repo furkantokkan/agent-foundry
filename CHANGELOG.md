@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.4 - 2026-09-20
+
+- Adapt the existing `game-feel-polish` skill to Unity UI Toolkit with widget,
+  input, lifetime and reduced-motion guidance for Claude Code and Codex.
+- Replace incomplete Unity code sketches with scoped system mappings; preserve
+  time/camera ownership and cover cancellation, pooling and build checks.
+- Record the upstream revision and update core plugin metadata to 0.1.3.
+- Validation: package/frontmatter checks; no Unity runtime package or Editor
+  behavior is claimed by this documentation release.
+
 ## 0.1.3 — 2026-09-11
 
 - Add `game-feel-polish`, a core skill that packages the Liquid UI juice-kit architecture and tuned numbers (trauma screen shake, wall-clock hitstop and slow motion, rest-state tween helpers, hit flash, pooled damage numbers, pooled SFX banks, toast stacks, animated counters and lag bars, staggered menu intros, CRT screen looks) for Godot 4, with a Unity port guide and an A/B verification checklist.
