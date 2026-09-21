@@ -79,12 +79,12 @@ def main():
     cli_text = (PLUGIN / 'skills/unity-cli/SKILL.md').read_text(encoding='utf-8')
     preflight_text = (PLUGIN / 'skills/unity-preflight/SKILL.md').read_text(encoding='utf-8')
     automation_text = (PLUGIN / 'skills/game-studio-orchestration/references/rules/unity-automation.md').read_text(encoding='utf-8')
-    check('Unity CLI**' in cli_text and 'first-choice Unity transport' in cli_text,
-          'unity-cli must retain CLI-first transport policy')
+    check('Unity CLI / Pipeline' in cli_text and 'mandatory control plane' in cli_text,
+          'unity-cli must retain mandatory CLI transport policy')
     check('unity status --json' in preflight_text,
           'unity-preflight must prove CLI project identity first')
-    check('Use the installed Unity CLI first' in automation_text,
-          'Unity automation policy must remain CLI-first')
+    check('mandatory control plane' in automation_text and 'install the official CLI' in automation_text,
+          'Unity automation policy must require and bootstrap the CLI')
     check('curl -fsSL https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.sh |' not in cli_text,
           'unity-cli must not pipe a remote installer into bash')
     check('irm https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.ps1 | iex' not in cli_text,

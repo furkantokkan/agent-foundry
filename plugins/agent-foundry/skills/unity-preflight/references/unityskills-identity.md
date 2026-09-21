@@ -1,9 +1,9 @@
 # UnitySkills Identity and Permission Notes
 
-Use UnitySkills only when the first-choice Unity CLI and fallback matching MCP
-connection are unavailable, insufficient, or point elsewhere. `GET /health`
-proves REST service health and exposes
-permission state; it is not sufficient proof of the open repository.
+Use UnitySkills only when the user explicitly requests it for the current task.
+The installed or auto-installed Unity CLI remains the mandatory control plane;
+UnitySkills is not a fallback. Preserve the identity checks below whenever
+explicit use is authorized.
 
 Use this sequence:
 

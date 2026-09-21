@@ -1,30 +1,32 @@
 # Unity Automation Workflow
 
-Use this reference when Unity CLI/Pipeline, Unity MCP, or UnitySkills REST is
-available, or when a task depends on live Unity Editor state, scene/prefab
-context, Console output, package state, or project-specific Unity guidelines.
+Use this reference whenever a task depends on live Unity Editor state,
+scene/prefab context, Console output, package state, or project-specific Unity
+guidelines. The Unity CLI is the mandatory control plane.
 
-## Preflight
+## Default Sequence
 
-1. Verify the installed Unity CLI and relevant command help, then match the
-   exact project with `unity status --json`; pass `--project-path` when needed.
-2. Use CLI/Pipeline commands or built-in `unity mcp` for supported operations.
-   If CLI/Pipeline is unavailable or insufficient, use matching Unity MCP.
-3. If both are unavailable or mismatched, query UnitySkills `GET /health` and
-   prove exact project identity separately with `project_get_info`.
-4. Load Unity user/project guidelines through the selected transport when available.
-5. Check editor state before making assumptions:
+1. Verify the installed Unity CLI and relevant command help. If it is missing,
+   install the official CLI under the standing authorization before continuing.
+2. Match the exact project with `unity status --json`; pass `--project-path`
+   when needed.
+3. Use direct CLI/Pipeline commands. When MCP protocol is required, use the
+   built-in `unity mcp` server configured and targeted by the CLI.
+4. Legacy standalone Unity MCP and UnitySkills REST require an explicit user
+   request for the current task; they are not fallback transports.
+5. Load Unity user/project guidelines through the CLI-controlled route when available.
+6. Check editor state before making assumptions:
    - Do not trigger disruptive actions while compiling or updating assets.
    - Do not enter or stop Play Mode unless the task requires it.
-6. Read recent Console errors and warnings before debugging or after edits.
-7. Prefer transport-aware inspection for scene/object/package/project state. Use filesystem
-   reads for source files, docs, and assets when MCP does not add context.
+7. Read recent Console errors and warnings before debugging or after edits.
+8. Prefer CLI-aware inspection for scene/object/package/project state. Use
+   filesystem reads for source files, docs, and assets when the CLI adds no context.
 
 ## Safe Transport Use
 
 - Use read/query actions before write actions.
-- Use UnitySkills dry-run, diff, transaction, audit, and panel approval for
-  protected writes. Never enable bypass automatically.
+- When UnitySkills is explicitly requested, use its dry-run, diff, transaction,
+  audit, and panel approval for protected writes. Never enable bypass automatically.
 - Use one transport per mutation; do not repeat a write through CLI, MCP, or REST.
 - For scenes and prefabs, inspect selection, prefab stage, and relevant objects
   before editing files that depend on serialized references.

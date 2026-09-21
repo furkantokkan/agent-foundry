@@ -27,9 +27,9 @@ Expected test locations are `Assets/Tests/EditMode/**`,
 ## Phase 2 — Connect to the Correct Unity Project
 
 Use the installed Unity CLI first and prove the exact target with
-`unity status --json` plus `--project-path`. If CLI/Pipeline is unavailable or
-insufficient, use matching Unity MCP, then matching UnitySkills. If no runner can
-produce compiler/test evidence, return `BLOCKED`; do not infer success.
+`unity status --json` plus `--project-path`. If it is missing, install the CLI
+under the standing authorization. Use built-in `unity mcp` when needed. If no
+CLI-controlled runner can produce evidence, return `BLOCKED`; do not infer success.
 
 ## Phase 3 — Run Critical Checks
 

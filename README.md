@@ -29,7 +29,7 @@ Agent Foundry packages the skills and command adapters from my personal Codex an
 
 - **Task-first development.** One `contract.md` owns scope, acceptance criteria, and lifecycle state.
 - **Bugs stay attached to their task.** Intake, repair, verification, and closure have separate responsibilities.
-- **Unity CLI first.** Prefer installed Unity CLI/Pipeline automation, prove the exact project, declare asset ownership, and hand implementation to verification.
+- **Unity CLI always.** Verify or install the official Unity CLI, use CLI/Pipeline or built-in `unity mcp`, prove the exact project, declare asset ownership, and hand implementation to verification.
 - **Design through release.** GDDs, architecture decisions, playtests, performance reviews, Steam preparation, and release checks.
 - **Readable source.** Markdown skills and references you can inspect, adapt, or use individually.
 

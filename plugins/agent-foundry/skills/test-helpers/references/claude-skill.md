@@ -62,9 +62,10 @@ separate. Never edit Unity YAML manually.
 
 ## Phase 5 — Verify
 
-Use the installed Unity CLI first with exact `unity status --json` identity,
-matching Unity MCP second, matching UnitySkills third, and pinned file evidence
-last. Use exactly one transport for each mutation.
+Use the installed Unity CLI as the mandatory control plane with exact
+`unity status --json` identity. Install it when missing. Use built-in
+`unity mcp` when needed, then pinned file evidence. Legacy MCP and UnitySkills
+require an explicit user request. Use exactly one mutation path.
 Require:
 
 - compilation success;

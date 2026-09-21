@@ -25,28 +25,23 @@ expected.
 
 ## Verify live Unity identity
 
-Use the installed Unity CLI first. Verify the live command and use
-`unity status --json --non-interactive --no-banner` to match the exact project
-root and Unity version before Editor-dependent inspection or later mutation.
-When several Editors are ready, require the exact `--project-path`.
+Use the installed Unity CLI as the mandatory preflight control plane. Verify the
+live command and use `unity status --json --non-interactive --no-banner` to
+match the exact project root and Unity version before Editor-dependent
+inspection or later mutation. When several Editors are ready, require the exact
+`--project-path`.
 
-If the CLI is unavailable, mismatched, or cannot expose the required state, use
-a matching Unity MCP connection and confirm the same project identity. If
-neither CLI nor MCP can prove the target, fall back to UnitySkills:
+If the CLI is missing, install the official Unity CLI first under the user's
+standing authorization, verify `unity --version`, then restart this read-only
+preflight. The installation bootstrap is a machine-level prerequisite outside
+the read-only preflight itself. Do not substitute a legacy MCP connection merely
+because the CLI was absent.
 
-1. Call `GET /health` to learn availability, `currentMode`, approval channel,
-   pending grants, and service state.
-2. Do not use `/health` alone as repository identity. Execute the read-only
-   `project_get_info` skill and compare `result.projectPath` with the exact target
-   after normalizing a trailing `Assets` segment and path case.
-3. Compare the live Unity version with `ProjectVersion.txt`.
-4. Read compilation/import/domain-reload/Play Mode and recent Console evidence
-   using read-only endpoints or skills only.
-5. If `currentMode` is `bypass`, keep UnitySkills read-only and report that the
-   user must switch the panel to Approval before any later mutation. REST/chat
-   must not change that mode.
-
-If no live transport can prove the same repository, fall back to pinned
+If direct CLI/Pipeline commands cannot expose required live state, use the
+built-in `unity mcp` server through the verified CLI and pin the exact project.
+Legacy Unity MCP connections and UnitySkills REST are allowed only when the user
+explicitly requests them for the current task. If the verified CLI and its
+built-in MCP mode still cannot prove the same repository, use pinned
 Editor/file inspection and mark live Editor evidence unavailable.
 
 ## Safety boundary

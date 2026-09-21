@@ -20,42 +20,43 @@ Before editing, inspect the project shape:
 4. `Assets/Scripts/`, `Assets/Tests/`, and existing `.asmdef` files if present
 5. Any local design docs, ADRs, stories, or task files the user mentions
 
-Use the installed Unity CLI first. Verify it with `unity --version`, prove the
-exact project with `unity status --json`, and pass `--project-path` whenever
-multiple Editors may be running. If the CLI cannot expose the required
-operation, use a matching Unity MCP connection, then matching UnitySkills, then
-pinned Editor/file inspection. Before reasoning about live Unity state, confirm
-project identity, Unity version, compilation, asset import, Play Mode, and
-recent Console status through the selected transport.
+Use the installed Unity CLI for every Unity task. Verify it with
+`unity --version`, prove the exact project with `unity status --json`, and pass
+`--project-path` whenever multiple Editors may be running. If the CLI is
+missing, install the official CLI under the user's standing authorization
+before continuing. Use direct CLI/Pipeline commands first and built-in
+`unity mcp` when an AI client needs MCP. Do not switch to a legacy standalone
+Unity MCP or UnitySkills fallback unless the user explicitly requests it.
+Before reasoning about live Unity state, confirm project identity, Unity
+version, compilation, asset import, Play Mode, and recent Console status
+through the CLI control plane.
 
 If this is not a Unity project yet, help create a Unity-friendly structure only
 after the user asks for scaffolding.
 
 ## Unity Automation Integration
 
-Use the installed Unity CLI as the default Unity-specific transport:
+Use the installed Unity CLI as the mandatory Unity-specific control plane:
 
 1. Run `unity --version` and the relevant `unity <command> --help`; installed
    help overrides bundled examples.
-2. Run `unity status --json` and match the exact project root and Unity version.
+2. If the command is missing, install the official Unity CLI under the user's
+   standing authorization, then verify it before any Unity work. Do not replace
+   this bootstrap with a legacy MCP connection.
+3. Run `unity status --json` and match the exact project root and Unity version.
    Pass `--project-path` whenever more than one Editor may be available.
-3. Use CLI/Pipeline commands for supported Editor operations. For AI MCP clients,
-   prefer a server/configuration provided by `unity mcp`.
-4. If CLI/Pipeline cannot expose the required operation, use a matching Unity
-   MCP connection. If that is also unavailable or mismatched, read UnitySkills
-   `GET /health`, prove identity with `project_get_info`, and follow its
-   dry-run, diff, batch, transaction, audit, and approval flow.
-5. Never perform the same write through multiple transports. Choose one mutation
-   path and verify through an independent read when practical.
-6. If no live transport works, continue with source/file work that does not
-   require live Editor state.
-7. Ask for explicit approval before installing CLI, Pipeline, UnitySkills, or
-   another dependency. Explain the pinned package/tool and changed files or
-   machine state before asking.
-8. If installation is declined or verification fails, continue with the
-   remaining safe transport/file workflow instead of weakening the risk gate.
+4. Use direct CLI/Pipeline commands for supported Editor operations. For AI MCP
+   clients, use the server/configuration provided by built-in `unity mcp`.
+5. When the installed CLI cannot expose an operation, continue through its
+   built-in MCP mode or a pinned source/file workflow. Legacy standalone Unity
+   MCP and UnitySkills are opt-in only for an explicit user request.
+6. Never perform the same write through multiple transports. Verify through an
+   independent read when practical.
+7. Package, Pipeline, Editor/module, and other dependency installs still follow
+   their normal approval gates. The standing authorization applies only to a
+   missing Unity CLI installation.
 
-When UnitySkills is selected, load its root skill plus only the relevant module
+When UnitySkills is explicitly requested, load its root skill plus only the relevant module
 and follow its dry-run, diff, permission, workflow, and Domain Reload rules.
 
 ## Repository Instructions

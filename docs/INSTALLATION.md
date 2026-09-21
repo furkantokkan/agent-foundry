@@ -80,7 +80,7 @@ Do not install the archive on top of the plugin unless you deliberately want dup
 1. Establish your repository's `AGENTS.md` and/or `CLAUDE.md`, allowed paths, architecture, and verification commands.
 2. Start with `adaptive-skills`, `start`, or `unity-agentic-workflow` to inspect what your project needs.
 3. Let task creation use your repository's ID format and write its contract under `production/tasks/<ID>/contract.md`.
-4. Review required tools before implementation. Unity CLI, Unity MCP, UnitySkills REST, Firebase tooling, and Steam access are not bundled. For Unity work, verify the installed CLI first and use CLI/Pipeline before fallback transports.
+4. Review required tools before implementation. Unity CLI, Firebase tooling, and Steam access are not bundled. For every Unity task, verify the official CLI and install it when missing; use CLI/Pipeline or built-in `unity mcp`. Legacy standalone Unity MCP and UnitySkills are explicit-request-only, not fallback transports.
 
 The studio references include templates, rules and hook examples. They are reference material, not files automatically installed into your project's `.claude/` tree. If a workflow requires one, locate the corresponding bundled reference, review it and adapt it to the target repository with the appropriate authority. Do not silently activate hook scripts.
 

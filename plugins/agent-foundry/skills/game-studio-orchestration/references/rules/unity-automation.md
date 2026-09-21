@@ -2,20 +2,21 @@
 
 ## Transport Order
 
-1. Use the installed Unity CLI first for Unity Editor/project inspection and
-   supported mutations.
-2. Verify `unity --version`, inspect the relevant command help, and confirm the
+1. Use the installed Unity CLI as the mandatory control plane for every Unity
+   task, including preflight for source-only work.
+2. If `unity` is missing, install the official CLI under the user's standing
+   authorization, inspect the downloaded installer, and verify the binary. Do
+   not substitute a legacy MCP connection.
+3. Verify `unity --version`, inspect relevant command help, and confirm the
    exact project root/version with `unity status --json`. Pass `--project-path`
    whenever multiple Editors may exist.
-3. Use CLI/Pipeline commands or built-in `unity mcp` for supported operations.
-4. If CLI/Pipeline is unavailable, mismatched, or insufficient, use a matching
-   Unity MCP connection. If MCP is also unavailable, query UnitySkills
-   `GET /health` and prove identity with `project_get_info.result.projectPath`.
-5. Follow the selected transport's risk/approval flow and use exactly one
-   transport for each mutation.
-6. If no live transport is usable, continue with pinned Editor/file inspection
-   only for work that does not require live state. Manual Unity YAML editing is
-   the last resort.
+4. Use direct CLI/Pipeline commands first. When MCP protocol is required, use
+   built-in `unity mcp` configured and targeted through the CLI.
+5. Legacy standalone Unity MCP and UnitySkills REST are opt-in only when the
+   user explicitly requests them for the current task.
+6. Use exactly one mutation path. If the verified CLI cannot expose required
+   live state, continue with pinned Editor/file inspection where safe. Manual
+   Unity YAML editing is the last resort.
 
 ## Mutation Safety
 

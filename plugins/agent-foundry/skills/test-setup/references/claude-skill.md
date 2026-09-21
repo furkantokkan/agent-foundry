@@ -69,12 +69,14 @@ do not edit package files without high-risk approval.
 
 Follow `.claude/rules/unity-automation.md`:
 
-1. Use the installed Unity CLI first and prove the target with
-   `unity status --json` plus exact `--project-path`.
-2. If CLI/Pipeline is unavailable or insufficient, use Unity MCP when it points
-   to the exact target repository.
-3. Otherwise check UnitySkills `/health`, prove the same repository separately,
-   and use pinned file evidence only as the final fallback.
+1. Use the installed Unity CLI as the mandatory control plane and prove the
+   target with `unity status --json` plus exact `--project-path`.
+2. If it is missing, install the official CLI under the standing authorization
+   before continuing.
+3. Use built-in `unity mcp` when MCP protocol is needed. Legacy MCP and
+   UnitySkills require an explicit user request. If requested, prove the exact
+   repository separately; otherwise use pinned file evidence as the final
+   fallback.
 
 Require compilation to succeed, then run the affected EditMode and/or PlayMode
 tests. Preserve editor logs and NUnit XML. Do not report PASS from source

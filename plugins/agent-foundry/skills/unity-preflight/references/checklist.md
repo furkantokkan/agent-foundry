@@ -24,13 +24,14 @@
 ## Editor and automation
 
 - Installed Unity CLI verified; `unity status --json` target and exact
-  `--project-path` recorded as the first-choice transport.
-- If CLI is unavailable/insufficient, matching Unity MCP identity proven.
-- If CLI and MCP are unavailable/mismatched, UnitySkills `/health` reachable
-  and current mode recorded.
-- UnitySkills exact project path proven separately with `project_get_info`.
-- UnitySkills Bypass recorded as read-only until the user selects Approval in
-  the panel.
+  `--project-path` recorded as the mandatory control plane.
+- If the CLI was missing, official installation completed and `unity --version`
+  verified before preflight resumed.
+- Built-in `unity mcp` used only when MCP protocol was needed. Any legacy MCP or
+  UnitySkills use has an explicit current-task user request recorded.
+- When UnitySkills was explicitly requested, its exact project path was proven
+  separately with `project_get_info`, and Bypass was recorded as read-only until
+  the user selected Approval in the panel.
 - Unity version matches `ProjectVersion.txt`.
 - Compilation, import/update, domain reload, Play Mode, Console, and active test
   job state captured without mutation.

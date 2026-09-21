@@ -154,9 +154,10 @@ ownership, dirty-work, and verification-readiness result; a blocking mismatch
 stops further Unity work instead of being hidden by task creation. Then inspect
 through the installed Unity CLI first: verify the command, prove the exact
 project with `unity status --json`, and pass `--project-path` when needed. If
-CLI/Pipeline is unavailable or insufficient, use exact-project Unity MCP, then
-target-matched UnitySkills read-only. Task creation never authorizes a Unity
-Editor mutation.
+the CLI is missing, install it under the standing authorization before
+continuing. Use built-in `unity mcp` when needed; legacy MCP and UnitySkills are
+opt-in only through an explicit user request. Task creation never authorizes a
+Unity Editor mutation.
 
 After preflight passes or establishes a safe file-only inspection lane, invoke
 the installed `unity-game-dev` skill in read-only planning scope before

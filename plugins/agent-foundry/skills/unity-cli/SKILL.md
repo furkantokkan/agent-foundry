@@ -9,28 +9,35 @@ allowed-tools:
 
 ## Agent Foundry operating contract
 
-Use the installed `unity` CLI as the first-choice Unity transport when it
-supports the requested operation. This includes Editor discovery and control
-through the Pipeline package, built-in MCP configuration/server mode, Editor
-and module lifecycle work, project operations, tests, builds, diagnostics, and
-machine-readable automation.
+Use the installed `unity` CLI as the mandatory control plane for every Unity
+task. Always start by verifying `unity --version` and the relevant command help;
+for project work, use `unity status --json` to prove the exact Editor/project.
+This requirement also applies when the final implementation is an ordinary
+source-file edit.
+
+If `unity` is missing, install the official Unity CLI before continuing. The
+user's standing instruction explicitly authorizes this one tool installation
+when absent. Download the official installer to a temporary file, inspect it,
+run it, and verify the installed binary; never pipe a remote response into a
+shell. Environment-level network or elevation approval may still be required.
+Do not bypass installation by switching to a legacy MCP transport.
 
 Transport order:
 
-1. **Unity CLI** — verify the installed command with `unity --version` and the
-   relevant `unity <command> --help`; use `unity status --json` to prove the
-   exact live project before Editor-dependent work.
-2. **Matching Unity MCP connection** — prefer a connection configured through
-   `unity mcp`; use it when the CLI cannot expose the required operation.
-3. **UnitySkills REST** — prove exact project identity independently and follow
-   its dry-run/diff/risk flow.
-4. **Pinned Editor/file inspection** — source-only fallback; manual Unity YAML
+1. **Unity CLI / Pipeline** — use direct CLI commands for discovery, Editor
+   control, project operations, tests, builds, and automation.
+2. **Built-in `unity mcp`** — when an AI client requires MCP, start or configure
+   the server through the installed CLI and pin it with `--project-path`.
+3. **Pinned source/file inspection** — only when the installed CLI has been
+   verified but cannot expose the required state or operation. Manual Unity YAML
    editing remains the last resort.
 
-Never perform the same mutation through two transports. When multiple Editors
-are visible, always pass the exact `--project-path`; never infer the target.
-The installed CLI's help and current official Unity documentation override this
-snapshot when flags or subcommands differ.
+Legacy standalone Unity MCP connections and UnitySkills REST are not automatic
+fallback transports. Use either only when the user explicitly requests it for
+the current task. Never perform the same mutation through two transports. When
+multiple Editors are visible, always pass the exact `--project-path`; never
+infer the target. The installed CLI's help and current official Unity
+documentation override this snapshot when flags or subcommands differ.
 
 For non-interactive or parsed output, use:
 
@@ -90,11 +97,13 @@ First check if the CLI is available:
 which unity && unity --version
 ```
 
-If it is not found, installation is a high-risk machine change: identify the
-target channel/version and ask for explicit approval before continuing. Use the
-official Unity installer source, download the script to a temporary file,
-inspect it, and run that file. Do not pipe a remote response directly into a
-shell.
+If it is not found, install it before continuing. The user's standing
+instruction is explicit target authorization for installing the official Unity
+CLI when absent, so do not ask whether to use MCP instead. Use the official
+Unity installer source, download the script to a temporary file, inspect it,
+and run that file. Do not pipe a remote response directly into a shell. Request
+environment approval only when the download, filesystem target, or elevation
+boundary requires it.
 
 **macOS / Linux**
 ```bash

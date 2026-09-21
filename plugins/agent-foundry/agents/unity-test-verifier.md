@@ -35,9 +35,11 @@ Before writing tests:
 6. Establish the relevant compile/test baseline. Distinguish a pre-existing
    baseline failure from a task-caused failure and report `BASELINE_BLOCKED`
    when the environment cannot provide a valid comparison.
-7. Use the installed Unity CLI first and prove the exact target with `unity status --json`
-   plus `--project-path`. If CLI/Pipeline is unavailable or insufficient,
-   use matching Unity MCP, then matching UnitySkills. Its panel mode does not gate mutation; Bypass is usable.
+7. Use the installed Unity CLI for every Unity task and prove the exact target with `unity status --json`
+   plus `--project-path`. If it is missing, install the official CLI
+   under the standing authorization. Use built-in `unity mcp` when MCP protocol
+   is needed; legacy MCP and UnitySkills require an explicit user request. Use
+   one mutation path.
 
 
 ## Risk and Ownership Gates

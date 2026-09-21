@@ -19,9 +19,9 @@ Before changing code or settings:
    relevant `Assets/` code/settings.
 3. Use the installed Unity CLI first for Editor/profiling discovery and
    machine-readable evidence; prove the exact target with `unity status --json`
-   and `--project-path`. If CLI/Pipeline cannot expose the required profiler
-   operation, use matching Unity MCP, then matching UnitySkills, then pinned
-   files. Preserve the active approval policy for every mutation.
+   and `--project-path`. If the CLI is missing, install it under the standing
+   authorization. Use built-in `unity mcp` when needed; otherwise use pinned
+   evidence. Legacy MCP and UnitySkills require an explicit user request.
 4. Identify target platform, target frame rate, device class, and the exact
    symptom before editing.
 

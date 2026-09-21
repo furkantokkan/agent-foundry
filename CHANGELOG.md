@@ -8,9 +8,10 @@
 - Expand `unity-cli` from the official baseline and keep Agent Foundry's exact
   project identity, explicit risk approval, machine-readable automation, and
   safer download-inspect-run installation rules.
-- Make installed Unity CLI/Pipeline the first-choice Unity transport across
-  preflight, implementation, verification, orchestration, roles, and global
-  installation guidance; retain MCP and UnitySkills as ordered fallbacks.
+- Make Unity CLI the mandatory control plane across preflight, implementation,
+  verification, orchestration, roles, and global installation guidance. Install
+  the official CLI when missing, use built-in `unity mcp` when needed, and keep
+  legacy MCP/UnitySkills explicit-request-only instead of automatic fallbacks.
 - Expand adaptive routing and package metadata to 123 core skills / 142 total
   skills. Validation covers inventory, manifests, references, JSON, provenance,
   private-path patterns, and installed CLI smoke checks.
