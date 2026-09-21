@@ -37,7 +37,21 @@ def main():
         raise SystemExit('Refusing to overwrite an existing export.')
     commands = home / 'plugins/personal-game-commands/commands'
     names = {p.stem for p in commands.glob('*.md')}
-    names.update('clean-oop-architecture game-design-studio unity-game-dev firebase-game-backend javascript-game-tools unity-cli'.split())
+    names.update('''
+        clean-oop-architecture game-design-studio unity-game-dev
+        firebase-game-backend javascript-game-tools
+        2d-pixel-perfect audio-setup-mixers build-live-game
+        generate-editor-search-query implement-in-app-purchases
+        initialize-ai-navigation levelplay-unity-integration localization
+        manage-sprite-atlas migrate-birp-to-urp new-unity-project optimize-audio
+        optimize-text-mesh-pro optimize-web physics-3d-collision
+        setup-multiplayer-services setup-vivox-voice-chat
+        shader-graph-create-custom-node sprite-editor sprite-segment-3x3grid
+        tilemap-palette-create tilemap-ruletile-createempty
+        tilemap-ruletile-createfromsegment ui ui-imgui ui-ugui ui-uitk
+        unity-cli unity-package-management urp-postprocessing
+        validate-urp-render-graph-renderer-feature
+    '''.split())
     sources = []
 
     def copy(source, target, label):

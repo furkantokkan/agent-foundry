@@ -304,10 +304,11 @@ full before running it.
   state, target platform, agent/skill version, and task ID. A downstream role
   may start dirty only when `HEAD + dirty fingerprint` exactly matches the prior
   handoff.
-- Verify a matching Unity MCP connection first. If it is unavailable or points
-  elsewhere, verify UnitySkills `GET /health` plus project identity and keep it
-  read-only in Bypass. Otherwise use the pinned Unity CLI. If none is available,
-  return `BLOCKED`; never repeat one mutation through two transports.
+- Verify the installed Unity CLI first and prove the target with
+  `unity status --json` plus exact `--project-path`. If CLI/Pipeline is
+  unavailable or insufficient, verify matching Unity MCP, then UnitySkills
+  `/health` plus project identity. If none is available, return `BLOCKED`; never
+  repeat one mutation through two transports.
 
 ### Step 2 — Establish Baseline Evidence
 

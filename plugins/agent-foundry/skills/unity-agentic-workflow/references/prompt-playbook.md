@@ -216,7 +216,7 @@ Task IDs are the complete normal prompt:
 ```
 
 The skill derives readiness, objective, paths, serialized ownership, risk,
-verification, handoff, worktrees, Unity MCP-first transport, Editor queuing, and
+verification, handoff, worktrees, Unity CLI-first transport, Editor queuing, and
 `commit: none` from canonical policy and the contracts. Do not repeat these in
 the prompt. Disjoint tasks proceed independently. A uniquely owned overlap
 creates `QUEUED_AFTER_OWNER`; orchestration waits for the predecessor's stable

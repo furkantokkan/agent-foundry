@@ -64,10 +64,12 @@ edit in `--audit` mode.
 
 Use one Unity transport per mutation:
 
-1. Use Unity MCP only when it identifies this exact repository/project.
-2. Otherwise call UnitySkills REST `/health`, prove exact project identity with
-   `project_get_info`, and continue only when it is not in Bypass mode.
-3. Otherwise use pinned Unity CLI and direct file inspection.
+1. Use the installed Unity CLI first; verify `unity --version`, the relevant
+   command help, and exact project identity with `unity status --json`.
+2. If CLI/Pipeline is unavailable or insufficient, use Unity MCP only when it
+   identifies this exact repository/project.
+3. Otherwise call UnitySkills REST `/health` and prove identity with
+   `project_get_info`; use direct file inspection only as the final fallback.
 4. Manual Unity YAML editing is a last resort and high risk; default to
    `BLOCKED` for scenes, prefabs, ScriptableObjects, `.inputactions`,
    Addressables/global settings, and other serialized assets.

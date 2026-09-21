@@ -1,7 +1,8 @@
 # UnitySkills Identity and Permission Notes
 
-Use UnitySkills only when the first-choice Unity MCP connection is unavailable
-or points elsewhere. `GET /health` proves REST service health and exposes
+Use UnitySkills only when the first-choice Unity CLI and fallback matching MCP
+connection are unavailable, insufficient, or point elsewhere. `GET /health`
+proves REST service health and exposes
 permission state; it is not sufficient proof of the open repository.
 
 Use this sequence:

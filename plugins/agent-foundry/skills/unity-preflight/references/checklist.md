@@ -23,9 +23,11 @@
 
 ## Editor and automation
 
-- Matching Unity MCP target proven as the first-choice transport.
-- If MCP is unavailable/mismatched, UnitySkills `/health` reachable and current
-  mode recorded.
+- Installed Unity CLI verified; `unity status --json` target and exact
+  `--project-path` recorded as the first-choice transport.
+- If CLI is unavailable/insufficient, matching Unity MCP identity proven.
+- If CLI and MCP are unavailable/mismatched, UnitySkills `/health` reachable
+  and current mode recorded.
 - UnitySkills exact project path proven separately with `project_get_info`.
 - UnitySkills Bypass recorded as read-only until the user selects Approval in
   the panel.

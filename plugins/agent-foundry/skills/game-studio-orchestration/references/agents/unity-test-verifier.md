@@ -35,9 +35,10 @@ Before writing tests:
 6. Establish the relevant compile/test baseline. Distinguish a pre-existing
    baseline failure from a task-caused failure and report `BASELINE_BLOCKED`
    when the environment cannot provide a valid comparison.
-7. Use a correctly connected Unity MCP first; otherwise use matching UnitySkills
-   as fallback, then pinned CLI/file evidence. Keep UnitySkills read-only when
-   it reports Bypass.
+7. Use the installed Unity CLI first and prove the exact target with `unity status --json`
+   plus `--project-path`. If CLI/Pipeline is unavailable or insufficient,
+   use matching Unity MCP, then matching UnitySkills. Keep UnitySkills read-only when it reports Bypass.
+
 
 ## Risk and Ownership Gates
 

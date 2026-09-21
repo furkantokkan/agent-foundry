@@ -17,9 +17,11 @@ Before changing code or settings:
    notes when present.
 2. Inspect `ProjectSettings/ProjectVersion.txt`, `Packages/manifest.json`, and
    relevant `Assets/` code/settings.
-3. Use a matching Unity MCP connection first for Editor/profiling evidence. If
-   unavailable or mismatched, use matching UnitySkills, then pinned CLI/files.
-   Keep UnitySkills read-only when `/health` reports Bypass.
+3. Use the installed Unity CLI first for Editor/profiling discovery and
+   machine-readable evidence; prove the exact target with `unity status --json`
+   and `--project-path`. If CLI/Pipeline cannot expose the required profiler
+   operation, use matching Unity MCP, then matching UnitySkills, then pinned
+   files. Preserve the active approval policy for every mutation.
 4. Identify target platform, target frame rate, device class, and the exact
    symptom before editing.
 

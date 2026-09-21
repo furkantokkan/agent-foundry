@@ -80,7 +80,7 @@ Do not install the archive on top of the plugin unless you deliberately want dup
 1. Establish your repository's `AGENTS.md` and/or `CLAUDE.md`, allowed paths, architecture, and verification commands.
 2. Start with `adaptive-skills`, `start`, or `unity-agentic-workflow` to inspect what your project needs.
 3. Let task creation use your repository's ID format and write its contract under `production/tasks/<ID>/contract.md`.
-4. Review required tools before implementation. Unity MCP, UnitySkills REST, Unity CLI, Firebase tooling, and Steam access are not bundled.
+4. Review required tools before implementation. Unity CLI, Unity MCP, UnitySkills REST, Firebase tooling, and Steam access are not bundled. For Unity work, verify the installed CLI first and use CLI/Pipeline before fallback transports.
 
 The studio references include templates, rules and hook examples. They are reference material, not files automatically installed into your project's `.claude/` tree. If a workflow requires one, locate the corresponding bundled reference, review it and adapt it to the target repository with the appropriate authority. Do not silently activate hook scripts.
 
@@ -101,4 +101,4 @@ Use your runtime's marketplace update and plugin removal commands; consult `code
 
 `scripts/validate.py` checks expected inventory, manifests, entry-point names, command alias collisions, private-path/credential patterns, and export hashes. It does not run the workflows against an LLM or certify Unity behavior. Runtime manifest validators are useful additional checks. Report the exact CLI version and failing command when filing an installation issue.
 
-For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 93 skills.
+For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 123 core skills.

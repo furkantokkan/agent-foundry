@@ -26,9 +26,10 @@ Before editing:
    `.claude/rules/unity-ownership.md`,
    `docs/engine-reference/unity/csharp-style-guide.md`, and
    `docs/engine-reference/unity/plugins/cysharp-packages.md` when present.
-3. Use a correctly connected Unity MCP first. If MCP is unavailable or points
-   elsewhere, use matching UnitySkills as fallback, then pinned CLI/files. Keep
-   UnitySkills read-only when it reports Bypass. Use one transport per mutation.
+3. Use the installed Unity CLI first and prove the exact target with `unity status --json`
+   plus `--project-path`. If CLI/Pipeline is unavailable or insufficient,
+   use matching Unity MCP, then matching UnitySkills. Keep UnitySkills read-only when it reports Bypass. Use one transport per mutation.
+
 4. If another agent is working on the same feature, avoid overlapping files
    unless the user explicitly assigns that integration step to you.
 5. Require one ready task contract with its task ID/path, authority fingerprint,

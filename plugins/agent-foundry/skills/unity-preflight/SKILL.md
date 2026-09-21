@@ -25,11 +25,14 @@ expected.
 
 ## Verify live Unity identity
 
-Use a matching Unity MCP connection first. Confirm its connected project root
-matches the exact target before any inspection that could depend on Editor state
-and before every mutation later in the task.
+Use the installed Unity CLI first. Verify the live command and use
+`unity status --json --non-interactive --no-banner` to match the exact project
+root and Unity version before Editor-dependent inspection or later mutation.
+When several Editors are ready, require the exact `--project-path`.
 
-If Unity MCP is unavailable or points elsewhere, fall back to UnitySkills:
+If the CLI is unavailable, mismatched, or cannot expose the required state, use
+a matching Unity MCP connection and confirm the same project identity. If
+neither CLI nor MCP can prove the target, fall back to UnitySkills:
 
 1. Call `GET /health` to learn availability, `currentMode`, approval channel,
    pending grants, and service state.
@@ -43,8 +46,8 @@ If Unity MCP is unavailable or points elsewhere, fall back to UnitySkills:
    user must switch the panel to Approval before any later mutation. REST/chat
    must not change that mode.
 
-If neither transport can prove the same repository, fall back to pinned Unity
-CLI/file inspection and mark live Editor evidence unavailable.
+If no live transport can prove the same repository, fall back to pinned
+Editor/file inspection and mark live Editor evidence unavailable.
 
 ## Safety boundary
 

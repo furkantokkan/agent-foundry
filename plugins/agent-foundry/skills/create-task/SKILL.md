@@ -152,10 +152,11 @@ For a Unity-shaped target, invoke the installed `unity-preflight` skill before
 Unity inspection or domain planning. Preserve its exact-repository, transport,
 ownership, dirty-work, and verification-readiness result; a blocking mismatch
 stops further Unity work instead of being hidden by task creation. Then inspect
-through an exact-project Unity MCP connection first. If MCP is unavailable or
-mismatched, use target-matched UnitySkills read-only; Bypass is acceptable for
-inspection but never mutation. Then use pinned CLI/files. Task creation never
-authorizes a Unity Editor mutation.
+through the installed Unity CLI first: verify the command, prove the exact
+project with `unity status --json`, and pass `--project-path` when needed. If
+CLI/Pipeline is unavailable or insufficient, use exact-project Unity MCP, then
+target-matched UnitySkills read-only. Task creation never authorizes a Unity
+Editor mutation.
 
 After preflight passes or establishes a safe file-only inspection lane, invoke
 the installed `unity-game-dev` skill in read-only planning scope before

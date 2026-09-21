@@ -4,7 +4,7 @@
 
 ### Give your coding agent a workflow worth repeating.
 
-**112 skills · 97 command definitions · 3 Unity agent roles · Codex + Claude Code**
+**142 skills · 97 command definitions · 3 Unity agent roles · Codex + Claude Code**
 
 [![Validate](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml/badge.svg)](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -29,7 +29,7 @@ Agent Foundry packages the skills and command adapters from my personal Codex an
 
 - **Task-first development.** One `contract.md` owns scope, acceptance criteria, and lifecycle state.
 - **Bugs stay attached to their task.** Intake, repair, verification, and closure have separate responsibilities.
-- **Unity-aware boundaries.** Confirm the Editor/project connection, declare asset ownership, and hand implementation to verification.
+- **Unity CLI first.** Prefer installed Unity CLI/Pipeline automation, prove the exact project, declare asset ownership, and hand implementation to verification.
 - **Design through release.** GDDs, architecture decisions, playtests, performance reviews, Steam preparation, and release checks.
 - **Readable source.** Markdown skills and references you can inspect, adapt, or use individually.
 
@@ -134,7 +134,7 @@ retain their stack. See [installation and invocation](docs/INSTALLATION.md#liqui
 | Build or prepare a Blender asset | `blender-modeler`, `texture-workflow`, `unity-export` |
 | Turn an image into a textured 3D asset | `hunyuan3d`, `blender-superskill` |
 
-**[Explore the core catalog of 93 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)** · **[Browse AI 3D Foundry →](docs/AI_3D.md)**
+**[Explore the core catalog of 123 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)** · **[Browse AI 3D Foundry →](docs/AI_3D.md)**
 
 ## What's in the box?
 
@@ -143,7 +143,7 @@ agent-foundry/
 ├── plugins/agent-foundry/
 │   ├── .codex-plugin/     # Codex manifest
 │   ├── .claude-plugin/    # Claude Code manifest
-│   ├── skills/            # 93 skills with bundled references
+│   ├── skills/            # 123 skills with bundled references
 │   ├── commands/          # 7 aliases; avoids duplicate skill names
 │   └── agents/            # Implementer, verifier, bugfixer
 ├── plugins/blender-texture-foundry/
@@ -161,7 +161,7 @@ The studio skill also contains role, rule, template, and hook **references**. Th
 
 ## Project status
 
-**Public release, v0.1.4.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
+**Public release, v0.2.0.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
 
 Repository instructions and your agent's tool/approval policies remain authoritative. These Markdown workflows do not enforce a sandbox or grant tools they describe.
 
@@ -173,6 +173,6 @@ If a workflow saves you time, **star the repo** so other builders can find it. S
 
 ## Credits & license
 
-Maintained by [Furkan Tokkan](https://github.com/furkantokkan). Studio workflows and references include adaptations of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos. The `game-feel-polish` skill adapts the [Liquid UI Kit](https://github.com/Miisan-png/godot-liquid-ui) by Miisan. Blender & Texture Foundry and AI 3D Foundry include attributed MIT components from [Blender Skills](https://github.com/arjun988/blender-skills), [dcc-asset-ambientcg](https://github.com/dcc-mcp/dcc-asset-ambientcg), [Blender SuperSkill](https://github.com/powerhouse90/Blender-Superskill), [Alpha3D scene generation](https://github.com/ig-shadow-walker/BlenderXAlpha-3DGenSkill), and [skill-clusters](https://github.com/Sheshiyer/skill-clusters). Upstream deserves a star too.
+Maintained by [Furkan Tokkan](https://github.com/furkantokkan). The core plugin includes Unity-dependent skills adapted from [Unity Technologies/skills](https://github.com/Unity-Technologies/skills) under the Unity Companion License. Studio workflows and references include adaptations of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos. The `game-feel-polish` skill adapts the [Liquid UI Kit](https://github.com/Miisan-png/godot-liquid-ui) by Miisan. Blender & Texture Foundry and AI 3D Foundry include attributed MIT components from [Blender Skills](https://github.com/arjun988/blender-skills), [dcc-asset-ambientcg](https://github.com/dcc-mcp/dcc-asset-ambientcg), [Blender SuperSkill](https://github.com/powerhouse90/Blender-Superskill), [Alpha3D scene generation](https://github.com/ig-shadow-walker/BlenderXAlpha-3DGenSkill), and [skill-clusters](https://github.com/Sheshiyer/skill-clusters). Upstream deserves a star too.
 
-[MIT](LICENSE), with upstream notices preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Unaffiliated with OpenAI, Anthropic, or Unity.
+[MIT](LICENSE) for original Agent Foundry material; Unity-derived material remains under the Unity Companion License. Upstream notices are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Unaffiliated with OpenAI, Anthropic, or Unity.

@@ -333,8 +333,8 @@ controller naturally produces, you learn exactly what the AI needs to do.
 ### Unity path: multi-turn loop
 
 After writing the initial code, use the canonical Unity automation order for
-the Unity path (matching Unity MCP -> matching UnitySkills -> pinned Unity
-CLI/files). If no
+the Unity path (installed Unity CLI/Pipeline -> matching Unity MCP -> matching
+UnitySkills -> pinned files). If no
 connected automation can launch the prototype, hand the exact run instructions to
 the user:
 

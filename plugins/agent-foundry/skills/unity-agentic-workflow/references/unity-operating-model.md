@@ -3,7 +3,7 @@
 ## Daily loop
 
 1. Preflight: exact repository, instructions, Unity version, VCS state, live
-   Editor identity through matching Unity MCP first (UnitySkills fallback),
+   Editor identity through Unity CLI first, then matching MCP and UnitySkills,
    compilation/import/play state, and ownership.
 2. Contract: objective, allowed/forbidden paths, serialized owner, acceptance,
    verification, risk, commit policy, and handoff target.

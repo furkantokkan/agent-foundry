@@ -101,7 +101,7 @@ Separate the layers clearly:
 3. Skills: reusable procedures with inputs, gates, and output contracts.
 4. Agents: roles with allowed paths, forbidden paths, and handoff boundaries.
 5. Commands: thin argument-forwarding adapters; never duplicate the procedure.
-6. Tools/transports: UnitySkills, Unity MCP, CLI, Git, or Plastic.
+6. Tools/transports: Unity CLI, Unity MCP, UnitySkills, Git, or Plastic.
 7. Task artifacts: one `contract.md` containing immutable authority plus a
    delimited managed lifecycle block, one durable defect ledger, ownership
    handoffs, and retained evidence.

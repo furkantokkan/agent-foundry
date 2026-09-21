@@ -2,19 +2,20 @@
 
 ## Transport Order
 
-1. Use a matching Unity MCP connection first for Unity Editor/project inspection
-   and mutations.
-2. Confirm the MCP project root and Unity version match the exact target before
-   relying on Editor state or writing anything.
-3. If MCP is unavailable or mismatched, query UnitySkills `GET /health`, then
-   prove exact identity separately with `project_get_info.result.projectPath`.
-4. Use UnitySkills fallback reads and its dry-run/diff/batch/transaction/audit/
-   approval flow. If it reports Bypass, keep it read-only and ask the user to
-   select Approval in-panel; REST/chat must not change the mode.
-5. If neither transport is usable, continue with pinned Unity CLI/file inspection for
-   work that does not require live Editor state.
-6. Treat manual Unity YAML editing as a last resort and explain why Editor-safe
-   automation is unavailable.
+1. Use the installed Unity CLI first for Unity Editor/project inspection and
+   supported mutations.
+2. Verify `unity --version`, inspect the relevant command help, and confirm the
+   exact project root/version with `unity status --json`. Pass `--project-path`
+   whenever multiple Editors may exist.
+3. Use CLI/Pipeline commands or built-in `unity mcp` for supported operations.
+4. If CLI/Pipeline is unavailable, mismatched, or insufficient, use a matching
+   Unity MCP connection. If MCP is also unavailable, query UnitySkills
+   `GET /health` and prove identity with `project_get_info.result.projectPath`.
+5. Follow the selected transport's risk/approval flow and use exactly one
+   transport for each mutation.
+6. If no live transport is usable, continue with pinned Editor/file inspection
+   only for work that does not require live state. Manual Unity YAML editing is
+   the last resort.
 
 ## Mutation Safety
 

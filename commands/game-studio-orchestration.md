@@ -12,7 +12,7 @@ references only as needed. If the task maps to a narrower workflow, combine with
 For complete task IDs or exact contract paths, apply tracked-task mode. Resolve
 contracts, check readiness and ownership conflicts, isolate independent writers
 in worktrees, keep same-task roles sequential, queue single-Editor work, use the
-matching Unity MCP-first policy, and default to no commit/push. Do not require
+matching Unity CLI-first policy, and default to no commit/push. Do not require
 the user to repeat those standing rules.
 
 When task-cycle returns one ready contract for a distinct out-of-scope

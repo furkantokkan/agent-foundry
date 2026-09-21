@@ -20,39 +20,40 @@ Before editing, inspect the project shape:
 4. `Assets/Scripts/`, `Assets/Tests/`, and existing `.asmdef` files if present
 5. Any local design docs, ADRs, stories, or task files the user mentions
 
-Use a matching Unity MCP connection first. If it is unavailable or points
-elsewhere, use matching UnitySkills, then pinned CLI/file inspection. Before
-reasoning about live Unity state, confirm project identity, Unity version,
-compilation, asset import, Play Mode, and recent Console status through the
-selected transport.
+Use the installed Unity CLI first. Verify it with `unity --version`, prove the
+exact project with `unity status --json`, and pass `--project-path` whenever
+multiple Editors may be running. If the CLI cannot expose the required
+operation, use a matching Unity MCP connection, then matching UnitySkills, then
+pinned Editor/file inspection. Before reasoning about live Unity state, confirm
+project identity, Unity version, compilation, asset import, Play Mode, and
+recent Console status through the selected transport.
 
 If this is not a Unity project yet, help create a Unity-friendly structure only
 after the user asks for scaffolding.
 
 ## Unity Automation Integration
 
-Use a correctly connected Unity MCP as the default Unity-specific transport:
+Use the installed Unity CLI as the default Unity-specific transport:
 
-1. Confirm the MCP project root and Unity version match the exact target.
-2. If MCP is unavailable or mismatched, read UnitySkills `GET /health`, prove
-   project identity separately with `project_get_info`, and use its dry-run,
-   diff, batch, transaction, audit, and panel-approval flow.
-3. If UnitySkills reports Bypass, keep it read-only and ask the user to switch
-   its panel to Approval before mutations. REST/chat must not change the mode.
-4. Never perform the same write through both transports. Choose one mutation
+1. Run `unity --version` and the relevant `unity <command> --help`; installed
+   help overrides bundled examples.
+2. Run `unity status --json` and match the exact project root and Unity version.
+   Pass `--project-path` whenever more than one Editor may be available.
+3. Use CLI/Pipeline commands for supported Editor operations. For AI MCP clients,
+   prefer a server/configuration provided by `unity mcp`.
+4. If CLI/Pipeline cannot expose the required operation, use a matching Unity
+   MCP connection. If that is also unavailable or mismatched, read UnitySkills
+   `GET /health`, prove identity with `project_get_info`, and follow its
+   dry-run, diff, batch, transaction, audit, and approval flow.
+5. Never perform the same write through multiple transports. Choose one mutation
    path and verify through an independent read when practical.
-5. If both are unavailable, continue with file/CLI work that does not require
-   live Editor state.
-6. If UnitySkills is missing, continue with MCP when MCP can complete the task.
-   Ask for explicit approval to install UnitySkills only when it is required or
-   materially better for the requested operation. Explain the pinned third-party
-   package and the files/settings it will change before asking.
-7. After approval, use `install-unity-skills` and verify the installation. If
-   the global client is missing too, include its global Codex/Claude skill files
-   in the approval scope. Never enable `Bypass` automatically.
-8. If installation is declined, the server targets another project, or health
-   verification fails, continue with MCP or file/CLI workflows without blocking
-   work that does not require UnitySkills.
+6. If no live transport works, continue with source/file work that does not
+   require live Editor state.
+7. Ask for explicit approval before installing CLI, Pipeline, UnitySkills, or
+   another dependency. Explain the pinned package/tool and changed files or
+   machine state before asking.
+8. If installation is declined or verification fails, continue with the
+   remaining safe transport/file workflow instead of weakening the risk gate.
 
 When UnitySkills is selected, load its root skill plus only the relevant module
 and follow its dry-run, diff, permission, workflow, and Domain Reload rules.

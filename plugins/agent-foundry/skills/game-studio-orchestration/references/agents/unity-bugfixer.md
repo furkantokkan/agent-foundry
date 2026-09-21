@@ -38,9 +38,10 @@ Before editing:
    designated defect reproduction. Reproduce the exact supplied failure
    signature before production edits. If it cannot be reproduced, return
    `REPRO_NOT_CONFIRMED` and make no production change.
-7. Use a correctly connected Unity MCP first; otherwise use matching UnitySkills
-   as fallback, then pinned CLI/file evidence. Keep UnitySkills read-only when
-   it reports Bypass.
+7. Use the installed Unity CLI first and prove the exact target with `unity status --json`
+   plus `--project-path`. If CLI/Pipeline is unavailable or insufficient,
+   use matching Unity MCP, then matching UnitySkills. Keep UnitySkills read-only when it reports Bypass.
+
 
 ## Risk and Ownership Gates
 

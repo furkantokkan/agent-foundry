@@ -295,10 +295,11 @@ Never let orchestration expand the contract.
    fixtures merely to force a pass. A nearby green test does not prove a
    reported runtime symptom; rerun the original repro and required regression
    channel after the fix.
-8. For Unity, use an exact-project Unity MCP connection first; use target-matched
-   UnitySkills only when MCP is unavailable/mismatched, keeping it read-only in
-   Bypass. Then fall back to pinned CLI/files. Never duplicate a mutation across
-   transports, and edit Unity YAML manually only as a last resort.
+8. For Unity, use the installed CLI first, prove the exact target with
+   `unity status --json`, and pass `--project-path` when needed. If CLI/Pipeline
+   is unavailable or insufficient, use exact-project Unity MCP, then
+   target-matched UnitySkills. Never duplicate a mutation across transports,
+   and edit Unity YAML manually only as a last resort.
 9. Inspect the final diff for containment, generated churn, secrets, and
    acceptance coverage.
 10. Build an acceptance-to-verification matrix using each channel required by

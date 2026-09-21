@@ -62,8 +62,9 @@ separate. Never edit Unity YAML manually.
 
 ## Phase 5 — Verify
 
-Use matching Unity MCP first, matching UnitySkills second, and pinned Unity CLI
-last. Keep UnitySkills read-only when `/health` reports Bypass.
+Use the installed Unity CLI first with exact `unity status --json` identity,
+matching Unity MCP second, matching UnitySkills third, and pinned file evidence
+last. Use exactly one transport for each mutation.
 Require:
 
 - compilation success;

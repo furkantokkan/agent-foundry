@@ -26,9 +26,9 @@ Expected test locations are `Assets/Tests/EditMode/**`,
 
 ## Phase 2 — Connect to the Correct Unity Project
 
-Use a matching Unity MCP connection first. If unavailable or mismatched, use
-matching UnitySkills, then pinned Unity CLI. Keep UnitySkills read-only when
-`/health` reports Bypass. If no runner can
+Use the installed Unity CLI first and prove the exact target with
+`unity status --json` plus `--project-path`. If CLI/Pipeline is unavailable or
+insufficient, use matching Unity MCP, then matching UnitySkills. If no runner can
 produce compiler/test evidence, return `BLOCKED`; do not infer success.
 
 ## Phase 3 — Run Critical Checks

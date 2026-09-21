@@ -51,7 +51,7 @@ $game-studio-orchestration GAME-201 GAME-202 GAME-203
    Editor connection. Parallel Editor operations require separately matched
    Editor instances rooted at their own worktrees. Code-only work may continue
    while the single Editor slot is occupied.
-7. Apply the canonical matching-Unity-MCP-first transport policy automatically.
+7. Apply the canonical matching-Unity-CLI-first transport policy automatically.
    Do not ask the user to repeat it and never perform one mutation through two
    transports.
 8. Default to implementation, contract-required verification, automatic safe

@@ -17,7 +17,18 @@ Choose the smallest relevant skill set:
 - Unity profiling, optimization, CPU/GPU/GC bottlenecks, hot paths, UI/physics/
   rendering/loading/memory performance, or mobile thermal/battery constraints:
   use `unity-optimization`.
-- SOLID, Clean Code, naming, dependency boundaries, DI, ServiceLocator, Onity,
+- Unity specialist workflows: use the exact skill when its trigger matches —
+  `2d-pixel-perfect`, `audio-setup-mixers`, `build-live-game`,
+  `generate-editor-search-query`, `implement-in-app-purchases`,
+  `initialize-ai-navigation`, `levelplay-unity-integration`, `localization`,
+  `manage-sprite-atlas`, `migrate-birp-to-urp`, `new-unity-project`,
+  `optimize-audio`, `optimize-text-mesh-pro`, `optimize-web`,
+  `physics-3d-collision`, `setup-multiplayer-services`,
+  `setup-vivox-voice-chat`, `shader-graph-create-custom-node`, sprite/tilemap
+  skills, `ui` plus its framework skills, `unity-cli`,
+  `unity-package-management`, `urp-postprocessing`, or
+  `validate-urp-render-graph-renderer-feature`.- SOLID, Clean Code, naming, dependency boundaries, DI, ServiceLocator, Onity,
+
   or testability: use `clean-oop-architecture`.
 - Firebase Auth, Firestore, Realtime Database, Functions Gen2, Express.js game
   APIs, App Check, rules, emulators, or Unity request/response clients: use

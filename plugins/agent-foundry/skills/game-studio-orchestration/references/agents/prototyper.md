@@ -63,9 +63,10 @@ allowed/forbidden paths, evidence, and handoff before mutation.
   settings, packages, `ProjectSettings/**`, save formats, destructive/git
   operations, commits, or releases require exact approval.
 
-Exactly one active writer owns every serialized Unity asset. Verify UnitySkills
-points at this worktree/project and is not in Bypass before mutation; otherwise
-use a correctly connected Unity MCP, then the pinned Unity CLI/file workflow.
+Exactly one active writer owns every serialized Unity asset. Use the installed
+Unity CLI first and prove this worktree/project with `unity status --json` plus
+`--project-path`. If CLI/Pipeline is unavailable or insufficient, use matching
+Unity MCP, then matching UnitySkills, then pinned file evidence.
 
 Before writing any code:
 

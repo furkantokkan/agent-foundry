@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.0 - 2026-09-21
+
+- Add 30 Unity specialist skills from `Unity-Technologies/skills` at revision
+  `8d85172945197ee8bacbbfea44d6d64cad782004`, preserving Unity Companion
+  License attribution and bundled references/resources.
+- Expand `unity-cli` from the official baseline and keep Agent Foundry's exact
+  project identity, explicit risk approval, machine-readable automation, and
+  safer download-inspect-run installation rules.
+- Make installed Unity CLI/Pipeline the first-choice Unity transport across
+  preflight, implementation, verification, orchestration, roles, and global
+  installation guidance; retain MCP and UnitySkills as ordered fallbacks.
+- Expand adaptive routing and package metadata to 123 core skills / 142 total
+  skills. Validation covers inventory, manifests, references, JSON, provenance,
+  private-path patterns, and installed CLI smoke checks.
 ## 0.1.4 - 2026-09-20
 
 - Document Unity Liquid UI invocation, standalone installation, source-reference

@@ -266,10 +266,11 @@ All defects being verified is necessary but not sufficient when another
 required channel remains unproven. Likewise, green acceptance rows never hide
 an unresolved defect.
 
-Use matching Unity MCP first for exact-project inspection. If unavailable or
-mismatched, use matching UnitySkills read-only after `/health` and project
-identity; Bypass remains read-only. Then use pinned CLI/files. Never repeat one
-mutation through two transports.
+Use the installed Unity CLI first for exact-project inspection: verify the
+command, prove identity with `unity status --json`, and pass `--project-path`
+when needed. If CLI/Pipeline is unavailable or insufficient, use matching Unity
+MCP, then matching UnitySkills after `/health` and project identity. Never
+repeat one mutation through two transports.
 
 ## 6. Record transitions and evidence idempotently
 

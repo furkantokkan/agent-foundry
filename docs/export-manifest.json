@@ -12,7 +12,7 @@
   {
     "path": "plugins/agent-foundry/skills/adaptive-skills/SKILL.md",
     "source": "local Codex skill: adaptive-skills/SKILL.md",
-    "sha256": "60660167771e5f73fb391043d9990d03e90572215dab461b20fc06316c3fc56e"
+    "sha256": "3dc93296975683e05e5cdbc61fc2d6cc587a405a18667dab63ee3c66ed18b33b"
   },
   {
     "path": "plugins/agent-foundry/skills/adopt/references/claude-skill.md",
@@ -237,7 +237,7 @@
   {
     "path": "plugins/agent-foundry/skills/create-task/SKILL.md",
     "source": "local Codex skill: create-task/SKILL.md",
-    "sha256": "1a1d63da70d68fd2e71a7cdd1772ac460675c5eb2afb0ff2598b2770f5c755cc"
+    "sha256": "dd7f8bf0c23966169969210a663a273565c46f08132e2039955c5488845d314c"
   },
   {
     "path": "plugins/agent-foundry/skills/daily-handoff/agents/openai.yaml",
@@ -507,7 +507,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/prototyper.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/prototyper.md",
-    "sha256": "e5a1c5f983fa8a498a9c055b7cd4d7062c2bbe9a8e0c38120fc12f3ac4cbf64e"
+    "sha256": "4f34b14376e87d96fe6be5a7f591853898cb2b441e5fcb90210990e1b80bd3ff"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/qa-lead.md",
@@ -587,7 +587,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-bugfixer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-bugfixer.md",
-    "sha256": "6fde2c1896809d0771e3bb8b9932d4758ca0c976f5833cdfd9b26758691c648f"
+    "sha256": "01615831e5f6af9e616221dc1cd45e22b36fd97c4bc32badf9987992a3617d83"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-dots-specialist.md",
@@ -597,7 +597,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-feature-implementer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-feature-implementer.md",
-    "sha256": "1be0bcc7617b8f74d9ac1487d4525367511fabc6fe6b37556d80560cdb2fa320"
+    "sha256": "a5114583003f884db1e462e396da5cfd35ee016b755356abf6bbba526ce2063e"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-shader-specialist.md",
@@ -612,7 +612,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-test-verifier.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-test-verifier.md",
-    "sha256": "096ecc92c7e2e6dc26b5abc64871ed1f22bc1a339855d2daf0cd290f11aaefb1"
+    "sha256": "1aef331c1771303c88aa1d2c069c8b185bc2caee2f38f8378f2b6776b64fb269"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-ui-specialist.md",
@@ -772,7 +772,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/rules/unity-automation.md",
     "source": "local Codex skill: game-studio-orchestration/references/rules/unity-automation.md",
-    "sha256": "f778325e2e4cd3f0133fa8f81a885f05226d26dd9fd6a7b89edc49ad05bd62a8"
+    "sha256": "5b6251132b4b1d269e1c68b7ad5cf93cd348924ef58d366ee0e1f01ed712ed73"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/rules/unity-ownership.md",
@@ -992,7 +992,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/SKILL.md",
     "source": "local Codex skill: game-studio-orchestration/SKILL.md",
-    "sha256": "fdf53a4b9912d8f28e58db2678d54bec6903eda519c1e0943ea2d62ffa8905c8"
+    "sha256": "3c69eb5570692f29e3c6d839c760b6508a69ca0c6ae3869ed7acdf2c6b368407"
   },
   {
     "path": "plugins/agent-foundry/skills/gate-check/references/claude-skill.md",
@@ -1037,7 +1037,7 @@
   {
     "path": "plugins/agent-foundry/skills/implement-task/SKILL.md",
     "source": "local Codex skill: implement-task/SKILL.md",
-    "sha256": "6857116b11a65ef40509bc4e087925734fcdc5fece1b1b392eaced89e572763e"
+    "sha256": "8abe925d781428085076dfcdb408483c9a1e0c69309112502671049896311770"
   },
   {
     "path": "plugins/agent-foundry/skills/javascript-game-tools/references/javascript-patterns.md",
@@ -1152,7 +1152,7 @@
   {
     "path": "plugins/agent-foundry/skills/prototype/references/claude-skill.md",
     "source": "local Codex skill: prototype/references/claude-skill.md",
-    "sha256": "421a704dd3fbb3ad0bb5b546b330b7be1f462b2b8fbacd7b9fbef56999f4068e"
+    "sha256": "24821b94a0edd6b47199feb1ad3795a8395f6b55c0bc207ff8bf443b0ce26aab"
   },
   {
     "path": "plugins/agent-foundry/skills/prototype/SKILL.md",
@@ -1252,7 +1252,7 @@
   {
     "path": "plugins/agent-foundry/skills/setup-engine/references/claude-skill.md",
     "source": "local Codex skill: setup-engine/references/claude-skill.md",
-    "sha256": "be6adfd82538e387ce0d953c974f2c54318866ca8529424547723ce5d91050c3"
+    "sha256": "3fca0d3b0a086dce82bb95f6f63917930b231eece5c80563fe7ddda406980468"
   },
   {
     "path": "plugins/agent-foundry/skills/setup-engine/SKILL.md",
@@ -1272,7 +1272,7 @@
   {
     "path": "plugins/agent-foundry/skills/skill-test/references/claude-skill.md",
     "source": "local Codex skill: skill-test/references/claude-skill.md",
-    "sha256": "5f15ae540b5f70cacf8656d7b6d325808b7b2f32f39e4346e9ddca54a3d95541"
+    "sha256": "f1ffa4c95d3d0caa6718b7949f594275642a532688000e79744a43941a7474bd"
   },
   {
     "path": "plugins/agent-foundry/skills/skill-test/SKILL.md",
@@ -1282,7 +1282,7 @@
   {
     "path": "plugins/agent-foundry/skills/smoke-check/references/claude-skill.md",
     "source": "local Codex skill: smoke-check/references/claude-skill.md",
-    "sha256": "2bc552af4544185719ab7283f00afe1711413cb3538da101ea3cb225591f9f7f"
+    "sha256": "bf7b863410419ad31374f5b77981d6826aeaa96f2c965843aceff152b2a3aea2"
   },
   {
     "path": "plugins/agent-foundry/skills/smoke-check/SKILL.md",
@@ -1412,7 +1412,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/SKILL.md",
     "source": "local Codex skill: task-cycle/SKILL.md",
-    "sha256": "b2cc64a9223e8fe76d60d56b843993274b4b252824c2e5d280592f3b5e764b14"
+    "sha256": "140a95f01c80aaa119b174b140f7cb082940d4db0b501013a6df68644a21d6e2"
   },
   {
     "path": "plugins/agent-foundry/skills/task-done/agents/openai.yaml",
@@ -1557,7 +1557,7 @@
   {
     "path": "plugins/agent-foundry/skills/test-helpers/references/claude-skill.md",
     "source": "local Codex skill: test-helpers/references/claude-skill.md",
-    "sha256": "958b89d3d15d86f367d674fd52d9f0ed6924fa024bb231ba120bc258030672cf"
+    "sha256": "9824a8f5e66221c794fa4b89dc5734f87964158ea1846a37ac559a0764dc5f88"
   },
   {
     "path": "plugins/agent-foundry/skills/test-helpers/SKILL.md",
@@ -1567,7 +1567,7 @@
   {
     "path": "plugins/agent-foundry/skills/test-setup/references/claude-skill.md",
     "source": "local Codex skill: test-setup/references/claude-skill.md",
-    "sha256": "901a0579f38a52c4e35c86a728be1d9940dc3cf83fad2e04c464d4923fa670ff"
+    "sha256": "4573f314f04be94d6a408ee8850acdc9ae807e1809e8642e3cb179edee29d66d"
   },
   {
     "path": "plugins/agent-foundry/skills/test-setup/SKILL.md",
@@ -1587,12 +1587,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-agentic-workflow/references/prompt-playbook.md",
     "source": "local Codex skill: unity-agentic-workflow/references/prompt-playbook.md",
-    "sha256": "53bd9b4bf9f26e11a797b80e75f6ea5e7f18a53c02eace48d6c5f3530b68fbec"
+    "sha256": "ddc3b0f2bcd22c392d4e865c6ec2b7027c6af8b3b6afd3e97d106b379ddc1cec"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-agentic-workflow/references/unity-operating-model.md",
     "source": "local Codex skill: unity-agentic-workflow/references/unity-operating-model.md",
-    "sha256": "e0f6b59fd8aa81ff05c38ed8021c35eaf463685b46b9df1f0b3ba0817e2d3c11"
+    "sha256": "aa32a89b3b38dbdd1f57756a3de3329a04501f11d8ccbcfd9a2747c297cfe657"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-agentic-workflow/references/workflow-authoring.md",
@@ -1602,12 +1602,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-agentic-workflow/SKILL.md",
     "source": "local Codex skill: unity-agentic-workflow/SKILL.md",
-    "sha256": "9c0686cb6b682fdd2078a4dbe3c4ac03f94bfe72bb04062e76fa7badc6d6bc04"
+    "sha256": "deb1fcec70d1847b11f5490e40b4ad266329f84a201e6838ca09bfc3a77c89a2"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "098a3144f4db5b0441afd1c007570b47856bb83b7ea641accb54aea2ffc1460a"
+    "sha256": "1a0ae10025d17f152a34e81f7cf585fa7c6e06b1b99f83b2d6c026804236c091"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
@@ -1627,7 +1627,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/unity-mcp-workflow.md",
     "source": "local Codex skill: unity-game-dev/references/unity-mcp-workflow.md",
-    "sha256": "9cadcdc5a691c3b0c9ba7586f3f5a041307135b45309de2d9a899a1bca1cac24"
+    "sha256": "53a5b85157e9167c34e5f9ab9fdc6df2d2571170b41f3d25b4ed2369a6920931"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/unity-patterns.md",
@@ -1642,7 +1642,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/SKILL.md",
     "source": "local Codex skill: unity-game-dev/SKILL.md",
-    "sha256": "28025d6d29c2d6e754f43e451ea05201e01e5e9e05e0fe718f7195112b5fca8e"
+    "sha256": "26cf4ebbc711352552bc2bdfdce4a78ded6a8bbc158e69dc2706c8015bd3c1a4"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-optimization/agents/openai.yaml",
@@ -1652,7 +1652,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-optimization/SKILL.md",
     "source": "local Codex skill: unity-optimization/SKILL.md",
-    "sha256": "061135f8c20e2ca53157fa67e10af1ea43ea5add538de91baab9667f9b192133"
+    "sha256": "d8819177a7835a074a9f91ce49a0033ffea0573c29cb006dca2388ad62887b38"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-preflight/agents/openai.yaml",
@@ -1662,17 +1662,17 @@
   {
     "path": "plugins/agent-foundry/skills/unity-preflight/references/checklist.md",
     "source": "local Codex skill: unity-preflight/references/checklist.md",
-    "sha256": "c540447a8ea709c08d4951f97795c00cd39d1e0ff6a55c8ec9aa08c94462b7a2"
+    "sha256": "72eaa413e37f4f37a602d45968e2f457aef07a3fb1fadb2ba25e1a89bc500a89"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-preflight/references/unityskills-identity.md",
     "source": "local Codex skill: unity-preflight/references/unityskills-identity.md",
-    "sha256": "cda2bc3f70933dfb9a9e046e0794423db1dadbc4631f2ae41319349652d2dcb7"
+    "sha256": "bc442bdbbaae30eed20f837567b41eb40fc93b99e8568fb5a15a0cdd43e2a4e2"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-preflight/SKILL.md",
     "source": "local Codex skill: unity-preflight/SKILL.md",
-    "sha256": "98cef958d8e1e1aaf5b98868910f3b97fb05293d6ee001b90db18df3c73ff6dd"
+    "sha256": "0c5f91f19e8e888adcf04dd1e9acbea92ee154f9e4392c2a024f9937f0162b7b"
   },
   {
     "path": "plugins/agent-foundry/skills/ux-design/references/claude-skill.md",
@@ -1892,7 +1892,7 @@
   {
     "path": "commands/game-studio-orchestration.md",
     "source": "local personal-game-commands: game-studio-orchestration.md",
-    "sha256": "b445d47cc9948819e9aed320da51962d4f77aa80b939c16d95ff38598e13a6fe"
+    "sha256": "550dc5f11db4f10eea7c29b0ff5dfbcee3829ceee00f5e5df58e3c84eb9c0962"
   },
   {
     "path": "commands/gate-check.md",
@@ -2212,16 +2212,16 @@
   {
     "path": "plugins/agent-foundry/agents/unity-feature-implementer.md",
     "source": "local Claude role: unity-feature-implementer",
-    "sha256": "039aef9af4316939f44c9efbcd4afb44d5e5b0260923cbcccbe363d2913610ad"
+    "sha256": "ca1d24c59323760df1b85b758483a7fbb85f1f4906e4e582843116d52123cdb9"
   },
   {
     "path": "plugins/agent-foundry/agents/unity-test-verifier.md",
     "source": "local Claude role: unity-test-verifier",
-    "sha256": "fecc14492aff68dfc812dfd3bdf23e70f4690f990d6b382331b13a507025bc0b"
+    "sha256": "7186ae625a1e0c527a311297c94912dbab9c6226b79b415b90be54494e6afabd"
   },
   {
     "path": "plugins/agent-foundry/agents/unity-bugfixer.md",
     "source": "local Claude role: unity-bugfixer",
-    "sha256": "a94dc3ce8ed586892bf78d36c4f26b7f8ffe4e9eeea1e54c8d65d0279ebff175"
+    "sha256": "3102b35248d3188888928481489a16143151df9ce92125b3a6cd92d7fb8516bf"
   }
 ]

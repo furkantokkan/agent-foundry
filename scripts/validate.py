@@ -37,10 +37,25 @@ def main():
     blender_skills = sorted((BLENDER_PLUGIN / 'skills').glob('*/SKILL.md'))
     ai_3d_skills = sorted((AI_3D_PLUGIN / 'skills').glob('*/SKILL.md'))
     names = {p.parent.name for p in skills}
+    official_unity_names = set('''
+        2d-pixel-perfect audio-setup-mixers build-live-game
+        generate-editor-search-query implement-in-app-purchases
+        initialize-ai-navigation levelplay-unity-integration localization
+        manage-sprite-atlas migrate-birp-to-urp new-unity-project optimize-audio
+        optimize-text-mesh-pro optimize-web physics-3d-collision
+        setup-multiplayer-services setup-vivox-voice-chat
+        shader-graph-create-custom-node sprite-editor sprite-segment-3x3grid
+        tilemap-palette-create tilemap-ruletile-createempty
+        tilemap-ruletile-createfromsegment ui ui-imgui ui-ugui ui-uitk
+        unity-cli unity-package-management urp-postprocessing
+        validate-urp-render-graph-renderer-feature
+    '''.split())
     commands = sorted((ROOT / 'commands').glob('*.md'))
     aliases = sorted((PLUGIN / 'commands').glob('*.md'))
     agents = sorted((PLUGIN / 'agents').glob('*.md'))
-    check(len(skills) == 93, 'Expected 93 skills; update documented inventory for an intentional change')
+    check(len(skills) == 123, 'Expected 123 skills; update documented inventory for an intentional change')
+    check(official_unity_names.issubset(names), 'Official Unity skill inventory is incomplete')
+    check((PLUGIN / 'UNITY_COMPANION_LICENSE.md').is_file(), 'Unity Companion License notice is missing')
     check(len(blender_skills) == 16, 'Expected 16 Blender & Texture Foundry skills; update documented inventory for an intentional change')
     check(len(ai_3d_skills) == 3, 'Expected 3 AI 3D Foundry skills; update documented inventory for an intentional change')
     check(len(commands) == 94 and len(aliases) == 7 and len(agents) == 3, 'Unexpected command/agent inventory')
@@ -61,6 +76,20 @@ def main():
         for target in re.findall(r'`(references/[^`\n]+)`', text):
             if not any(char in target for char in '*<> ') and not target.endswith('/'):
                 check((skill.parent / target).exists(), f'Missing bundled reference: {skill.parent.name}/{target}')
+    cli_text = (PLUGIN / 'skills/unity-cli/SKILL.md').read_text(encoding='utf-8')
+    preflight_text = (PLUGIN / 'skills/unity-preflight/SKILL.md').read_text(encoding='utf-8')
+    automation_text = (PLUGIN / 'skills/game-studio-orchestration/references/rules/unity-automation.md').read_text(encoding='utf-8')
+    check('Unity CLI**' in cli_text and 'first-choice Unity transport' in cli_text,
+          'unity-cli must retain CLI-first transport policy')
+    check('unity status --json' in preflight_text,
+          'unity-preflight must prove CLI project identity first')
+    check('Use the installed Unity CLI first' in automation_text,
+          'Unity automation policy must remain CLI-first')
+    check('curl -fsSL https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.sh |' not in cli_text,
+          'unity-cli must not pipe a remote installer into bash')
+    check('irm https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.ps1 | iex' not in cli_text,
+          'unity-cli must not pipe a remote installer into PowerShell')
+
     for path in ROOT.rglob('*.json'):
         if '.git' not in path.parts and '.validation' not in path.parts:
             json.loads(path.read_text(encoding='utf-8'))
@@ -106,7 +135,7 @@ def main():
         if args.refresh:
             item['sha256'] = digest
         check(item['sha256'] == digest, f'Export hash changed: {item["path"]}; review then use --refresh')
-    catalog = '# Skill catalog\n\n93 skills from the public v0.1.4 snapshot. Descriptions come from each skill\'s frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
+    catalog = '# Skill catalog\n\n123 skills from the public v0.2.0 snapshot. Descriptions come from each skill\'s frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
     for skill in skills:
         target = '../' + skill.relative_to(ROOT).as_posix()
         catalog += f'| [{skill.parent.name}]({target}) | {description(skill)} |\n'
