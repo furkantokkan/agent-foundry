@@ -140,13 +140,15 @@ paraphrasing a useful pattern over copying a competing workflow. Record source
 and license when substantial text or code is retained, and never install or
 overwrite public material silently.
 
-If `--apply` is absent, stop after the proposed patch and explain that
-`/skill-improve [name] --apply` authorizes only the named skill file. If
-`--apply` is present, continue without per-file approval prompts.
+For the original slash command, `--apply` requests the edit; without it,
+stop after a proposed patch. In a direct user request to improve a named skill,
+that request itself authorizes the scoped edit without requiring the literal
+flag. Continue without per-file approval prompts when the edit is authorized.
 
-The write contract for `--apply` is:
+The write contract for an authorized edit is:
 
-- Allowed source path: `.claude/skills/[name]/SKILL.md` only.
+- Allowed source path: the named skill's `SKILL.md` and its necessary bundled
+  references inside the authorized repository scope.
 - Forbidden: every other skill, agent, hook, project source/asset, package,
   project setting, serialized Unity asset, and git history operation.
 - Low risk: targeted wording/frontmatter changes needed for failing checks.

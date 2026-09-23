@@ -1,5 +1,10 @@
 [
   {
+    "path": "plugins/agent-foundry/skills/verification-before-completion/SKILL.md",
+    "source": "Agent Foundry adaptation of Claude Code Templates verification-before-completion at d5bded92ae52cc1f956ece130852c9e7ec22e9be",
+    "sha256": "e1b1be29422468b2ecc34fc4e1812167c8c9f034d3ad7e56e0ebaae2ca7380b1"
+  },
+  {
     "path": "plugins/agent-foundry/skills/game-feel-polish/THIRD_PARTY_NOTICES.md",
     "source": "Unity adaptation of Miisan Liquid UI Kit at 91311f7c4535ca29619add25a1ff72b0f9c6fa1b",
     "sha256": "406effa2d395397813ed342713758b72ebed368ad0cb1e2d939a707a0e410b8f"
@@ -12,7 +17,7 @@
   {
     "path": "plugins/agent-foundry/skills/adaptive-skills/SKILL.md",
     "source": "local Codex skill: adaptive-skills/SKILL.md",
-    "sha256": "60660167771e5f73fb391043d9990d03e90572215dab461b20fc06316c3fc56e"
+    "sha256": "b5fd593d6ff964f43d9e71c7882982f207619398c8a48e6db131897ac199386b"
   },
   {
     "path": "plugins/agent-foundry/skills/adopt/references/claude-skill.md",
@@ -1262,12 +1267,12 @@
   {
     "path": "plugins/agent-foundry/skills/skill-improve/references/claude-skill.md",
     "source": "local Codex skill: skill-improve/references/claude-skill.md",
-    "sha256": "cf67624f6e1b07b01ed2661603cae48c8fe11c23a03a63d671ce33df6cbdf5c4"
+    "sha256": "2551f917a62316d8cc0c0cac61202ea6dd29e724a4a60f52ed39bb05f0207693"
   },
   {
     "path": "plugins/agent-foundry/skills/skill-improve/SKILL.md",
     "source": "local Codex skill: skill-improve/SKILL.md",
-    "sha256": "9118d913b46443a669310e953da9fb5339bc8184b67ef83053f481b710f54c07"
+    "sha256": "acccc91e544041540e3e7766a86be4b802ebfa6ac8430e78284a30ca2ef4cf73"
   },
   {
     "path": "plugins/agent-foundry/skills/skill-test/references/claude-skill.md",

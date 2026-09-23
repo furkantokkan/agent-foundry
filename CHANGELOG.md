@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.5 - 2026-09-23
+
+- Add a general completion-evidence skill adapted from the verification pattern
+  in Claude Code Templates. Keep task lifecycle ownership and user acceptance
+  rules intact.
+- Make `skill-improve`'s scoped baseline, edit, and retest loop usable directly
+  in Codex, and route completion checks through `adaptive-skills`.
+- Update the catalog, package inventory, provenance, and upstream notice.
+- Validation: package and frontmatter checks; no agent-behavior benchmark run.
+
+
 ## 0.1.4 - 2026-09-20
 
 - Document Unity Liquid UI invocation, standalone installation, source-reference

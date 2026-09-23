@@ -43,6 +43,9 @@ Choose the smallest relevant skill set:
 - Tracked task lifecycle: use `create-task`, `implement-task`, `task-status`,
   `task-bug`, `task-cycle`, `task-done`, or `daily-handoff`; several ready
   tasks: use `game-studio-orchestration`.
+- Before claiming a change complete, fixed, passing, or ready to publish: use
+  `verification-before-completion` with the owning task or release workflow.
+- Creating or revising one skill: use `skill-improve` and its scoped checks.
 - Web/SaaS work: use the installed web stack (React/Next.js, NestJS/ASP.NET
   Core, Supabase, shadcn/Radix, Playwright/webapp-testing, security,
   Vercel/Render deploy) as indexed in the global instructions.

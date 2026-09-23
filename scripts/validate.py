@@ -40,7 +40,7 @@ def main():
     commands = sorted((ROOT / 'commands').glob('*.md'))
     aliases = sorted((PLUGIN / 'commands').glob('*.md'))
     agents = sorted((PLUGIN / 'agents').glob('*.md'))
-    check(len(skills) == 93, 'Expected 93 skills; update documented inventory for an intentional change')
+    check(len(skills) == 94, 'Expected 94 skills; update documented inventory for an intentional change')
     check(len(blender_skills) == 16, 'Expected 16 Blender & Texture Foundry skills; update documented inventory for an intentional change')
     check(len(ai_3d_skills) == 3, 'Expected 3 AI 3D Foundry skills; update documented inventory for an intentional change')
     check(len(commands) == 94 and len(aliases) == 7 and len(agents) == 3, 'Unexpected command/agent inventory')
@@ -106,7 +106,7 @@ def main():
         if args.refresh:
             item['sha256'] = digest
         check(item['sha256'] == digest, f'Export hash changed: {item["path"]}; review then use --refresh')
-    catalog = '# Skill catalog\n\n93 skills from the public v0.1.4 snapshot. Descriptions come from each skill\'s frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
+    catalog = '# Skill catalog\n\n94 skills from the public v0.1.5 snapshot. Descriptions come from each skill\'s frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
     for skill in skills:
         target = '../' + skill.relative_to(ROOT).as_posix()
         catalog += f'| [{skill.parent.name}]({target}) | {description(skill)} |\n'
