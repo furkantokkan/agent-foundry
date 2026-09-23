@@ -4,7 +4,7 @@
 
 ### Give your coding agent a workflow worth repeating.
 
-**112 skills · 97 command definitions · 3 Unity agent roles · Codex + Claude Code**
+**113 skills · 97 command definitions · 3 Unity agent roles · Codex + Claude Code**
 
 [![Validate](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml/badge.svg)](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -118,6 +118,7 @@ retain their stack. See [installation and invocation](docs/INSTALLATION.md#liqui
 | Find the smallest useful workflow | `adaptive-skills` |
 | Scope a feature | `create-task` |
 | Implement a scoped task | `implement-task` |
+| Check evidence before reporting completion | `verification-before-completion` |
 | Report a regression | `task-bug` |
 | Resume recorded repairs | `task-cycle` |
 | Recover tomorrow's context | `daily-handoff` |
@@ -134,7 +135,7 @@ retain their stack. See [installation and invocation](docs/INSTALLATION.md#liqui
 | Build or prepare a Blender asset | `blender-modeler`, `texture-workflow`, `unity-export` |
 | Turn an image into a textured 3D asset | `hunyuan3d`, `blender-superskill` |
 
-**[Explore the core catalog of 93 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)** · **[Browse AI 3D Foundry →](docs/AI_3D.md)**
+**[Explore the core catalog of 94 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)** · **[Browse AI 3D Foundry →](docs/AI_3D.md)**
 
 ## What's in the box?
 
@@ -143,7 +144,7 @@ agent-foundry/
 ├── plugins/agent-foundry/
 │   ├── .codex-plugin/     # Codex manifest
 │   ├── .claude-plugin/    # Claude Code manifest
-│   ├── skills/            # 93 skills with bundled references
+│   ├── skills/            # 94 skills with bundled references
 │   ├── commands/          # 7 aliases; avoids duplicate skill names
 │   └── agents/            # Implementer, verifier, bugfixer
 ├── plugins/blender-texture-foundry/
@@ -161,7 +162,7 @@ The studio skill also contains role, rule, template, and hook **references**. Th
 
 ## Project status
 
-**Public release, v0.1.4.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
+**Public release, v0.1.5.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
 
 Repository instructions and your agent's tool/approval policies remain authoritative. These Markdown workflows do not enforce a sandbox or grant tools they describe.
 

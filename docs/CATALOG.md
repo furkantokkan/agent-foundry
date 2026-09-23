@@ -1,6 +1,6 @@
 # Skill catalog
 
-93 skills from the public v0.1.4 snapshot. Descriptions come from each skill's frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.
+94 skills from the public v0.1.5 snapshot. Descriptions come from each skill's frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.
 
 | Skill | When to use it |
 | --- | --- |
@@ -96,6 +96,7 @@
 | [unity-preflight](../plugins/agent-foundry/skills/unity-preflight/SKILL.md) | Run a read-only readiness check before Unity development. Use before implementing, debugging, testing, profiling, or mutating Editor state to verify the exact repository, Unity version, instructions, dirty work, automation target, permission mode, compilation/import/play state, and available verification path. |
 | [ux-design](../plugins/agent-foundry/skills/ux-design/SKILL.md) | Guided, section-by-section UX spec authoring for a screen, flow, or HUD. Reads game concept, player journey, and relevant GDDs to provide context-aware design guidance. Produces ux-spec.md (per screen/flow) or hud-design.md using the studio templates. |
 | [ux-review](../plugins/agent-foundry/skills/ux-review/SKILL.md) | Validates a UX spec, HUD design, or interaction pattern library for completeness, accessibility compliance, GDD alignment, and implementation readiness. Produces APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED verdict with specific gaps. |
+| [verification-before-completion](../plugins/agent-foundry/skills/verification-before-completion/SKILL.md) | Use when preparing to say a change is complete, a defect is fixed, checks pass, or a commit or release is ready. |
 | [vertical-slice](../plugins/agent-foundry/skills/vertical-slice/SKILL.md) | Pre-Production validation — build a production-quality end-to-end build to confirm the full game loop is achievable before committing to Production. Run after GDDs, architecture, and UX specs are complete. Produces a PROCEED/PIVOT/KILL verdict that gates the Pre-Production → Production transition. |
 
 ## Command definitions

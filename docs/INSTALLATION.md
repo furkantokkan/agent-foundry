@@ -101,4 +101,4 @@ Use your runtime's marketplace update and plugin removal commands; consult `code
 
 `scripts/validate.py` checks expected inventory, manifests, entry-point names, command alias collisions, private-path/credential patterns, and export hashes. It does not run the workflows against an LLM or certify Unity behavior. Runtime manifest validators are useful additional checks. Report the exact CLI version and failing command when filing an installation issue.
 
-For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 93 skills.
+For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 94 skills.

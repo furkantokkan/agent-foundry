@@ -34,6 +34,14 @@ SOFTWARE.
 
 ## Personal additions and packaging
 
+The `verification-before-completion` skill and the revised `skill-improve`
+entry point adapt verification and skill-authoring patterns reviewed in
+[Claude Code Templates](https://github.com/davila7/claude-code-templates) at
+commit `d5bded92ae52cc1f956ece130852c9e7ec22e9be`. That repository credits
+[obra/superpowers](https://github.com/obra/superpowers) for its MIT-licensed
+workflow skills. The local text is rewritten for Agent Foundry's task ownership
+and approval rules; no upstream scripts or bundled assets are redistributed.
+
 The local domain skills, task-workflow extensions, command adapters, Unity role adaptations, and repository packaging are distributed under the root MIT license, subject to upstream rights where applicable. `docs/export-manifest.json` records each exported file's local source category and public-content hash; it is not proof of independent authorship or an exact upstream revision.
 
 ## Blender Skills
