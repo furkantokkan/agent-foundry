@@ -7,7 +7,7 @@
 Reusable skills for **Codex** and **Claude Code**, built around **Unity game development**.
 From game design and implementation to bug fixes, UI polish, Blender assets, and release prep.
 
-**98 workflow skills + 31 official Unity skills + 19 visual skills · Codex + Claude Code**
+**99 workflow skills + 31 official Unity skills + 19 visual skills · Codex + Claude Code**
 
 [![Validate](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml/badge.svg)](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml)
 [![MIT + Unity Companion](https://img.shields.io/badge/license-MIT%20%2B%20Unity%20Companion-blue.svg)](THIRD_PARTY_NOTICES.md)
@@ -129,9 +129,10 @@ Task creation plans the feature. Implementation and verification follow. Closure
 | Build a Firebase game API or JavaScript tool | `firebase-game-backend`, `javascript-game-tools` |
 | Review architecture and dependency boundaries | `clean-oop-architecture` |
 | Hand off today's work | `daily-handoff` |
+| Check evidence before reporting completion | `verification-before-completion` |
 | Plan QA, a release, or a Steam launch | `qa-plan`, `release-checklist`, `steam-store-launch` |
 
-**[Browse all 98 core skills →](docs/CATALOG.md)**
+**[Browse all 99 core skills →](docs/CATALOG.md)**
 
 The [official Unity plugin](https://github.com/Unity-Technologies/unity-agent-plugin) supplies the specialist Unity skills. Agent Foundry keeps its `unity-cli` workflow for project identity, transport, permissions, and verification; its name also exists upstream. Select the official namespaced skill for a specific Unity feature, such as `unity:ui-uitk` or `unity:physics-3d-collision`.
 

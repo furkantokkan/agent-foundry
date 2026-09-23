@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.9.3 - 2026-10-08
+
+- Add `verification-before-completion`, a general completion-evidence skill:
+  match each completion claim to fresh evidence from the current revision,
+  and keep task lifecycle ownership and user acceptance rules intact. It is
+  adapted from the verification pattern in Claude Code Templates, credited in
+  `THIRD_PARTY_NOTICES.md`.
+- Make `skill-improve`'s scoped baseline, edit, and retest loop usable directly
+  in Codex. `adaptive-skills` now routes completion checks and single-skill
+  revisions.
+- Update the inventory to 99 core skills: manifests, marketplaces, README,
+  catalog, and validation.
+- First prepared as 0.1.5 on 2026-09-23, then rebased onto 0.9.2. Validation:
+  package, frontmatter, and hash checks; no agent-behavior benchmark run.
+
 ## 0.9.2 - 2026-10-08
 
 - Enforce the two-Editor limit without a race. Agents open Editors only

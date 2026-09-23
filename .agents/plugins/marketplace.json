@@ -15,8 +15,8 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Engineering",
-      "version": "0.9.2",
-      "description": "98 task-first skills with unified cross-domain orchestration and Unity CLI readiness; pair with Unity’s official specialist plugin."
+      "version": "0.9.3",
+      "description": "99 task-first skills with unified cross-domain orchestration and Unity CLI readiness; pair with Unity’s official specialist plugin."
     },
     {
       "name": "blender-texture-foundry",

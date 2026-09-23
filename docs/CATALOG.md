@@ -1,6 +1,6 @@
 # Skill catalog
 
-98 Agent Foundry skills in the current public collection. Descriptions come from each skill's frontmatter. Install [Unity Technologies' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.
+99 Agent Foundry skills in the current public collection. Descriptions come from each skill's frontmatter. Install [Unity Technologies' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.
 
 | Skill | When to use it |
 | --- | --- |
@@ -101,6 +101,7 @@
 | [unity-transactional-boosters](../plugins/agent-foundry/skills/unity-transactional-boosters/SKILL.md) | Implement Unity consumable boosters with inventory-backed targeting, immutable use intents, atomic save debits, cancellation-safe completion, starting-booster selection, opening phases, and pause/restart rules. Use when a booster must be paid for durably before changing gameplay. |
 | [ux-design](../plugins/agent-foundry/skills/ux-design/SKILL.md) | Guided, section-by-section UX spec authoring for a screen, flow, or HUD. Reads game concept, player journey, and relevant GDDs to provide context-aware design guidance. Produces ux-spec.md (per screen/flow) or hud-design.md using the studio templates. |
 | [ux-review](../plugins/agent-foundry/skills/ux-review/SKILL.md) | Validates a UX spec, HUD design, or interaction pattern library for completeness, accessibility compliance, GDD alignment, and implementation readiness. Produces APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED verdict with specific gaps. |
+| [verification-before-completion](../plugins/agent-foundry/skills/verification-before-completion/SKILL.md) | Use when preparing to say a change is complete, a defect is fixed, checks pass, or a commit or release is ready. |
 | [vertical-slice](../plugins/agent-foundry/skills/vertical-slice/SKILL.md) | Pre-Production validation — build a production-quality end-to-end build to confirm the full game loop is achievable before committing to Production. Run after GDDs, architecture, and UX specs are complete. Produces a PROCEED/PIVOT/KILL verdict that gates the Pre-Production → Production transition. |
 
 ## Command definitions
