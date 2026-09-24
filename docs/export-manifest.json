@@ -1607,7 +1607,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "1a8fa40360298ae31b9a1677d75dd39bdd67510ef4eca03d4ef2ac9f810e2e38"
+    "sha256": "952e05779e6b0247e45fdcaba4d04f679e4ceb45c9d98799faba4f4f281d8235"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
