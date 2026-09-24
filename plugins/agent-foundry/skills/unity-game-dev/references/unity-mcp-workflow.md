@@ -13,7 +13,8 @@ guidelines. The Unity CLI is the mandatory control plane.
 3. Use direct CLI/Pipeline commands. When MCP protocol is required, use the
    built-in `unity mcp` server configured and targeted by the CLI.
 4. Legacy standalone Unity MCP and UnitySkills REST require an explicit user
-   request for the current task; they are not fallback transports.
+   request for the current task; they are not fallback transports. The
+   exception is MCP for Unity under the `unity-cli` pre-Unity-6 version gate.
 5. Load Unity user/project guidelines through the CLI-controlled route when available.
 6. Check editor state before making assumptions:
    - Do not trigger disruptive actions while compiling or updating assets.

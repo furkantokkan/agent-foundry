@@ -69,7 +69,8 @@ Use one Unity transport per mutation:
 2. If it is missing, install the official CLI under the standing authorization
    before continuing.
 3. Use built-in `unity mcp` when MCP protocol is needed. Legacy MCP and
-   UnitySkills require an explicit user request. If requested, prove identity
+   UnitySkills require an explicit user request, except MCP for Unity under the
+   `unity-cli` pre-Unity-6 version gate. If requested, prove identity
    with `project_get_info`; otherwise use direct file inspection as the final
    fallback.
 4. Manual Unity YAML editing is a last resort and high risk; default to

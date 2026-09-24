@@ -41,7 +41,9 @@ because the CLI was absent.
 If direct CLI/Pipeline commands cannot expose required live state, use the
 built-in `unity mcp` server through the verified CLI and pin the exact project.
 Legacy Unity MCP connections and UnitySkills REST are allowed only when the user
-explicitly requests them for the current task. If the verified CLI and its
+explicitly requests them for the current task. The exception is a project below
+Unity 6: the `unity-cli` version gate approves MCP for Unity (`unityMCP`) for
+live Editor state, so record that gate instead of a user request. If the verified CLI and its
 built-in MCP mode still cannot prove the same repository, use pinned
 Editor/file inspection and mark live Editor evidence unavailable.
 

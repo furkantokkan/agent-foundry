@@ -41,7 +41,8 @@ Before editing:
 7. Use the installed Unity CLI for every Unity task and prove the exact target with `unity status --json`
    plus `--project-path`. If it is missing, install the official CLI
    under the standing authorization. Use built-in `unity mcp` when MCP protocol
-   is needed; legacy MCP and UnitySkills require an explicit user request. Use
+   is needed; legacy MCP and UnitySkills require an explicit user request,
+   except MCP for Unity under the `unity-cli` pre-Unity-6 version gate. Use
    one mutation path.
 
 

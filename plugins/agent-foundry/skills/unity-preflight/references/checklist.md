@@ -28,7 +28,8 @@
 - If the CLI was missing, official installation completed and `unity --version`
   verified before preflight resumed.
 - Built-in `unity mcp` used only when MCP protocol was needed. Any legacy MCP or
-  UnitySkills use has an explicit current-task user request recorded.
+  UnitySkills use has an explicit current-task user request recorded, or, for
+  MCP for Unity in a project below Unity 6, the `unity-cli` version gate.
 - When UnitySkills was explicitly requested, its exact project path was proven
   separately with `project_get_info`, and Bypass was recorded as read-only until
   the user selected Approval in the panel.
