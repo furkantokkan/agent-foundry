@@ -17,6 +17,14 @@ persist end-of-day recovery through `daily-handoff <ID...>`. In this task-first
 model the task contract is the implementable story; separate story files are
 legacy-only.
 
+Keep specialist Unity procedures in the official
+`Unity-Technologies/unity-agent-plugin`, installed separately for both agents.
+Route an exact domain match to `/unity:<name>` in Claude Code or
+`unity:<name>` in Codex, while Agent Foundry owns task contracts, Unity CLI
+transport/approval rules, ownership, verification, and sequential handoffs.
+Do not copy the official specialist skills into Agent Foundry. If the official
+plugin is missing, install it from its marketplace before invoking a specialist.
+
 `task-bug [<ID>] "<feedback>"` is the user-facing bug intake. It can discover
 the one owning active or closed task, then dispatches raw evidence to
 `task-cycle`. The cycle remains the sole defect-ledger and linked-record writer:

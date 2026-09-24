@@ -1,7 +1,7 @@
 ---
 name: unity-cli
 model: inherit
-description: Use when interacting with Unity CLI from the terminal, or to control a running/connected Unity Editor from the command line — create or modify GameObjects, edit scenes and assets, inspect the hierarchy, and run C# in a live Editor instead of hand-editing scene or asset files. Also install, upgrade or uninstall editors, create, list or open projects, manage modules, manage licenses, check auth status, read logs, browse Unity releases, build/test projects, configure the Unity MCP server for AI agents, or run any other Unity CLI operation. For a guided idea-to-running-project flow for a brand-new game, use the new-unity-project skill instead.
+description: Use for Agent Foundry's Unity CLI operating contract: verify exact project and Editor identity, choose CLI or built-in MCP transport, run focused checks, apply task ownership and risk gates, and install the official CLI safely when missing. For a guided idea-to-running-project flow, use the separately installed official unity:new-unity-project skill.
 allowed-tools:
   - Bash
 ---
@@ -9,6 +9,11 @@ allowed-tools:
 # Unity CLI
 
 ## Agent Foundry operating contract
+
+The official `unity@unity-agent-plugin` also exposes `unity:unity-cli` for
+Unity's domain procedure. Pair it with this Agent Foundry operating contract;
+do not treat the duplicate short name as two independent transports or run a
+mutation twice.
 
 Use the installed `unity` CLI as the mandatory control plane for every Unity
 task. Always start by verifying `unity --version` and the relevant command help;

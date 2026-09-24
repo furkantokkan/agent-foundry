@@ -12,7 +12,7 @@
   {
     "path": "plugins/agent-foundry/skills/adaptive-skills/SKILL.md",
     "source": "local Codex skill: adaptive-skills/SKILL.md",
-    "sha256": "3dc93296975683e05e5cdbc61fc2d6cc587a405a18667dab63ee3c66ed18b33b"
+    "sha256": "1c8ec416f62bcb4d1981a22401ec31ba56d5eaab7176b5573766f9fa83eeabaa"
   },
   {
     "path": "plugins/agent-foundry/skills/adopt/references/claude-skill.md",
@@ -1602,12 +1602,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-agentic-workflow/SKILL.md",
     "source": "local Codex skill: unity-agentic-workflow/SKILL.md",
-    "sha256": "c67e4c15d26849147234a82a9d6c2a3fc899bd92abd528e4dfa148cd2ed4d385"
+    "sha256": "dc08b0b138487c8a514083c379c4ac8dd32d3d5067b3cf6e708cdeaf96242bd0"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "4a5391005a8078a2afd50f53efe0517549bdbe141ab98792cd3a002582d84ed6"
+    "sha256": "1a8fa40360298ae31b9a1677d75dd39bdd67510ef4eca03d4ef2ac9f810e2e38"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
@@ -1642,7 +1642,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/SKILL.md",
     "source": "local Codex skill: unity-game-dev/SKILL.md",
-    "sha256": "119360b1081a703815d630748b50ee0dcb47645b31b1901939cdf4fe13a8ca44"
+    "sha256": "4e0edc6100405f8df331f716b36213862e27418be226875547ca9fab2b76c610"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-optimization/agents/openai.yaml",

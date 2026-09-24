@@ -2,7 +2,16 @@
 
 ## Plugin installation
 
-The README uses GitHub marketplace installation. Both marketplace manifests expose three plugins: `agent-foundry` for task-first game-development workflows (including the `game-feel-polish` juice skill), `blender-texture-foundry` for Blender and CC0 texture production, and `ai-3d-foundry` for AI-assisted 3D creation. Both runtimes share the same skill sources.
+The README uses GitHub marketplace installation. Agent Foundry's marketplace exposes three plugins: `agent-foundry` for task-first game-development workflows (including `game-feel-polish`), `blender-texture-foundry` for Blender and CC0 texture production, and `ai-3d-foundry` for AI-assisted 3D creation. Both runtimes share the same skill sources.
+
+Unity Technologies' [official Unity agent plugin](https://github.com/Unity-Technologies/unity-agent-plugin) is a separate marketplace install for both runtimes:
+
+| Runtime | Install commands | Specialist invocation |
+| --- | --- | --- |
+| Codex | `codex plugin marketplace add Unity-Technologies/unity-agent-plugin` then `codex plugin add unity@unity-agent-plugin` | `unity:<skill-name>` |
+| Claude Code | `claude plugin marketplace add Unity-Technologies/unity-agent-plugin` then `claude plugin install unity@unity-agent-plugin` | `/unity:<skill-name>` |
+
+Check installation with `codex plugin list` or `claude plugin list`, then restart the agent session. The [Claude marketplace listing](https://claude.com/marketplace/plugins/unity) and [Unity's Codex announcement](https://unity.com/blog/unity-plugin-codex) provide the product context. Agent Foundry does not install or bundle the official plugin. Use Agent Foundry for task contracts, Unity CLI policy, ownership, verification, and handoffs; use the official plugin for its 30 specialist procedures. Both have a `unity-cli` skill name: Agent Foundry carries the operating contract and Unity's namespaced skill carries the vendor procedure. Do not repeat an Editor mutation through both.
 
 Install the optional Blender companion when you need visual-production skills:
 
@@ -101,4 +110,4 @@ Use your runtime's marketplace update and plugin removal commands; consult `code
 
 `scripts/validate.py` checks expected inventory, manifests, entry-point names, command alias collisions, private-path/credential patterns, and export hashes. It does not run the workflows against an LLM or certify Unity behavior. Runtime manifest validators are useful additional checks. Report the exact CLI version and failing command when filing an installation issue.
 
-For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 123 core skills.
+For the initial release, local Codex marketplace registration and plugin installation succeeded in an isolated test profile. The Codex plugin validator and Claude plugin manifest validator also passed. This proves package discovery and installation structure, not end-to-end execution of all 93 Agent Foundry core skills or the separately installed Unity plugin.

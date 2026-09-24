@@ -53,8 +53,9 @@ def main():
     commands = sorted((ROOT / 'commands').glob('*.md'))
     aliases = sorted((PLUGIN / 'commands').glob('*.md'))
     agents = sorted((PLUGIN / 'agents').glob('*.md'))
-    check(len(skills) == 123, 'Expected 123 skills; update documented inventory for an intentional change')
-    check(official_unity_names.issubset(names), 'Official Unity skill inventory is incomplete')
+    check(len(skills) == 93, 'Expected 93 Agent Foundry skills; update documented inventory for an intentional change')
+    check(names.intersection(official_unity_names) == {'unity-cli'},
+          'Official Unity specialist skills must be installed from the separate vendor plugin')
     check((PLUGIN / 'UNITY_COMPANION_LICENSE.md').is_file(), 'Unity Companion License notice is missing')
     check(len(blender_skills) == 16, 'Expected 16 Blender & Texture Foundry skills; update documented inventory for an intentional change')
     check(len(ai_3d_skills) == 3, 'Expected 3 AI 3D Foundry skills; update documented inventory for an intentional change')
@@ -135,7 +136,7 @@ def main():
         if args.refresh:
             item['sha256'] = digest
         check(item['sha256'] == digest, f'Export hash changed: {item["path"]}; review then use --refresh')
-    catalog = '# Skill catalog\n\n123 skills from the public v0.2.0 snapshot. Descriptions come from each skill\'s frontmatter. See [installation notes](INSTALLATION.md) for optional tools and project setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
+    catalog = '# Skill catalog\n\n93 Agent Foundry skills from the public v0.3.0 snapshot. Descriptions come from each skill\'s frontmatter. Install [Unity Technologies\' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
     for skill in skills:
         target = '../' + skill.relative_to(ROOT).as_posix()
         catalog += f'| [{skill.parent.name}]({target}) | {description(skill)} |\n'

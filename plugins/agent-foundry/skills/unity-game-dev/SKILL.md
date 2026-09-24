@@ -11,6 +11,14 @@ Code and Codex workflow.
 Use it for Unity implementation, architecture, debugging, refactoring, setup,
 testing, and performance work.
 
+For specialist Unity procedures, load the exact matching skill from the
+separately installed official `unity@unity-agent-plugin` marketplace plugin:
+`/unity:<name>` in Claude Code or `unity:<name>` in Codex. Examples include
+`unity:ui-uitk`, `unity:physics-3d-collision`, and
+`unity:unity-package-management`. Agent Foundry owns task scope, Unity CLI
+transport and safety policy, verification, and handoff; it does not bundle
+those 30 official specialist skills. Install the official plugin when missing.
+
 ## First Read
 
 Before editing, inspect the project shape:

@@ -2,177 +2,206 @@
 
 # Agent Foundry
 
-### Give your coding agent a workflow worth repeating.
+### Build games with AI. Give every feature a plan, a check, and a next step.
 
-**142 skills · 97 command definitions · 3 Unity agent roles · Codex + Claude Code**
+Reusable skills for **Codex** and **Claude Code**, built around **Unity game development**.
+From game design and implementation to bug fixes, UI polish, Blender assets, and release prep.
+
+**93 workflow skills + 31 official Unity skills + 19 visual skills · Codex + Claude Code**
 
 [![Validate](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml/badge.svg)](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Codex](https://img.shields.io/badge/Codex-skills-111827)](#install)
-[![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757)](#install)
-[![GitHub stars](https://img.shields.io/github/stars/furkantokkan/agent-foundry?style=social)](https://github.com/furkantokkan/agent-foundry/stargazers)
+[![MIT + Unity Companion](https://img.shields.io/badge/license-MIT%20%2B%20Unity%20Companion-blue.svg)](THIRD_PARTY_NOTICES.md)
+[![Codex](https://img.shields.io/badge/Codex-skills-111827)](#codex)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757)](#claude-code)
 
-Task contracts, implementation handoffs, bug cycles, design reviews, release checklists, and visual-production workflows.
-Built around Unity and game development, with a Blender and CC0 texture-production companion. Includes Clean OOP, Firebase, JavaScript, game feel polish, PBR, UV, bake, and export workflows.
-
-[Get started](#install) · [Browse core skills](docs/CATALOG.md) · [Browse Blender skills](docs/BLENDER_TEXTURES.md) · [Browse AI 3D skills](docs/AI_3D.md) · [Try a workflow](#your-first-workflow) · [Contribute](CONTRIBUTING.md)
+[Get started](#install) · [See a workflow](#your-first-workflow) · [Browse skills](docs/CATALOG.md) · [Blender & AI 3D](#add-blender-and-ai-3d)
 
 </div>
 
 ---
 
-## Why Agent Foundry?
+## Keep the work connected
 
-An agent can write a feature. Keeping its scope, tests, bug reports, and handoffs connected takes a repeatable process.
+The feature is written. You still need to know what was tested, which bugs remain, and where to pick up tomorrow.
 
-Agent Foundry packages the skills and command adapters from my personal Codex and Claude Code setup into a portable, inspectable collection. Start with one task, keep its acceptance criteria in one contract, and bring in the right specialist workflow when you need it.
+Agent Foundry gives your coding agent a repeatable process: scope the work, implement it, verify the result, track regressions, and leave a useful handoff. **One task contract keeps scope, acceptance criteria, and lifecycle together.** Bug records and verification evidence stay linked to that task.
 
-- **Task-first development.** One `contract.md` owns scope, acceptance criteria, and lifecycle state.
-- **Bugs stay attached to their task.** Intake, repair, verification, and closure have separate responsibilities.
-- **Unity CLI always.** Verify or install the official Unity CLI, use CLI/Pipeline or built-in `unity mcp`, prove the exact project, declare asset ownership, and hand implementation to verification.
-- **Design through release.** GDDs, architecture decisions, playtests, performance reviews, Steam preparation, and release checks.
-- **Readable source.** Markdown skills and references you can inspect, adapt, or use individually.
+Built from a working game developer's Codex and Claude Code setup, with original skills and credited upstream adaptations. Start with one skill or follow the full workflow. Agent Foundry owns task contracts, verification, Unity CLI safety, and handoffs; the official Unity plugin supplies specialist Editor and game-development procedures.
 
-This is a curated workflow library, with personal additions and credited upstream adaptations. It is not a mirror of every installed marketplace plugin. See [sources and licenses](THIRD_PARTY_NOTICES.md).
+| When you need to… | Agent Foundry helps you… |
+| --- | --- |
+| Turn an idea into buildable work | Define scope, constraints, and acceptance criteria before implementation. |
+| Work inside Unity | Check the project and Editor connection, declare asset ownership, and plan verification. |
+| Fix a regression | Connect the report, repair, and fresh verification to the original task. |
+| Polish a menu or combat hit | Apply UI feedback, tweens, hitstop, shake, damage numbers, and SFX guidance. |
+| Prepare a 3D asset | Follow Blender modeling, PBR, UV, bake, and export workflows. |
+| Resume tomorrow or prepare a release | Recover the next step from a handoff, or work through QA and release checks. |
+
+Every skill is readable Markdown. Inspect the instructions, adapt them to your repository, and keep the parts that fit.
 
 ## Install
 
-Use a recent CLI with plugin marketplace support. Restart your agent session after installation.
+Choose your agent. Install the **93-skill Agent Foundry core** and the **official 31-skill Unity plugin** from separate marketplaces. Use a CLI version with plugin marketplace support, then restart your agent session.
 
 ### Codex
 
 ```bash
 codex plugin marketplace add furkantokkan/agent-foundry
 codex plugin add agent-foundry@agent-foundry
-codex plugin add blender-texture-foundry@agent-foundry
-codex plugin add ai-3d-foundry@agent-foundry
+codex plugin marketplace add Unity-Technologies/unity-agent-plugin
+codex plugin add unity@unity-agent-plugin
 ```
 
-Then ask: **“Use the create-task skill to scope a dash ability with a cooldown.”**
+Then ask:
+
+```text
+Use create-task to plan a dash ability with a 2-second cooldown.
+Keep the existing movement controls and define how the cooldown will be verified.
+```
 
 ### Claude Code
 
 ```bash
 claude plugin marketplace add furkantokkan/agent-foundry
 claude plugin install agent-foundry@agent-foundry
-claude plugin install blender-texture-foundry@agent-foundry
-claude plugin install ai-3d-foundry@agent-foundry
+claude plugin marketplace add Unity-Technologies/unity-agent-plugin
+claude plugin install unity@unity-agent-plugin
 ```
 
 Then run:
 
 ```text
-/agent-foundry:create-task "Add a dash ability with a cooldown"
+/agent-foundry:create-task Add a dash ability with a 2-second cooldown.
 ```
 
-### Just want one skill?
+The [official Unity repository](https://github.com/Unity-Technologies/unity-agent-plugin) documents both installation paths. Unity also introduces the plugin for [Claude Code](https://claude.com/marketplace/plugins/unity) and [Codex](https://unity.com/blog/unity-plugin-codex). In Claude Code, invoke specialist skills as `/unity:<skill-name>`; in Codex, ask for `unity:<skill-name>`. Use Agent Foundry's task skills for scope, ownership, and verification. The official plugin is installed separately; Agent Foundry does not install it automatically.
 
-Clone the repo, inspect your chosen folder in [`plugins/agent-foundry/skills`](plugins/agent-foundry/skills), and copy the **whole folder**, including its references, to your agent's skill directory. Follow cross-skill dependencies listed in its instructions. The full plugin includes the core task/design workflow dependencies; Editor integrations and optional specialist tools are separate installs.
+**Prefer one Agent Foundry skill?** Copy its entire folder, including references, from [`plugins/agent-foundry/skills`](plugins/agent-foundry/skills) into `~/.codex/skills/` or `~/.claude/skills/`. Check its cross-skill dependencies and restart the session.
 
-[Installation details, compatibility, and limitations →](docs/INSTALLATION.md)
+[Installation details and compatibility →](docs/INSTALLATION.md)
 
 ## Your first workflow
 
-Try this in a project whose repository instructions and test commands are already defined:
+Use a project with repository instructions and test commands already defined. For Unity, begin with `unity-preflight` to check the target project and Editor.
 
-```text
-Use create-task to plan a dash ability with a 2-second cooldown.
-Use implement-task to implement the resulting task.
-Use task-status to inspect its acceptance and verification state.
-Use task-bug if the dash still triggers during cooldown.
-Use task-done to close the exact task when you accept the result.
-```
+The dash prompt above creates `production/tasks/<TASK-ID>/contract.md`. Review its scope and acceptance criteria, then replace `<TASK-ID>` below with the generated ID. **Send each prompt separately as the work progresses.**
+
+| Step | Prompt |
+| --- | --- |
+| Implement the plan | `Use implement-task <TASK-ID>.` |
+| Inspect the result | `Use task-status <TASK-ID> to show acceptance criteria, verification evidence, and the next step.` |
+| Report a regression, if needed | `Use task-bug <TASK-ID>: rapidly pressing dash lets me dash again before the cooldown ends.` |
+| Close when the required criteria pass | `Use task-done <TASK-ID> --strict.` |
+
+In Claude Code, use the same skill names with the `/agent-foundry:` prefix. Bug intake routes reports into the original task; `task-cycle` resumes recorded repairs.
 
 ```mermaid
 flowchart LR
     A[Idea] --> B[Task contract]
-    B --> C[Implementation]
-    C --> D[Verification]
+    B --> C[Implement]
+    C --> D[Verify]
     D --> E[Explicit closure]
-    D --> F[Bug intake]
-    F --> G[Repair cycle]
+    D --> F[Report a bug]
+    F --> G[Repair the same task]
     G --> D
 ```
 
-For Unity, start with `unity-preflight`. Implementation and bug-cycle skills invoke the required readiness checks as part of their own flow.
+Task creation plans the feature. Implementation and verification follow. Closure remains an explicit decision.
 
-### Liquid UI for Unity
+## Find your next skill
 
-Use `game-feel-polish` for animated buttons, staggered menus, counters, ghost
-bars, toasts, tooltips, palettes and optional audiovisual feedback in Unity.
-
-Example: **Use game-feel-polish to add Liquid UI hover, press and entrance
-feedback to this Unity menu, preserving keyboard/gamepad navigation and
-reduced-motion support.**
-
-Read the [Unity system guide](plugins/agent-foundry/skills/game-feel-polish/references/unity-port.md)
-and [UI Toolkit guide](plugins/agent-foundry/skills/game-feel-polish/references/unity-ui-toolkit.md).
-The skill provides implementation guidance, not a compiled Unity package or
-bundled art/audio. New screen-space UI uses UI Toolkit; existing UGUI contexts
-retain their stack. See [installation and invocation](docs/INSTALLATION.md#liquid-ui-for-unity).
-
-## Pick your entry point
-
-| What you want to do | Start here |
+| Goal | Start with |
 | --- | --- |
-| Find the smallest useful workflow | `adaptive-skills` |
-| Scope a feature | `create-task` |
-| Implement a scoped task | `implement-task` |
-| Report a regression | `task-bug` |
-| Resume recorded repairs | `task-cycle` |
-| Recover tomorrow's context | `daily-handoff` |
-| Check Unity readiness | `unity-preflight` |
-| Improve Unity performance | `unity-optimization` |
-| Review code and boundaries | `game-code-review`, `clean-oop-architecture` |
-| Design a mechanic | `quick-design`, `design-system` |
-| Add game feel and UI polish (shake, hitstop, tweens, toasts, SFX) | `game-feel-polish` |
-| Adapt Liquid UI menus and HUDs to Unity UI Toolkit | `game-feel-polish` with its Unity widget guide |
-| Build a Firebase game API | `firebase-game-backend` |
-| Plan QA or a release | `qa-plan`, `release-checklist` |
-| Prepare a Steam store launch | `steam-store-launch` |
-| Find CC0 textures or HDRIs | `texture-discovery`, `ambientcg-assets` |
-| Build or prepare a Blender asset | `blender-modeler`, `texture-workflow`, `unity-export` |
-| Turn an image into a textured 3D asset | `hunyuan3d`, `blender-superskill` |
+| Choose a workflow for the current job | `adaptive-skills` |
+| Design a mechanic or progression system | `game-design-studio`, `quick-design`, `design-system` |
+| Implement or review Unity code | `unity-game-dev`, `game-code-review` |
+| Diagnose CPU, GPU, or GC problems | `unity-optimization` |
+| Polish menus, HUDs, or combat feedback | `game-feel-polish` |
+| Build a Firebase game API or JavaScript tool | `firebase-game-backend`, `javascript-game-tools` |
+| Review architecture and dependency boundaries | `clean-oop-architecture` |
+| Hand off today's work | `daily-handoff` |
+| Plan QA, a release, or a Steam launch | `qa-plan`, `release-checklist`, `steam-store-launch` |
 
-**[Explore the core catalog of 123 skills →](docs/CATALOG.md)** · **[Browse Blender & Texture Foundry →](docs/BLENDER_TEXTURES.md)** · **[Browse AI 3D Foundry →](docs/AI_3D.md)**
+**[Browse all 93 core skills →](docs/CATALOG.md)**
 
-## What's in the box?
+The [official Unity plugin](https://github.com/Unity-Technologies/unity-agent-plugin) supplies the specialist Unity skills. Agent Foundry keeps its `unity-cli` workflow for project identity, transport, permissions, and verification; its name also exists upstream. Select the official namespaced skill for a specific Unity feature, such as `unity:ui-uitk` or `unity:physics-3d-collision`.
+
+### Try Liquid UI feedback in Unity
+
+The core plugin includes `game-feel-polish`: animated buttons, staggered menus, counters, lag bars, toasts, tooltips, and audiovisual feedback, with Liquid UI guidance adapted to Unity.
 
 ```text
-agent-foundry/
-├── plugins/agent-foundry/
-│   ├── .codex-plugin/     # Codex manifest
-│   ├── .claude-plugin/    # Claude Code manifest
-│   ├── skills/            # 123 skills with bundled references
-│   ├── commands/          # 7 aliases; avoids duplicate skill names
-│   └── agents/            # Implementer, verifier, bugfixer
-├── plugins/blender-texture-foundry/
-│   ├── skills/            # 16 Blender, PBR and texture-production skills
-│   └── commands/          # Blender and texture discovery entry points
-├── plugins/ai-3d-foundry/
-│   ├── skills/            # 3 AI-assisted 3D creation skills
-│   └── commands/          # Image-to-3D entry point
-├── commands/              # Full archive of 94 command adapters
-├── docs/                  # Catalog, setup and export provenance
-└── scripts/               # Package validation and export tooling
+Use game-feel-polish to add hover, press, and entrance feedback to this Unity menu.
+Preserve keyboard/gamepad navigation and reduced-motion support.
 ```
 
-The studio skill also contains role, rule, template, and hook **references**. These are not automatically activated hooks or additional installed agents. Codex loads skills; the three native agent definitions are for Claude Code.
+Read the [Unity system guide](plugins/agent-foundry/skills/game-feel-polish/references/unity-port.md) and [UI Toolkit guide](plugins/agent-foundry/skills/game-feel-polish/references/unity-ui-toolkit.md). New screen-space UI uses UI Toolkit; existing UGUI projects keep their stack. This is implementation guidance; art, audio, and a compiled Unity package are not bundled.
 
-## Project status
+## Add Blender and AI 3D
 
-**Public release, v0.2.0.** Package structure and manifests are checked automatically. The full collection has not been exercised end to end in every CLI, operating system, Unity project, or Blender configuration. Some detailed studio references assume project-specific templates or tools: adapt them to your repository before running a workflow.
+Install the companions when your work moves into asset production.
 
-Repository instructions and your agent's tool/approval policies remain authoritative. These Markdown workflows do not enforce a sandbox or grant tools they describe.
+| Plugin | Skills | What it covers |
+| --- | ---: | --- |
+| **[Agent Foundry](docs/CATALOG.md)** | 93 | Task workflows, Unity CLI policy, game design, Firebase, code review, QA, and releases. |
+| **[Official Unity plugin](https://github.com/Unity-Technologies/unity-agent-plugin)** | 31 | Unity Technologies' CLI, Editor, 2D, UI, physics, package, and platform workflows; install separately. |
+| **[Blender & Texture Foundry](docs/BLENDER_TEXTURES.md)** | 16 | Modeling, CC0 textures, PBR materials, UVs, baking, lighting, and Unity export. |
+| **[AI 3D Foundry](docs/AI_3D.md)** | 3 | Modeling from references, image-to-textured-mesh generation, and assembly of generated assets in Blender. |
 
-## Make it better
+The four catalogs contain 142 unique skill names; `unity-cli` appears in both Agent Foundry and the official Unity plugin. Agent Foundry does not vendor the other 30 official Unity skills.
 
-Found a broken reference? Have a smaller, clearer workflow? [Open an issue](https://github.com/furkantokkan/agent-foundry/issues) or send a focused PR. See [contribution guidance](CONTRIBUTING.md).
+<details>
+<summary><strong>Install the optional companions</strong></summary>
 
-If a workflow saves you time, **star the repo** so other builders can find it. Sharing a concrete before/after example helps even more.
+After adding the marketplace above, choose either or both plugins.
+
+**Codex**
+
+```bash
+codex plugin add blender-texture-foundry@agent-foundry
+codex plugin add ai-3d-foundry@agent-foundry
+```
+
+**Claude Code**
+
+```bash
+claude plugin install blender-texture-foundry@agent-foundry
+claude plugin install ai-3d-foundry@agent-foundry
+```
+
+Restart your agent session. Blender, compatible tool connections, and generation-provider dependencies are separate installs. Check the [Blender requirements](docs/BLENDER_TEXTURES.md) and [AI 3D requirements](docs/AI_3D.md).
+
+</details>
+
+## What to expect
+
+Agent Foundry runs through your agent's available tools and respects your repository instructions and approval policies.
+
+- **Shared skill sources.** Both agents use the same Markdown. Claude Code also loads three native Unity roles: implementer, verifier, and bugfixer. Codex uses its host’s collaboration tools.
+- **Bring your project tools.** Unity CLI, Blender, Editor connections, external services, and credentials are separate installs. Studio templates and hook examples are references to adapt to your project.
+- **Automated package checks.** CI validates inventory, manifests, bundled references, and export hashes. The full collection has not been tested end to end in every CLI, operating system, Unity project, or Blender setup.
+
+See [verification scope](docs/INSTALLATION.md#verification-scope). Check the package locally with `python scripts/validate.py`.
+
+## Help shape the next workflow
+
+A useful contribution can be small: clarify an instruction, report a broken reference, or share a reproducible workflow with its expected and actual result.
+
+[Open an issue](https://github.com/furkantokkan/agent-foundry/issues) · [Contribution guide](CONTRIBUTING.md)
+
+**If Agent Foundry earns a place in your development setup, give it a star.** Share the skill that helped and what you built with it so the next developer knows where to start.
 
 ## Credits & license
 
-Maintained by [Furkan Tokkan](https://github.com/furkantokkan). The core plugin includes Unity-dependent skills adapted from [Unity Technologies/skills](https://github.com/Unity-Technologies/skills) under the Unity Companion License. Studio workflows and references include adaptations of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos. The `game-feel-polish` skill adapts the [Liquid UI Kit](https://github.com/Miisan-png/godot-liquid-ui) by Miisan. Blender & Texture Foundry and AI 3D Foundry include attributed MIT components from [Blender Skills](https://github.com/arjun988/blender-skills), [dcc-asset-ambientcg](https://github.com/dcc-mcp/dcc-asset-ambientcg), [Blender SuperSkill](https://github.com/powerhouse90/Blender-Superskill), [Alpha3D scene generation](https://github.com/ig-shadow-walker/BlenderXAlpha-3DGenSkill), and [skill-clusters](https://github.com/Sheshiyer/skill-clusters). Upstream deserves a star too.
+Maintained by [Furkan Tokkan](https://github.com/furkantokkan). Original Agent Foundry material is released under the [MIT License](LICENSE); retained Unity-derived `unity-cli` references remain under the Unity Companion License.
 
-[MIT](LICENSE) for original Agent Foundry material; Unity-derived material remains under the Unity Companion License. Upstream notices are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Unaffiliated with OpenAI, Anthropic, or Unity.
+Built with original workflows and adaptations from:
+
+- [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) by Donchitos — studio workflows and references.
+- [Liquid UI Kit](https://github.com/Miisan-png/godot-liquid-ui) by Miisan — the foundation for the Unity game-feel guidance.
+- [Unity Technologies skills](https://github.com/Unity-Technologies/skills) — source of retained `unity-cli` reference material under the Unity Companion License. The [official Unity plugin](https://github.com/Unity-Technologies/unity-agent-plugin) is a separate install.
+- [Blender Skills](https://github.com/arjun988/blender-skills), [dcc-asset-ambientcg](https://github.com/dcc-mcp/dcc-asset-ambientcg), [Blender SuperSkill](https://github.com/powerhouse90/Blender-Superskill), [Alpha3D scene generation](https://github.com/ig-shadow-walker/BlenderXAlpha-3DGenSkill), and [skill-clusters](https://github.com/Sheshiyer/skill-clusters) — Blender and AI 3D components.
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for source details and preserved notices. Give the upstream projects a star too.
+
+Unaffiliated with OpenAI, Anthropic, or Unity.

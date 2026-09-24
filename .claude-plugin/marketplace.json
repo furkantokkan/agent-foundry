@@ -6,8 +6,8 @@
     {
       "name": "agent-foundry",
       "source": "./plugins/agent-foundry",
-      "description": "123 skills for task-first development with Codex and Claude Code.",
-      "version": "0.2.0"
+      "description": "93 task-first skills for Codex and Claude Code; pair with Unity's official specialist plugin.",
+      "version": "0.3.0"
     },
     {
       "name": "blender-texture-foundry",

@@ -42,13 +42,15 @@ Upstream revision: `8d85172945197ee8bacbbfea44d6d64cad782004`
 License: Unity Companion License for Unity-dependent projects. The upstream
 license notice is preserved in `plugins/agent-foundry/UNITY_COMPANION_LICENSE.md`.
 
-Scope: 30 newly added specialist skill folders under
-`plugins/agent-foundry/skills/`, plus the expanded `unity-cli` references and
-upstream baseline. Agent Foundry adaptations add CLI-first routing, exact-project
-identity checks, explicit risk/approval gates, safer installer handling, and
-integration with the existing task/preflight workflow. Unity Technologies
-retains ownership of the upstream material; the Agent Foundry MIT license does
-not relicense it.
+Scope: retained `unity-cli` reference material and upstream baseline under
+`plugins/agent-foundry/skills/unity-cli/`. The 30 specialist skills are no
+longer redistributed here; install the separate official
+[Unity agent plugin](https://github.com/Unity-Technologies/unity-agent-plugin)
+for Claude Code or Codex. Agent Foundry's CLI adaptations add exact-project
+identity checks, risk/approval gates, safer installer handling, and task/preflight
+integration. Unity Technologies retains ownership of the upstream material;
+the Agent Foundry MIT license does not relicense it.
+
 ## Personal additions and packaging
 
 The local domain skills, task-workflow extensions, command adapters, Unity role adaptations, and repository packaging are distributed under the root MIT license, subject to upstream rights where applicable. `docs/export-manifest.json` records each exported file's local source category and public-content hash; it is not proof of independent authorship or an exact upstream revision.
