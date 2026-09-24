@@ -4,7 +4,8 @@ description: "Audits game assets for compliance with naming conventions, file si
 argument-hint: "[category|all]"
 user-invocable: true
 allowed-tools: Read Glob Grep
-model: sonnet
+model: opus
+effort: high
 # Read-only diagnostic skill — no specialist agent delegation needed
 ---
 

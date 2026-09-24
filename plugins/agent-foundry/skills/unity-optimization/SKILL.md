@@ -1,5 +1,6 @@
 ---
 name: unity-optimization
+model: inherit
 description: Use when profiling, diagnosing, optimizing, or reviewing Unity performance, including CPU/GPU bottlenecks, GC allocations, Update/Input/UI hot paths, physics cost, rendering, shaders, batching, Addressables/loading, mobile thermal/battery constraints, memory, and before/after performance evidence.
 ---
 

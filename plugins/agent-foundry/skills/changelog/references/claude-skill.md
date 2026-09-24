@@ -4,7 +4,7 @@ description: "Auto-generates a changelog from git commits, sprint data, and desi
 argument-hint: "[version|sprint-number]"
 user-invocable: true
 allowed-tools: Read Glob Grep Bash Write
-model: haiku
+model: sonnet
 ---
 
 ## Phase 1: Parse Arguments

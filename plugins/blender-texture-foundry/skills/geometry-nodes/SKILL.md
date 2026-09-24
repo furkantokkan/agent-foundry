@@ -1,5 +1,7 @@
 ---
 name: geometry-nodes
+model: opus
+effort: xhigh
 description: Blender Geometry Nodes for procedural modeling, scatter systems, vegetation, buildings, pipes, cables, and reusable node groups. Use for procedural asset generation and instancing pipelines via MCP.
 license: MIT
 metadata:

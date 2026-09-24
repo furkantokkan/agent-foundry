@@ -1,5 +1,6 @@
 ---
 name: implement-task
+model: inherit
 description: Resolve and initially execute a task ID, contract path, story path, or bounded ad-hoc request with focused verification. Automatically route raw post-implementation bug feedback through task-bug. Treat an explicit user acceptance of named criteria as a verification continuation for the exact or sole retained task; it needs no artifact. Treat an immediate plain continue phrase as execution only for the sole newly returned ready task.
 ---
 

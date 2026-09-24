@@ -1,5 +1,6 @@
 ---
 name: task-status
+model: sonnet
 description: Show a fast read-only snapshot for one or more tracked tasks from each contract's managed lifecycle block, including phase, changed paths, evidence, blockers, decisions, and next command. Use for progress checks without running tests, writing status files, changing task state, or starting a cycle.
 ---
 

@@ -1,5 +1,6 @@
 ---
 name: unity-cli
+model: inherit
 description: Use when interacting with Unity CLI from the terminal, or to control a running/connected Unity Editor from the command line — create or modify GameObjects, edit scenes and assets, inspect the hierarchy, and run C# in a live Editor instead of hand-editing scene or asset files. Also install, upgrade or uninstall editors, create, list or open projects, manage modules, manage licenses, check auth status, read logs, browse Unity releases, build/test projects, configure the Unity MCP server for AI agents, or run any other Unity CLI operation. For a guided idea-to-running-project flow for a brand-new game, use the new-unity-project skill instead.
 allowed-tools:
   - Bash
@@ -48,9 +49,16 @@ unity <command> --json --non-interactive --no-banner
 Apply the repository's approval policy before running commands:
 
 - Read-only discovery (`status`, `editors`, `projects`, `doctor`, `diagnose`,
-  `logs`, `env`, bare `command`, and `--help`) may run without approval.
-- Editor mutations, `test`, `run`, `open`, `config`, and Pipeline command
-  execution require the accepted task plan and declared paths.
+  `logs`, `env`, bare `command`, `test_status`, `recompile_status`,
+  and `--help`) may run without approval.
+- For a user-requested Unity implementation, repair, or verification task,
+  focused `unity test`, `unity command run_tests`, recompile checks, and
+  their status/log/result queries are already authorized after proving the
+  exact project. Do not ask for a separate command approval or accepted task
+  plan. Use a focused filter when practical and preserve unsaved Editor work.
+- Other Editor mutations, `run`, `open`, `config`, and arbitrary Pipeline
+  command execution follow the accepted task scope, declared paths, and risk
+  gates. Do not ask again for each low-risk command within that scope.
 - Editor/module/package installs or removals, builds, upgrades, auth changes,
   cloud mutations, project creation, source-control creation/push, and Unity
   serialized-asset changes require explicit target authorization.

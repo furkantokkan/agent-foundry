@@ -1,5 +1,7 @@
 ---
 name: ambientcg-assets
+model: sonnet
+effort: high
 description: Search, inspect, and download ambientCG CC0 assets as validated AssetDescriptors.
 license: MIT
 compatibility: "dcc-mcp-core 0.19+, Python 3.10+"

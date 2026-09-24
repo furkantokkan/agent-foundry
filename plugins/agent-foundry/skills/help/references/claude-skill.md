@@ -4,7 +4,7 @@ description: "Analyzes what is done and the users query and offers advice on wha
 argument-hint: "[optional: what you just finished, e.g. 'finished design-review' or 'stuck on ADRs']"
 user-invocable: true
 allowed-tools: Read Glob Grep
-model: haiku
+model: sonnet
 ---
 
 # Studio Help — What Do I Do Next?

@@ -1,5 +1,6 @@
 ---
 name: daily-handoff
+model: sonnet
 description: Create a concise, durable end-of-day handoff for one or more tracked production tasks, covering status, completed work, changed systems, verification evidence, blockers, next commands, and commit state. Use when the user invokes $daily-handoff, asks for today's multi-task handoff, or needs a compact file-backed recovery checkpoint without changing task lifecycle state, running tests, mutating Unity, or committing work.
 ---
 

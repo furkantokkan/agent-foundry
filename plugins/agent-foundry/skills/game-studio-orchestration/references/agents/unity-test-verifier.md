@@ -2,7 +2,7 @@
 name: unity-test-verifier
 description: "Independently verifies one revision-locked Unity task handoff, protects test integrity, classifies evidence and reproducible failures, and never owns production fixes or task closure."
 tools: Read, Glob, Grep, Write, Edit, MultiEdit, Bash
-model: sonnet
+model: inherit
 maxTurns: 20
 skills: [unity-game-dev, clean-oop-architecture, game-code-review]
 memory: project

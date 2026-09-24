@@ -1,5 +1,7 @@
 ---
 name: materials
+model: opus
+effort: high
 description: Blender PBR and stylized material creation for metal, wood, concrete, fabric, glass, dirt, rust, and procedural shaders. Use for look development, material reuse, and production shading in Blender via MCP.
 license: MIT
 metadata:

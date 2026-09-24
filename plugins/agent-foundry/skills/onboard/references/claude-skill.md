@@ -4,7 +4,7 @@ description: "Generates a contextual onboarding document for a new contributor o
 argument-hint: "[role|area]"
 user-invocable: true
 allowed-tools: Read Glob Grep Write
-model: haiku
+model: sonnet
 ---
 
 ## Phase 1: Load Project Context

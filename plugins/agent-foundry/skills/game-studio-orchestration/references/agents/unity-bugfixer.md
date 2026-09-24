@@ -2,7 +2,7 @@
 name: unity-bugfixer
 description: "Fixes one revision-locked, task-owned Unity defect handoff through an exact red-capable reproduction and surgical change, then returns FIXED_UNVERIFIED for independent verification."
 tools: Read, Glob, Grep, Write, Edit, MultiEdit, Bash
-model: sonnet
+model: inherit
 maxTurns: 20
 skills: [unity-game-dev, clean-oop-architecture, game-code-review]
 memory: project

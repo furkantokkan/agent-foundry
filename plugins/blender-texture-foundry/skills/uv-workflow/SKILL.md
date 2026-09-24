@@ -1,5 +1,7 @@
 ---
 name: uv-workflow
+model: opus
+effort: high
 description: Production UV unwrapping for seam placement, UV packing, texel density, UDIM, lightmap UVs, and modular UV layouts. Use when preparing meshes for texturing and engine export in Blender via MCP.
 license: MIT
 metadata:

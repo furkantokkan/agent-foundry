@@ -1,5 +1,7 @@
 ---
 name: unity-export
+model: sonnet
+effort: high
 description: Unity-specific Blender export for scale, axis, materials, humanoid/generic rigs, LODs, and collision import via MCP.
 license: MIT
 metadata:

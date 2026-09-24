@@ -1,5 +1,6 @@
 ---
 name: unity-game-dev
+model: inherit
 description: Use when working on Unity game projects, especially Unity 6, C# gameplay systems, UI Toolkit or UGUI, Addressables, Input System, UniTask, Onity, ServiceLocator, tests, performance, project structure, package setup, and Unity-specific architecture decisions.
 ---
 

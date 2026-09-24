@@ -1,5 +1,6 @@
 ---
 name: task-done
+model: inherit
 description: Close one or more exact tracked tasks. Invoke automatically for an explicit user close order in a tool command or ordinary language; use --strict to require satisfied acceptance criteria.
 argument-hint: "<TASK-ID|contract-path>... [--strict] [--superseded-by <TASK-ID>]"
 user-invocable: true

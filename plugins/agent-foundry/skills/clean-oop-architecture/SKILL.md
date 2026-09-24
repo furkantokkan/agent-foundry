@@ -1,5 +1,6 @@
 ---
 name: clean-oop-architecture
+model: inherit
 description: Use when designing, implementing, refactoring, or reviewing object-oriented code with SOLID, Clean Code, design patterns, dependency injection, ServiceLocator, Onity, testability, code smells, naming, class/function boundaries, Unity C# architecture, maintainability concerns, hidden assumptions, overengineering, surgical-change discipline, or goal-driven verification.
 ---
 

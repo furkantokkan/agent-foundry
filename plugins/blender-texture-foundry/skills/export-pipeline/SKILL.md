@@ -1,5 +1,7 @@
 ---
 name: export-pipeline
+model: sonnet
+effort: high
 description: Production export from Blender to FBX, GLTF, OBJ, USD, and Alembic with scale, pivot, rotation, normals, materials, animation, and collision verification via MCP.
 license: MIT
 metadata:

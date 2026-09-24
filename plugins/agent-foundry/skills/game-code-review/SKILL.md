@@ -1,5 +1,6 @@
 ---
 name: game-code-review
+model: inherit
 description: Use when reviewing game code or architecture, especially Unity C#, Firebase rules/functions, JavaScript/TypeScript tooling, gameplay systems, UI code, async code, dependency injection, tests, performance hot paths, and security-sensitive backend code.
 ---
 

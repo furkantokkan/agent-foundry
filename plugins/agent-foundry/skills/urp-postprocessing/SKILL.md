@@ -1,5 +1,6 @@
 ---
 name: urp-postprocessing
+model: inherit
 description: Sets up, configures, and debugs URP post-processing effects using the Volume framework. Use when the user asks about bloom, tonemapping, color adjustments, depth of field, vignette, motion blur, or other Volume overrides in a URP project.
 ---
 

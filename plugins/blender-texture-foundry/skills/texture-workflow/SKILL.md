@@ -1,5 +1,7 @@
 ---
 name: texture-workflow
+model: opus
+effort: high
 description: Production texture workflow for atlases, baking AO/curvature/normal/roughness maps, decals, and texture memory optimization. Use for game-ready texture pipelines in Blender via MCP.
 license: MIT
 metadata:

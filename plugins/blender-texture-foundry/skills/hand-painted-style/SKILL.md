@@ -1,5 +1,7 @@
 ---
 name: hand-painted-style
+model: opus
+effort: high
 description: Hand-painted texture art direction for Blender with brushwork albedo, soft value transitions, and stylized PBR restraint.
 license: MIT
 metadata:

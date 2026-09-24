@@ -1,5 +1,7 @@
 ---
 name: lighting
+model: opus
+effort: high
 description: Cinematic and game lighting in Blender including three-point lighting, HDRI, horror lighting, volumetrics, rim lighting, and mood-driven illumination. Use for look development and scene atmosphere via MCP.
 license: MIT
 metadata:

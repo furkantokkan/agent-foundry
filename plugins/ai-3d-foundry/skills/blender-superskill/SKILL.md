@@ -1,5 +1,7 @@
 ---
 name: blender-superskill
+model: inherit
+effort: xhigh
 description: Guide Blender MCP asset modeling through disciplined reference-first construction, viewport inspection, critique, iteration, reusable modeling patterns, and optional scripted orchestration. Use when Codex is asked to create, modify, critique, or learn Blender assets, including buildings, props, hard-surface objects, low-poly objects, industrial assets, roofs, pylons, cables, panels, modular kits, scene cleanup, collection organization, reference-image modeling, or Blender workflow notes.
 ---
 

@@ -1,5 +1,6 @@
 ---
 name: unity-preflight
+model: sonnet
 description: Run a read-only readiness check before Unity development. Use before implementing, debugging, testing, profiling, or mutating Editor state to verify the exact repository, Unity version, instructions, dirty work, automation target, permission mode, compilation/import/play state, and available verification path.
 ---
 
@@ -55,7 +56,10 @@ Preflight never:
 - saves or opens scenes/prefabs;
 - edits packages, project settings, files, or serialized assets.
 
-Running tests belongs to verification after the task contract is accepted.
+Focused tests and compile/recompile checks belong to verification after
+preflight. A user request to implement, fix, or verify Unity behavior
+authorizes those checks without separate contract or command approval once
+the exact project is confirmed. Preserve unsaved Editor work.
 Test-template creation must pass the canonical folder explicitly; UnitySkills
 defaults may not match `Assets/.../Tests/EditMode` and `PlayMode` conventions.
 

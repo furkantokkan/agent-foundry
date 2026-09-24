@@ -1,5 +1,7 @@
 ---
 name: asset-optimization
+model: opus
+effort: high
 description: Validates and optimizes Blender assets for polycount, topology, UV efficiency, material count, naming, collections, and game-ready performance. Use before export on all production assets via MCP.
 license: MIT
 metadata:

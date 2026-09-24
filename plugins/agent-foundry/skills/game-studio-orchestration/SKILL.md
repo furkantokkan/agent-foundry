@@ -1,5 +1,6 @@
 ---
 name: game-studio-orchestration
+model: inherit
 description: Coordinate Claude Code Game Studios style workflows in Codex, including several tracked production task IDs, conflict graphs, worktrees, sequential role handoffs, Unity Editor queuing, safe parallelism, studio hierarchy, quality gates, hooks, rules, and templates. Use when the user invokes $game-studio-orchestration, requests parallel independent tasks, or needs multi-discipline game-development coordination beyond one bounded implementation.
 ---
 

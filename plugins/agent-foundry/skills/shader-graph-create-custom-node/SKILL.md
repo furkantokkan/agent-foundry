@@ -1,5 +1,7 @@
 ---
 name: shader-graph-create-custom-node
+model: opus
+effort: high
 description: "Generates custom Shader Graph nodes from HLSL code. Use when the user wants to create a new Shader Graph node or make existing HLSL code work as a reflected function node."
 ---
 # Generating a custom Shader Graph node

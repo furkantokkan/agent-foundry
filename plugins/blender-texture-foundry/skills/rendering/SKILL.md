@@ -1,5 +1,7 @@
 ---
 name: rendering
+model: opus
+effort: high
 description: Blender rendering with Cycles and Eevee including sampling, denoising, camera setup, render passes, color management, and render optimization. Use for final output and look validation via MCP.
 license: MIT
 metadata:

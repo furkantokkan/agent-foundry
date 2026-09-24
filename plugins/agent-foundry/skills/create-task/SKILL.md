@@ -1,5 +1,6 @@
 ---
 name: create-task
+model: sonnet
 description: Create one production-ready task contract from a short request or optional structured brief, optional task ID, repository context, and attached references without implementing it. In the canonical task-first workflow this contract is also the implementable story; use separate story files only in an explicitly legacy story repository.
 ---
 

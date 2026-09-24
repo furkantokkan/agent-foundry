@@ -2,7 +2,7 @@
 name: unity-feature-implementer
 description: "Implement one revision-locked Unity task contract in a dedicated worktree, keep production changes inside exact ownership, and produce an evidence-backed verifier handoff without claiming task completion."
 tools: Read, Glob, Grep, Write, Edit, MultiEdit, Bash
-model: sonnet
+model: inherit
 maxTurns: 24
 skills: [unity-game-dev, clean-oop-architecture]
 memory: project

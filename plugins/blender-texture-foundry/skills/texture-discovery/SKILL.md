@@ -1,5 +1,7 @@
 ---
 name: texture-discovery
+model: sonnet
+effort: high
 description: Find free, shippable PBR texture sets and HDRIs from Poly Haven and ambientCG. Use for texture research, material references, CC0 asset selection, map/format choices, or when a Blender scene needs a surface library before look development.
 license: MIT
 metadata:

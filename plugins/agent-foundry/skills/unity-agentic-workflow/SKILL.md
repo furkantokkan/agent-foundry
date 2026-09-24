@@ -1,5 +1,7 @@
 ---
 name: unity-agentic-workflow
+model: opus
+effort: xhigh
 description: Design, teach, audit, or bootstrap a professional Claude Code and Codex workflow for a Unity repository. Use when deciding which Markdown file owns a rule, writing prompts or slash commands, choosing single-agent versus sequential role handoffs or worktrees, reconciling provider instructions, or finding gaps in an existing Unity agent setup.
 ---
 

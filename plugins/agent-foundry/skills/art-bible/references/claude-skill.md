@@ -4,7 +4,8 @@ description: "Guided, section-by-section Art Bible authoring. Creates the visual
 argument-hint: "[--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read Glob Grep Write Edit Task AskUserQuestion
-model: sonnet
+model: opus
+effort: high
 ---
 
 ## Phase 0: Parse Arguments and Context Check

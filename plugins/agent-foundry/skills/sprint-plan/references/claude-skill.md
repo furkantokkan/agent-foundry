@@ -4,7 +4,7 @@ description: "Generates a new sprint plan or updates an existing one based on th
 argument-hint: "[new|update|status] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read Glob Grep Write Edit Task AskUserQuestion
-model: sonnet
+model: inherit
 ---
 
 ## Phase 0: Parse Arguments

@@ -1,5 +1,7 @@
 ---
 name: lookdev
+model: opus
+effort: high
 description: Look development loop for Blender assets combining materials, lighting, camera, and screenshot comparison until shading reads correctly via MCP.
 license: MIT
 metadata:

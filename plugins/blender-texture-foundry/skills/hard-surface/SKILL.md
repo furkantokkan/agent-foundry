@@ -1,5 +1,7 @@
 ---
 name: hard-surface
+model: opus
+effort: xhigh
 description: AAA hard surface modeling for sci-fi, industrial, military, vehicles, weapons, robotics, and mechanical props. Use for boolean/bevel workflows, panel lines, greebles, chamfers, and manufacturing-accurate surfaces in Blender via MCP.
 license: MIT
 metadata:

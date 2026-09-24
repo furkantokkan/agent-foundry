@@ -4,7 +4,7 @@ description: "Read a story file and implement it. Loads the full context (story,
 argument-hint: "[story-path]"
 user-invocable: true
 allowed-tools: Read Glob Grep Write Bash Agent AskUserQuestion
-model: sonnet
+model: inherit
 ---
 
 # Dev Story

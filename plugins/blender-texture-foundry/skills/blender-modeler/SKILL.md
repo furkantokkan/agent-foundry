@@ -1,5 +1,7 @@
 ---
 name: blender-modeler
+model: opus
+effort: high
 description: Core Blender modeling specialist for Edit Mode, modifiers, collections, precision modeling, and scene organization. Use for general 3D modeling, blockouts, cleanup, non-destructive workflows, and scene structure in Blender via MCP.
 license: MIT
 metadata:

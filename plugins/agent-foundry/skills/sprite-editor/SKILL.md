@@ -1,5 +1,7 @@
 ---
 name: sprite-editor
+model: opus
+effort: high
 description: Edits Unity sprite properties by generating C# editor scripts using ISpriteEditorDataProvider APIs. Handles sprite rectangles, borders, pivots, outlines, and slicing operations (automatic, grid, isometric). Use when working with sprite assets, sprite sheets, texture atlases, or sprite slicing.
 ---
 

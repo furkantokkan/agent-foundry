@@ -1,5 +1,7 @@
 ---
 name: camera-cinematography
+model: opus
+effort: high
 description: Cinematic camera work in Blender including framing, lenses, composition, camera animation, and shot language beyond basic rendering setup via MCP.
 license: MIT
 metadata:
