@@ -307,7 +307,8 @@ full before running it.
 - Verify the installed Unity CLI as the mandatory control plane and prove the target with
   `unity status --json` plus exact `--project-path`. Install it when missing. Use
   built-in `unity mcp` when needed. Legacy MCP and UnitySkills require an explicit
-  user request. If CLI-controlled evidence is unavailable, return `BLOCKED`;
+  user request, except MCP for Unity under the `unity-cli` pre-Unity-6 version
+  gate. If CLI-controlled evidence is unavailable, return `BLOCKED`;
   never repeat one mutation through two paths.
 
 ### Step 2 — Establish Baseline Evidence

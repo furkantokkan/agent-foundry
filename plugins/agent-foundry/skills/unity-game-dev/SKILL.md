@@ -35,7 +35,9 @@ Use the installed Unity CLI for every Unity task. Verify it with
 missing, install the official CLI under the user's standing authorization
 before continuing. Use direct CLI/Pipeline commands first and built-in
 `unity mcp` when an AI client needs MCP. Do not switch to a legacy standalone
-Unity MCP or UnitySkills fallback unless the user explicitly requests it.
+Unity MCP or UnitySkills fallback unless the user explicitly requests it. The
+exception is a project below Unity 6, where the `unity-cli` version gate
+approves MCP for Unity for live Editor work.
 Before reasoning about live Unity state, confirm project identity, Unity
 version, compilation, asset import, Play Mode, and recent Console status
 through the CLI control plane.
@@ -58,7 +60,8 @@ Use the installed Unity CLI as the mandatory Unity-specific control plane:
    clients, use the server/configuration provided by built-in `unity mcp`.
 5. When the installed CLI cannot expose an operation, continue through its
    built-in MCP mode or a pinned source/file workflow. Legacy standalone Unity
-   MCP and UnitySkills are opt-in only for an explicit user request.
+   MCP and UnitySkills are opt-in only for an explicit user request, except MCP
+   for Unity under the `unity-cli` pre-Unity-6 version gate.
 6. Never perform the same write through multiple transports. Verify through an
    independent read when practical.
 7. Package, Pipeline, Editor/module, and other dependency installs still follow

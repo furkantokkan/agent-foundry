@@ -22,7 +22,8 @@ Before changing code or settings:
    machine-readable evidence; prove the exact target with `unity status --json`
    and `--project-path`. If the CLI is missing, install it under the standing
    authorization. Use built-in `unity mcp` when needed; otherwise use pinned
-   evidence. Legacy MCP and UnitySkills require an explicit user request.
+   evidence. Legacy MCP and UnitySkills require an explicit user request,
+   except MCP for Unity under the `unity-cli` pre-Unity-6 version gate.
 4. Identify target platform, target frame rate, device class, and the exact
    symptom before editing.
 

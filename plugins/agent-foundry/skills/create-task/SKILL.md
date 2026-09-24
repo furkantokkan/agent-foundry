@@ -157,7 +157,8 @@ through the installed Unity CLI first: verify the command, prove the exact
 project with `unity status --json`, and pass `--project-path` when needed. If
 the CLI is missing, install it under the standing authorization before
 continuing. Use built-in `unity mcp` when needed; legacy MCP and UnitySkills are
-opt-in only through an explicit user request. Task creation never authorizes a
+opt-in only through an explicit user request, except MCP for Unity under the
+`unity-cli` pre-Unity-6 version gate. Task creation never authorizes a
 Unity Editor mutation.
 
 After preflight passes or establishes a safe file-only inspection lane, invoke

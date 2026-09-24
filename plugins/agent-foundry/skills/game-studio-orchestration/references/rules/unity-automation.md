@@ -13,7 +13,8 @@
 4. Use direct CLI/Pipeline commands first. When MCP protocol is required, use
    built-in `unity mcp` configured and targeted through the CLI.
 5. Legacy standalone Unity MCP and UnitySkills REST are opt-in only when the
-   user explicitly requests them for the current task.
+   user explicitly requests them for the current task. The exception is MCP for
+   Unity under the `unity-cli` pre-Unity-6 version gate.
 6. Use exactly one mutation path. If the verified CLI cannot expose required
    live state, continue with pinned Editor/file inspection where safe. Manual
    Unity YAML editing is the last resort.

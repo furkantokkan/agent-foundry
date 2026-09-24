@@ -74,7 +74,8 @@ Follow `.claude/rules/unity-automation.md`:
 2. If it is missing, install the official CLI under the standing authorization
    before continuing.
 3. Use built-in `unity mcp` when MCP protocol is needed. Legacy MCP and
-   UnitySkills require an explicit user request. If requested, prove the exact
+   UnitySkills require an explicit user request, except MCP for Unity under the
+   `unity-cli` pre-Unity-6 version gate. If requested, prove the exact
    repository separately; otherwise use pinned file evidence as the final
    fallback.
 

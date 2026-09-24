@@ -40,10 +40,52 @@ Transport order:
 
 Legacy standalone Unity MCP connections and UnitySkills REST are not automatic
 fallback transports. Use either only when the user explicitly requests it for
-the current task. Never perform the same mutation through two transports. When
+the current task. The one exception is the version gate in
+[Editor older than Unity 6](#editor-older-than-unity-6-mcp-for-unity-fallback).
+Never perform the same mutation through two transports. When
 multiple Editors are visible, always pass the exact `--project-path`; never
 infer the target. The installed CLI's help and current official Unity
 documentation override this snapshot when flags or subcommands differ.
+
+### Editor older than Unity 6: MCP for Unity fallback
+
+The Pipeline package (`com.unity.pipeline`) needs Unity 6.0+. When
+`m_EditorVersion` in `ProjectSettings/ProjectVersion.txt` is below `6000.0`
+(for example `2022.3.x`), the CLI cannot reach the live Editor.
+`unity status` reports `STATUS_NO_INSTANCES`, and `unity pipeline list` shows
+the running Editor with `hasPipelinePackage: false`. Do not run
+`unity pipeline install` in that project. MCP for Unity (CoplayDev,
+`com.coplaydev.unity-mcp`, Unity 2021.3+) is then the approved live-Editor
+transport. The user does not need to request it for each task.
+
+1. Still verify `unity --version`. Confirm the version gate from
+   `ProjectVersion.txt` and `unity pipeline list --json`.
+2. Keep the CLI for work that does not need a live Editor: `doctor`,
+   `editors`, `logs`, `pipeline list`, `test`, `build`, and `run`. `test`,
+   `build`, and `run` need the Editor closed because Unity locks the project.
+3. Use MCP for Unity for live Editor control. Pin a release tag in
+   `Packages/manifest.json`:
+   `"com.coplaydev.unity-mcp": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.2.0"`.
+   Adding the package is still a package change and needs explicit target
+   authorization.
+4. Use server name `unityMCP` over HTTP at `http://127.0.0.1:<port>/mcp`. Take
+   the port from the project's `AGENTS.md`, `.mcp.json`, or
+   `.codex/config.toml`. Do not assume a default. Start the server from the
+   Unity MCP for Unity window. It runs through `uvx`, so `uv` must be
+   installed. Write it in project scope: `.mcp.json` for Claude and
+   `[mcp_servers.unityMCP]` in `.codex/config.toml` for Codex. Record the
+   exception and the port in the project `AGENTS.md` (and `CLAUDE.md`).
+   MCP for Unity stores the HTTP URL in machine-wide `EditorPrefs`
+   (`MCPForUnity.HttpUrl`), so another project can change it. If the server
+   does not answer, check that the port in the window matches the project
+   config.
+5. Before you use tools, read the `mcpforunity://instances` resource and the
+   editor-state resource. If several Editors are connected, pin the target
+   with `set_active_instance`. When MCP for Unity's `unity-mcp-skill` is
+   installed, follow it for tool workflows.
+6. Send each mutation through one transport only. When the project moves to
+   Unity 6+, install Pipeline, return to the CLI transport order, and remove
+   the fallback.
 
 For non-interactive or parsed output, use:
 
@@ -94,7 +136,7 @@ unity command editor_play --project-path /path/to/MyProject
 
 A `unity status` instance's `project` field is what `--project-path` takes. For `unity command`/`list`/`job`/`mcp`, matching no running project fails with `AMBIGUOUS_EDITOR` and lists the candidates. [Details](references/integration-advanced.md#targeting-one-of-several-running-editors).
 
-Requires the project's `com.unity.pipeline` package (Unity 6.0+) — add it once with `unity pipeline install`. Full details — launching a headless Editor to drive, `unity list` tool discovery, and authoring custom `[CliCommand]` tools — are in [integration-advanced.md](references/integration-advanced.md).
+Requires the project's `com.unity.pipeline` package (Unity 6.0+) — add it once with `unity pipeline install`. For an older Editor, use [the MCP for Unity fallback](#editor-older-than-unity-6-mcp-for-unity-fallback) instead. Full details — launching a headless Editor to drive, `unity list` tool discovery, and authoring custom `[CliCommand]` tools — are in [integration-advanced.md](references/integration-advanced.md).
 
 The package also ships a deeper `unity-pipeline` agent skill, invisible to clients inside `Library/PackageCache` — in a project with the package, run `unity skill install <client> --local` once to mirror it beside this skill.
 
@@ -405,9 +447,11 @@ git ls-files | grep -c '^Library/'     # must print 0
 **What the CLI does and doesn't cover.** The CLI handles editor, project, and source control.
 It does **not** manage UPM (Unity Package Manager) packages — to add packages beyond the
 template headlessly, use the **`unity-package-management`** skill (C# PackageManager Client
-API). For monetization/backend, hand off to the dedicated skills: `implement-in-app-purchases`
-(IAP), `levelplay-unity-integration` (ads), or `build-live-game` (accounts, cloud save,
-economy, remote config, leaderboards). Open the project to start working:
+API). For monetization, hand off to the dedicated skills: `implement-in-app-purchases`
+(IAP) or `levelplay-unity-integration` (ads). For accounts, cloud save, economy, remote
+config, or leaderboards, follow the project's existing backend: `firebase-game-backend` for
+Firebase projects, `build-live-game` only when the project already uses or the user chooses
+Unity Gaming Services. Open the project to start working:
 `unity open ~/UnityProjects/MyGame`.
 
 ### Find and install a missing editor
