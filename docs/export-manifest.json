@@ -1222,7 +1222,7 @@
   {
     "path": "plugins/agent-foundry/skills/review-all-gdds/references/claude-skill.md",
     "source": "local Codex skill: review-all-gdds/references/claude-skill.md",
-    "sha256": "badbea107617c75caff45c89694344e0cfd30bdbd2e74859570c989a3f93fd57"
+    "sha256": "a390e886e8ef5b4e65ff390d3339a6d42478120642c9af592b41b9f149544231"
   },
   {
     "path": "plugins/agent-foundry/skills/review-all-gdds/SKILL.md",
