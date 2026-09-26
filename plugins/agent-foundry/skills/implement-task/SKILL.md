@@ -296,11 +296,16 @@ Never let orchestration expand the contract.
    fixtures merely to force a pass. A nearby green test does not prove a
    reported runtime symptom; rerun the original repro and required regression
    channel after the fix.
-8. For Unity, use the installed CLI first, prove the exact target with
-   `unity status --json`, and pass `--project-path` when needed. If CLI/Pipeline
-   is unavailable or insufficient, use exact-project Unity MCP, then
-   target-matched UnitySkills. Never duplicate a mutation across transports,
-   and edit Unity YAML manually only as a last resort.
+8. For Unity, verify the installed CLI and apply `unity-cli`'s version gate
+   before selecting live evidence. Unity 6+ uses exact-root/version-matched
+   `unity status --json`, full `--project-path`, then built-in `unity mcp`
+   when needed. Pre-Unity-6 uses
+   [the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate)
+   before any selection or Editor work, including the single-instance case.
+   All other legacy MCP/UnitySkills use requires an explicit current-task
+   request. Check the applicable live transport before safe file-only fallback;
+   unavailable CLI instances alone do not block a proven pre-Unity-6 MCP target.
+   Never duplicate a mutation or use raw YAML to bypass target/asset gates.
 9. Inspect the final diff for containment, generated churn, secrets, and
    acceptance coverage.
 10. Build an acceptance-to-verification matrix using each channel required by

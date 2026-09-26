@@ -64,15 +64,19 @@ edit in `--audit` mode.
 
 Use one Unity transport per mutation:
 
-1. Use the installed Unity CLI as the mandatory control plane and prove the
-   target with `unity status --json` plus exact `--project-path`.
+1. Verify the installed Unity CLI and apply `unity-cli`'s version gate first.
+   Unity 6+ uses `unity status --json`, full `--project-path`, and an exact
+   canonical-root/complete-version match.
 2. If it is missing, install the official CLI under the standing authorization
    before continuing.
 3. Use built-in `unity mcp` when MCP protocol is needed. Legacy MCP and
    UnitySkills require an explicit user request, except MCP for Unity under the
-   `unity-cli` pre-Unity-6 version gate. If requested, prove identity
-   with `project_get_info`; otherwise use direct file inspection as the final
-   fallback.
+   `unity-cli` pre-Unity-6 version gate. On that route, complete
+   [the exact MCP identity gate](../../unity-cli/SKILL.md#exact-mcp-identity-gate)
+   before selection and confirm project-info readback before Editor work.
+   Only explicitly requested UnitySkills uses `project_get_info` for its
+   separate identity proof. Check the applicable live route before safe
+   file-only fallback; unresolved live identity blocks Editor operations.
 4. Manual Unity YAML editing is a last resort and high risk; default to
    `BLOCKED` for scenes, prefabs, ScriptableObjects, `.inputactions`,
    Addressables/global settings, and other serialized assets.

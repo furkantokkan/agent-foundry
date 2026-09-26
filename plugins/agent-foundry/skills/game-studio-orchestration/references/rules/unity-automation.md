@@ -7,17 +7,22 @@
 2. If `unity` is missing, install the official CLI under the user's standing
    authorization, inspect the downloaded installer, and verify the binary. Do
    not substitute a legacy MCP connection.
-3. Verify `unity --version`, inspect relevant command help, and confirm the
-   exact project root/version with `unity status --json`. Pass `--project-path`
-   whenever multiple Editors may exist.
+3. Verify `unity --version`, inspect relevant help, and apply `unity-cli`'s
+   repository version gate. Unity 6+ uses `unity status --json`, full
+   `--project-path`, and an exact canonical-root/complete-version match.
+   Pre-Unity-6 uses
+   [the exact MCP identity gate](../../../unity-cli/SKILL.md#exact-mcp-identity-gate)
+   before selecting even one instance, then verifies pinned project-info readback.
 4. Use direct CLI/Pipeline commands first. When MCP protocol is required, use
    built-in `unity mcp` configured and targeted through the CLI.
 5. Legacy standalone Unity MCP and UnitySkills REST are opt-in only when the
    user explicitly requests them for the current task. The exception is MCP for
    Unity under the `unity-cli` pre-Unity-6 version gate.
-6. Use exactly one mutation path. If the verified CLI cannot expose required
-   live state, continue with pinned Editor/file inspection where safe. Manual
-   Unity YAML editing is the last resort.
+6. Use exactly one mutation path. Check the applicable live transport before
+   safe file-only work; empty CLI status does not invalidate proven pre-Unity-6
+   MCP identity. Unproven identity blocks Editor work. File inspection cannot
+   substitute for required live evidence or bypass serialized-asset approval.
+   Manual Unity YAML editing is the last resort.
 
 ## Mutation Safety
 

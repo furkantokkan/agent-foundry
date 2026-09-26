@@ -8,14 +8,20 @@ guidelines. The Unity CLI is the mandatory control plane.
 
 1. Verify the installed Unity CLI and relevant command help. If it is missing,
    install the official CLI under the standing authorization before continuing.
-2. Match the exact project with `unity status --json`; pass `--project-path`
-   when needed.
+2. Apply `unity-cli`'s repository version gate. Unity 6+ uses
+   `unity status --json`, full `--project-path`, and an exact canonical-root
+   and complete-version match. For pre-Unity-6, complete
+   [the exact MCP identity gate](../../unity-cli/SKILL.md#exact-mcp-identity-gate)
+   before selecting even one instance, then verify pinned project-info readback.
 3. Use direct CLI/Pipeline commands. When MCP protocol is required, use the
    built-in `unity mcp` server configured and targeted by the CLI.
 4. Legacy standalone Unity MCP and UnitySkills REST require an explicit user
    request for the current task; they are not fallback transports. The
    exception is MCP for Unity under the `unity-cli` pre-Unity-6 version gate.
-5. Load Unity user/project guidelines through the CLI-controlled route when available.
+5. Load Unity user/project guidelines through the applicable verified route.
+   Check gated MCP before file-only fallback; empty CLI status does not
+   invalidate proven pre-Unity-6 MCP identity. Missing or conflicting live
+   identity blocks Editor operations.
 6. Check editor state before making assumptions:
    - Do not trigger disruptive actions while compiling or updating assets.
    - Do not enter or stop Play Mode unless the task requires it.

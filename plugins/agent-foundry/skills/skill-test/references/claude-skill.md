@@ -304,12 +304,16 @@ full before running it.
   state, target platform, agent/skill version, and task ID. A downstream role
   may start dirty only when `HEAD + dirty fingerprint` exactly matches the prior
   handoff.
-- Verify the installed Unity CLI as the mandatory control plane and prove the target with
-  `unity status --json` plus exact `--project-path`. Install it when missing. Use
-  built-in `unity mcp` when needed. Legacy MCP and UnitySkills require an explicit
-  user request, except MCP for Unity under the `unity-cli` pre-Unity-6 version
-  gate. If CLI-controlled evidence is unavailable, return `BLOCKED`;
-  never repeat one mutation through two paths.
+- Verify the installed Unity CLI, installing it when missing, and apply
+  `unity-cli`'s version gate before choosing fixture evidence. Unity 6+ uses
+  exact-root/version-matched `unity status --json`, full `--project-path`,
+  and built-in `unity mcp` when needed. Pre-Unity-6 uses
+  [the exact MCP identity gate](../../unity-cli/SKILL.md#exact-mcp-identity-gate)
+  before any selection or Editor work. Other legacy MCP/UnitySkills use still
+  requires an explicit user request. Return `BLOCKED` only when required
+  identity/runner evidence is unavailable from the applicable route; an empty
+  CLI status result alone does not block a proven pre-Unity-6 MCP fixture.
+  Never repeat one mutation through two paths.
 
 ### Step 2 — Establish Baseline Evidence
 

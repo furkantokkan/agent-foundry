@@ -267,12 +267,15 @@ All defects being verified is necessary but not sufficient when another
 required channel remains unproven. Likewise, green acceptance rows never hide
 an unresolved defect.
 
-Use the installed Unity CLI first for exact-project inspection: verify the
-command, prove identity with `unity status --json`, and pass `--project-path`
-when needed. If the CLI is missing, install it under the standing authorization.
-Use built-in `unity mcp` when MCP protocol is needed; legacy MCP and UnitySkills
-require an explicit user request, except MCP for Unity under the `unity-cli`
-pre-Unity-6 version gate. Never repeat one mutation through two paths.
+Verify the installed Unity CLI, installing it when missing, then apply
+`unity-cli`'s repository version gate. Unity 6+ uses exact-root/version-matched
+`unity status --json`, full `--project-path`, and built-in `unity mcp` when
+needed. Pre-Unity-6 uses
+[the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate)
+before selection and project-info readback before Editor work. Check this route
+before file-only fallback or an unavailable-runner verdict. Other legacy
+MCP/UnitySkills use requires an explicit user request. Never repeat one mutation
+through two paths.
 
 ## 6. Record transitions and evidence idempotently
 

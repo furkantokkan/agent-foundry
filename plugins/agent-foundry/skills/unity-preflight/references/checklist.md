@@ -23,13 +23,25 @@
 
 ## Editor and automation
 
-- Installed Unity CLI verified; `unity status --json` target and exact
-  `--project-path` recorded as the mandatory control plane.
+- Installed Unity CLI verified; repository version gate recorded before
+  choosing live evidence. Unity 6+ uses `unity status --json` with full
+  `--project-path`, then exact canonical-root and complete-version comparison.
 - If the CLI was missing, official installation completed and `unity --version`
   verified before preflight resumed.
 - Built-in `unity mcp` used only when MCP protocol was needed. Any legacy MCP or
   UnitySkills use has an explicit current-task user request recorded, or, for
   MCP for Unity in a project below Unity 6, the `unity-cli` version gate.
+- For pre-Unity-6 MCP, exactly one full instance ID is bound to the requested
+  canonical absolute root and complete Unity version before selection, even
+  with one connected Editor. Missing path/version, ambiguity, or mismatch
+  blocks live work; HTTP discovery without a path needs independent evidence
+  bound to that same instance/session.
+- Full-ID selection is followed by `mcpforunity://project/info` readback
+  before Editor-state reads, tests, or mutations. Record root, version, full ID,
+  session when available, and evidence source. Reconnect, restart, reload, or
+  routing changes invalidate that proof.
+- Valid gated MCP evidence is accepted even when CLI status has no instances;
+  check this route before file-only fallback or an unavailable-runner verdict.
 - When UnitySkills was explicitly requested, its exact project path was proven
   separately with `project_get_info`, and Bypass was recorded as read-only until
   the user selected Approval in the panel.

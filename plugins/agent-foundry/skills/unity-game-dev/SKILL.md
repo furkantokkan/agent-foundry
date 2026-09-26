@@ -30,8 +30,11 @@ Before editing, inspect the project shape:
 5. Any local design docs, ADRs, stories, or task files the user mentions
 
 Use the installed Unity CLI for every Unity task. Verify it with
-`unity --version`, prove the exact project with `unity status --json`, and pass
-`--project-path` whenever multiple Editors may be running. If the CLI is
+`unity --version`, then apply `unity-cli`'s repository version gate. Unity 6+
+uses `unity status --json` with full `--project-path` and exact root/version
+comparison; pre-Unity-6 uses
+[the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate)
+before selecting even a single instance. If the CLI is
 missing, install the official CLI under the user's standing authorization
 before continuing. Use direct CLI/Pipeline commands first and built-in
 `unity mcp` when an AI client needs MCP. Do not switch to a legacy standalone
@@ -40,7 +43,7 @@ exception is a project below Unity 6, where the `unity-cli` version gate
 approves MCP for Unity for live Editor work.
 Before reasoning about live Unity state, confirm project identity, Unity
 version, compilation, asset import, Play Mode, and recent Console status
-through the CLI control plane.
+through the applicable identity-verified transport.
 
 If this is not a Unity project yet, help create a Unity-friendly structure only
 after the user asks for scaffolding.
@@ -54,12 +57,15 @@ Use the installed Unity CLI as the mandatory Unity-specific control plane:
 2. If the command is missing, install the official Unity CLI under the user's
    standing authorization, then verify it before any Unity work. Do not replace
    this bootstrap with a legacy MCP connection.
-3. Run `unity status --json` and match the exact project root and Unity version.
-   Pass `--project-path` whenever more than one Editor may be available.
+3. Apply the repository version gate before choosing live evidence. Unity 6+
+   requires `unity status --json`, full `--project-path`, and exact canonical
+   root/complete-version matching. For pre-Unity-6, complete the exact MCP
+   identity gate before selection, then verify pinned project-info readback.
 4. Use direct CLI/Pipeline commands for supported Editor operations. For AI MCP
    clients, use the server/configuration provided by built-in `unity mcp`.
-5. When the installed CLI cannot expose an operation, continue through its
-   built-in MCP mode or a pinned source/file workflow. Legacy standalone Unity
+5. Check the applicable live transport before a safe pinned source/file
+   workflow; valid pre-Unity-6 MCP evidence does not depend on CLI status
+   finding an instance. Legacy standalone Unity
    MCP and UnitySkills are opt-in only for an explicit user request, except MCP
    for Unity under the `unity-cli` pre-Unity-6 version gate.
 6. Never perform the same write through multiple transports. Verify through an

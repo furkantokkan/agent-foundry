@@ -153,12 +153,17 @@ For a Unity-shaped target, invoke the installed `unity-preflight` skill before
 Unity inspection or domain planning. Preserve its exact-repository, transport,
 ownership, dirty-work, and verification-readiness result; a blocking mismatch
 stops further Unity work instead of being hidden by task creation. Then inspect
-through the installed Unity CLI first: verify the command, prove the exact
-project with `unity status --json`, and pass `--project-path` when needed. If
+through the installed Unity CLI first: verify the command and apply the
+`unity-cli` version gate. Unity 6+ uses exact root/version proof from
+`unity status --json` and full `--project-path`; pre-Unity-6 uses
+[the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate)
+before selection or inspection, even with one connected Editor. If
 the CLI is missing, install it under the standing authorization before
 continuing. Use built-in `unity mcp` when needed; legacy MCP and UnitySkills are
 opt-in only through an explicit user request, except MCP for Unity under the
-`unity-cli` pre-Unity-6 version gate. Task creation never authorizes a
+`unity-cli` pre-Unity-6 version gate. Check that gated route before file-only
+fallback; a CLI no-instance result is not an older Editor's identity verdict.
+Task creation never authorizes a
 Unity Editor mutation.
 
 After preflight passes or establishes a safe file-only inspection lane, invoke
