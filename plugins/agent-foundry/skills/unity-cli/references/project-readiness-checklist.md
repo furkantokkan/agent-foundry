@@ -1,4 +1,4 @@
-# Unity Preflight Checklist
+# Project readiness checklist
 
 ## Repository
 

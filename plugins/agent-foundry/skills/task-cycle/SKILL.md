@@ -357,7 +357,7 @@ For `CONTINUE_SAME_TASK`:
    fingerprints, all unresolved defect IDs, exact repros, feedback,
    failed/unproven criteria, and the detected project domain.
 2. For a Unity-shaped repository or Unity contract, require `implement-task` to
-   invoke `unity-preflight` first and `unity-game-dev` after it passes, before
+   invoke `unity-cli` first and `unity-game-dev` after it passes, before
    Unity diagnosis, production/test mutation, or verification. Do not run a
    competing preflight inside the cycle; preserve the handoff result from the
    implementation lane. `task-bug` remains a read-only router and does not
@@ -431,7 +431,7 @@ at a manual `create-task` suggestion.
 1. Write the current cycle evidence and release its lifecycle lock.
 2. Invoke `$create-task` exactly once with the bounded independent outcome.
 3. If creation returns exactly one `ready` task, invoke
-   `$game-studio-orchestration <current-id> <new-id>` automatically. It must
+   `$agent-orchestration <current-id> <new-id>` automatically. It must
    build the conflict graph first, use separate worktrees/branches for
    disjoint writers, keep each implementer -> verifier chain sequential, and
    queue single-Editor work.

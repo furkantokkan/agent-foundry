@@ -1,13 +1,17 @@
 {
   "name": "agent-foundry",
-  "owner": {"name": "Furkan Tokkan"},
-  "metadata": {"description": "Task-first development skills and workflows for Codex and Claude Code."},
+  "owner": {
+    "name": "Furkan Tokkan"
+  },
+  "metadata": {
+    "description": "Task-first development skills and workflows for Codex and Claude Code."
+  },
   "plugins": [
     {
       "name": "agent-foundry",
       "source": "./plugins/agent-foundry",
-      "description": "93 task-first skills for Codex and Claude Code; pair with Unity's official specialist plugin.",
-      "version": "0.3.0"
+      "description": "93 task-first skills with unified cross-domain orchestration and Unity CLI readiness; pair with Unity’s official specialist plugin.",
+      "version": "0.3.1"
     },
     {
       "name": "blender-texture-foundry",

@@ -31,7 +31,7 @@ readback before Editor-state queries, tests, or mutations.
 
 - [Copilot finding](https://github.com/furkantokkan/agent-foundry/pull/2#discussion_r4092262047).
 - [Canonical identity gate](../../plugins/agent-foundry/skills/unity-cli/SKILL.md#exact-mcp-identity-gate).
-- [Preflight](../../plugins/agent-foundry/skills/unity-preflight/SKILL.md) applies
+- [Preflight](../../plugins/agent-foundry/skills/unity-cli/SKILL.md) applies
   the gate before Editor inspection or file-only fallback.
 - MCP for Unity v10.2.0
   [HTTP instance discovery](https://github.com/CoplayDev/unity-mcp/blob/v10.2.0/Server/src/services/resources/unity_instances.py)

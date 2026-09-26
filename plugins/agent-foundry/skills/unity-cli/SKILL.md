@@ -8,6 +8,12 @@ allowed-tools:
 
 # Unity CLI
 
+For every Unity task, first run the read-only [project readiness check](references/project-readiness.md). It owns repository/instruction discovery, exact identity, dirty work, path and serialized ownership, Editor state, and verification readiness. Report its READY / READY WITH WARNINGS / BLOCKED verdict before dependent work. This is part of unity-cli, not a separate skill.
+Reuse a fresh readiness snapshot across nested skill calls for the same task.
+Revalidate when the target, identity, ownership, instructions, dirty work, or
+relevant Editor state changes; do not repeat the check solely because another
+skill was loaded.
+
 ## Agent Foundry operating contract
 
 The official `unity@unity-agent-plugin` also exposes `unity:unity-cli` for

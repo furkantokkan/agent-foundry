@@ -1,16 +1,10 @@
----
-name: unity-preflight
-model: sonnet
-description: Run a read-only readiness check before Unity development. Use before implementing, debugging, testing, profiling, or mutating Editor state to verify the exact repository, Unity version, instructions, dirty work, automation target, permission mode, compilation/import/play state, and available verification path.
----
-
-# Unity Preflight
+# Project readiness
 
 Establish trustworthy starting evidence without changing files, Editor state,
 Play Mode, tests, permissions, object selections, scenes, or assets.
 
-Read `references/checklist.md` for every run. Read
-`references/unityskills-identity.md` when UnitySkills REST is available or
+Read [the checklist](project-readiness-checklist.md) for every run. Read
+[UnitySkills identity](unityskills-identity.md) when UnitySkills REST is available or
 expected.
 
 ## Resolve the target
@@ -35,7 +29,7 @@ choosing the live transport under `unity-cli`'s version gate:
   project root and complete Unity version; a substring filter or one returned
   instance is not proof.
 - Pre-Unity-6: follow
-  [the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate).
+  [the exact MCP identity gate](../SKILL.md#exact-mcp-identity-gate).
   Before selecting even a single instance, require fresh evidence tying its
   full ID to the exact canonical project root and complete Unity version.
   Missing, ambiguous, stale, or mismatched evidence blocks live work.

@@ -54,6 +54,14 @@ def main():
     aliases = sorted((PLUGIN / 'commands').glob('*.md'))
     agents = sorted((PLUGIN / 'agents').glob('*.md'))
     check(len(skills) == 93, 'Expected 93 Agent Foundry skills; update documented inventory for an intentional change')
+    check('agent-orchestration' in names and 'unity-preflight' not in names, 'Unified orchestration/readiness migration is incomplete')
+    active_routes = commands + aliases + [
+        path for path in (PLUGIN / 'skills').rglob('*')
+        if path.suffix in {'.md', '.yaml', '.yml'}
+    ]
+    for path in active_routes:
+        check('unity-preflight' not in path.read_text(encoding='utf-8'),
+              f'Retired unity-preflight route remains: {path.relative_to(ROOT)}')
     check(names.intersection(official_unity_names) == {'unity-cli'},
           'Official Unity specialist skills must be installed from the separate vendor plugin')
     check((PLUGIN / 'UNITY_COMPANION_LICENSE.md').is_file(), 'Unity Companion License notice is missing')
@@ -78,12 +86,12 @@ def main():
             if not any(char in target for char in '*<> ') and not target.endswith('/'):
                 check((skill.parent / target).exists(), f'Missing bundled reference: {skill.parent.name}/{target}')
     cli_text = (PLUGIN / 'skills/unity-cli/SKILL.md').read_text(encoding='utf-8')
-    preflight_text = (PLUGIN / 'skills/unity-preflight/SKILL.md').read_text(encoding='utf-8')
+    preflight_text = (PLUGIN / 'skills/unity-cli/references/project-readiness.md').read_text(encoding='utf-8')
     automation_text = (PLUGIN / 'skills/game-studio-orchestration/references/rules/unity-automation.md').read_text(encoding='utf-8')
     check('Unity CLI / Pipeline' in cli_text and 'mandatory control plane' in cli_text,
           'unity-cli must retain mandatory CLI transport policy')
-    check('unity status --json' in preflight_text,
-          'unity-preflight must prove CLI project identity first')
+    check('unity status --json' in preflight_text and 'Exact MCP identity gate' in cli_text,
+          'unity-cli readiness must prove exact live identity')
     check('mandatory control plane' in automation_text and 'install the official CLI' in automation_text,
           'Unity automation policy must require and bootstrap the CLI')
     check('curl -fsSL https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.sh |' not in cli_text,
@@ -136,7 +144,7 @@ def main():
         if args.refresh:
             item['sha256'] = digest
         check(item['sha256'] == digest, f'Export hash changed: {item["path"]}; review then use --refresh')
-    catalog = '# Skill catalog\n\n93 Agent Foundry skills from the public v0.3.0 snapshot. Descriptions come from each skill\'s frontmatter. Install [Unity Technologies\' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
+    catalog = '# Skill catalog\n\n93 Agent Foundry skills from the public v0.3.1 snapshot. Descriptions come from each skill\'s frontmatter. Install [Unity Technologies\' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
     for skill in skills:
         target = '../' + skill.relative_to(ROOT).as_posix()
         catalog += f'| [{skill.parent.name}]({target}) | {description(skill)} |\n'

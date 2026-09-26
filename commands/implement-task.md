@@ -32,14 +32,14 @@ required manual/visual evidence. Closed-task feedback follows the same route;
 the downstream cycle may reopen it inside unchanged authority.
 
 For a direct initial tracked task, require task state `ready`, attempt zero, an
-empty defect ledger, and no CycleContext. For Unity, load `unity-preflight`
+empty defect ledger, and no CycleContext. For Unity, load `unity-cli`
 first and `unity-game-dev` second before mutation. If independent verification
 passes every required channel, compute the canonical reviewed/evidence
 identities, write fresh acceptance evidence, set `READY_TO_CLOSE`, and return
 the exact `task-done <ID>` next command without invoking an empty task-cycle.
 Any populated/resumed defect lifecycle remains task-cycle-owned.
 If a proven live owner prevents direct acquisition, do not fail the authorized
-task as blocked. Queue it through `game-studio-orchestration`, wait for the
+task as blocked. Queue it through `agent-orchestration`, wait for the
 owner completion/lock-release signal, then revalidate and resume automatically.
 
 Do not pre-announce a remembered defect ID, recurrence/reopen, root cause, or

@@ -35,7 +35,7 @@ in the same turn, dispatch `implement-task` immediately; do not stop at
 `TASK UPDATED` or ask for another affirmative. A still-unanswered product
 choice remains draft, and implementation retains all risk/approval gates.
 If one exact live predecessor owns overlapping paths, keep the new contract
-ready and dispatch both IDs to `game-studio-orchestration`; it must wait for
+ready and dispatch both IDs to `agent-orchestration`; it must wait for
 the stable handoff/ownership-release signal and start the successor
 automatically without another command.
 

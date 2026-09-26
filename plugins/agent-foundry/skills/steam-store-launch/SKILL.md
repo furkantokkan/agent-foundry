@@ -107,5 +107,5 @@ CRM Columns
   positioning is unclear.
 - Use `game-code-review` or `unity-game-dev` only if the Steam page claims need
   verification against the actual build.
-- Use `game-studio-orchestration` for full pre-release, Next Fest, or launch
+- Use `agent-orchestration` for full pre-release, Next Fest, or launch
   campaigns that involve design, production, QA, community, and release work.

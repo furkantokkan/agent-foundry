@@ -151,7 +151,7 @@ or closure logic.
 Only one downstream `task-cycle` lifecycle writer may run for the same task at
 a time. Do not acquire the shared lock on its behalf. If another cycle owns it,
 return the non-terminal route `WAITING_FOR_OWNER` when the live owner and order
-are proven. Hand the raw feedback to `game-studio-orchestration`, which keeps it
+are proven. Hand the raw feedback to `agent-orchestration`, which keeps it
 queued, waits for the owner completion/claim-release signal, then re-dispatches
 `task-cycle` automatically. Do not ask the operator to repeat the feedback or
 type another command. Use `BLOCKED: TASK_LIFECYCLE_BUSY` only when owner
@@ -180,7 +180,7 @@ without execution authorization. When an explicit same-conversation
 affirmative resolves that one task from draft to ready, cascade into
 `$implement-task` in the same turn instead of returning another next command.
 If that ready task has one exact active predecessor on its writable paths,
-cascade into `$game-studio-orchestration <predecessor> <new-id>` instead. It
+cascade into `$agent-orchestration <predecessor> <new-id>` instead. It
 must retain the execution authorization, wait, and start the successor after
 the stable handoff without another `continue`.
 Never invoke both `$task-cycle` and `$create-task` as independent routes for
@@ -198,7 +198,7 @@ Contract: production/tasks/<ID>/contract.md | none
 Feedback: <atomic observation summary without losing raw evidence>
 Candidate defect: <D-xxx from conversation/handoff | none>
 Defect match authority: task-cycle | not run
-Dispatch: task-cycle <ID> | create-task | game-studio-orchestration <IDs> |
+Dispatch: task-cycle <ID> | create-task | agent-orchestration <IDs> |
           not dispatched
 Defect records: <linked D-xxx paths returned by task-cycle | none>
 Cycle result: <terminal task-cycle verdict | not run>

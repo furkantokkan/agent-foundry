@@ -23,7 +23,7 @@ resolving a task ID, and apply its conflict and safety-order rules exactly.
 
 Unity execution hard gate: after resolving the exact task/repository and before
 any lifecycle, production, test, or evidence mutation, invoke
-`unity-preflight`; only a non-blocking result may proceed to
+`unity-cli`; only a non-blocking result may proceed to
 `unity-game-dev`. Load that domain skill before diagnosis or mutation. Reading
 the contract and owned files is allowed before this gate, but patching is not.
 Then acquire or reuse the task lifecycle lock required in Section 2 before the
@@ -166,7 +166,7 @@ state under the lock, hold it through the complete direct
 implementation/verifier handoff, and release it from a `finally` path only when
 both the authoritative `.lock.claim` file and `owner.json` still contain that
 exact token. If direct acquisition finds one proven live owner, perform no
-write and hand the still-authorized invocation to `game-studio-orchestration`
+write and hand the still-authorized invocation to `agent-orchestration`
 as `WAITING_FOR_OWNER`. It must wait for owner completion/claim release,
 revalidate, and retry automatically without another user command. Do not turn a
 live, ordered owner into a persistent blocked task or request stale recovery.
@@ -273,7 +273,7 @@ Never let orchestration expand the contract.
 2. Select the smallest relevant installed skills and role guidance.
    A Unity-shaped repository or a contract that targets Unity runtime, Editor,
    C#, assets, tests, UI, input, animation, physics, or build behavior must first
-   invoke the installed `unity-preflight` skill. Stop before mutation when its
+   invoke the installed `unity-cli` skill. Stop before mutation when its
    exact-repository, transport, ownership, dirty-work, or verification-readiness
    result blocks execution. After preflight passes, invoke the installed
    `unity-game-dev` skill before Unity-specific diagnosis, planning,

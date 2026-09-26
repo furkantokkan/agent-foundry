@@ -59,7 +59,7 @@ a new conversation does not use this shortcut. Implementation still enforces
 all risk, ownership, transport, and approval gates.
 
 If one exact live predecessor owns the authorized task's writable paths, the
-affirmative remains valid. Route both IDs to `game-studio-orchestration`, mark
+affirmative remains valid. Route both IDs to `agent-orchestration`, mark
 the successor `WAITING_FOR_OWNER`, wait for the stable handoff/lock-release
 signal, and dispatch it automatically. Do not convert a schedulable ownership
 collision into `draft`/persistent blocked state or ask for another affirmative.
@@ -150,7 +150,7 @@ Execution consumes ready task authority and may not redesign it silently.
 - Ready production task: implementer -> verifier -> task done on a clean pass;
   otherwise task-bug -> task-cycle -> bugfixer only when needed -> verifier ->
   task done.
-- Independent tracked tasks: invoke `game-studio-orchestration <ID...>`; it
+- Independent tracked tasks: invoke `agent-orchestration <ID...>`; it
   resolves ready contracts, assigns separate branches/worktrees to disjoint
   writers, queues a proven overlapping successor behind its active
   predecessor, queues single-Editor work, runs disjoint tasks in parallel, and
@@ -159,10 +159,10 @@ Execution consumes ready task authority and may not redesign it silently.
   Unity asset: plan and explicit approval before the protected mutation.
 
 Domain skills layer under lifecycle skills rather than competing with them. In
-a Unity-shaped target, `create-task` invokes `unity-preflight` first, then
+a Unity-shaped target, `create-task` invokes `unity-cli` first, then
 `unity-game-dev` read-only to plan topology, ownership, risk, and evidence.
 `implement-task` and every Unity repair dispatched by `task-cycle` also require
-`unity-preflight` before `unity-game-dev`, Unity diagnosis, production/test
+`unity-cli` before `unity-game-dev`, Unity diagnosis, production/test
 mutation, or verification, then report both the preflight result and
 `Domain workflow: unity-game-dev`. `task-bug` remains only the read-only
 resolver/router and selects no downstream domain workflow until task matching

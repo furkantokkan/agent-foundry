@@ -82,7 +82,13 @@ The [official Unity repository](https://github.com/Unity-Technologies/unity-agen
 
 ## Your first workflow
 
-Use a project with repository instructions and test commands already defined. For Unity, begin with `unity-preflight` to check the target project and Editor.
+Use a project with repository instructions and test commands already defined. For Unity, begin with `unity-cli` to check the target project and Editor.
+
+For independent investigations or task batches across games, web, SaaS, or
+tooling, use `agent-orchestration`. It keeps ownership, role handoffs, worktrees,
+and verification together. `game-studio-orchestration` remains a compatibility
+alias; Unity project-readiness checks now belong to `unity-cli` rather than a
+separate skill. See the [migration notes](docs/INSTALLATION.md#unified-orchestration-and-readiness-migration).
 
 The dash prompt above creates `production/tasks/<TASK-ID>/contract.md`. Review its scope and acceptance criteria, then replace `<TASK-ID>` below with the generated ID. **Send each prompt separately as the work progresses.**
 

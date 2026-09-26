@@ -1,10 +1,19 @@
 {
   "name": "agent-foundry",
-  "version": "0.3.0",
-  "description": "93 skills for Codex and Claude Code: task contracts, Unity CLI workflow, game design, game feel polish, Firebase, QA and releases. Pair with Unity's official specialist plugin.",
-  "author": {"name": "Furkan Tokkan"},
+  "version": "0.3.1",
+  "description": "Task-first workflows with unified orchestration, Unity CLI readiness, game design, Firebase, QA and releases. 93 skills; pair with Unity’s official specialist plugin.",
+  "author": {
+    "name": "Furkan Tokkan"
+  },
   "license": "MIT",
-  "keywords": ["codex", "claude-code", "skills", "unity", "game-development", "game-feel"],
+  "keywords": [
+    "codex",
+    "claude-code",
+    "skills",
+    "unity",
+    "game-development",
+    "game-feel"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Agent Foundry",
@@ -12,8 +21,16 @@
     "longDescription": "A curated collection of task-first development skills, Unity workflows, game design references, review checklists and release procedures for coding agents.",
     "developerName": "Furkan Tokkan",
     "category": "Engineering",
-    "capabilities": ["Read", "Write"],
-    "defaultPrompt": ["Use create-task to scope this feature", "Run a read-only Unity preflight", "Review this change with game-code-review", "Polish this hit or menu with game-feel-polish"],
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use create-task to scope this feature",
+      "Run unity-cli project readiness",
+      "Review this change with game-code-review",
+      "Polish this hit or menu with game-feel-polish"
+    ],
     "brandColor": "#F97316"
   }
 }

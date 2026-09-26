@@ -1,10 +1,17 @@
 {
   "name": "agent-foundry",
-  "version": "0.3.0",
-  "description": "Task-first workflows for Unity, game design, game feel polish, Firebase, QA and releases. 93 skills, 7 command aliases and 3 Unity roles. Pair with Unity's official specialist plugin.",
-  "author": {"name": "Furkan Tokkan"},
+  "version": "0.3.1",
+  "description": "Task-first workflows with unified orchestration, Unity CLI readiness, game design, Firebase, QA and releases. 93 skills; pair with Unity’s official specialist plugin.",
+  "author": {
+    "name": "Furkan Tokkan"
+  },
   "homepage": "https://github.com/furkantokkan/agent-foundry",
   "repository": "https://github.com/furkantokkan/agent-foundry",
   "license": "MIT",
-  "keywords": ["skills", "unity", "game-development", "workflow"]
+  "keywords": [
+    "skills",
+    "unity",
+    "game-development",
+    "workflow"
+  ]
 }
