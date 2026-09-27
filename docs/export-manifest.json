@@ -587,7 +587,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-bugfixer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-bugfixer.md",
-    "sha256": "4c7dbc8d6c5afb99fcb0c3d16c57daec38f02407b8f57fda9603d6dee4c8c733"
+    "sha256": "faf9eeb1c62b038bbfb7db920b5abdcbc7ab7b7f8f0c2c5a86dcfd8947a34100"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-dots-specialist.md",
@@ -597,7 +597,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-feature-implementer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-feature-implementer.md",
-    "sha256": "9e4b46774e07216dc2f199f18dda9182ac507b0766f514104c946c6af50b5ebe"
+    "sha256": "9cda8ab1fb59f86c2d86a72b2610ac1987baecbb759b1452f59bdbd992d38b5b"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-shader-specialist.md",
@@ -1037,7 +1037,7 @@
   {
     "path": "plugins/agent-foundry/skills/implement-task/SKILL.md",
     "source": "local Codex skill: implement-task/SKILL.md",
-    "sha256": "a291ce23e4ced14f04ed53d65f613eceafe466627d76955a34666cc0682fa906"
+    "sha256": "1620fcb5052d48985975e516773f09903e3860c5f8fed16a86a7ab0f0815847d"
   },
   {
     "path": "plugins/agent-foundry/skills/javascript-game-tools/references/javascript-patterns.md",
@@ -1412,7 +1412,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/SKILL.md",
     "source": "local Codex skill: task-cycle/SKILL.md",
-    "sha256": "91b5cd185e18020f2e14ff31d77978d83d3ca00a95749bbc3e78be39218f3129"
+    "sha256": "a907361616ddf2211488f1dd97af945ad4b8ddee8d9a7d9262285324a8d7646e"
   },
   {
     "path": "plugins/agent-foundry/skills/task-done/agents/openai.yaml",
@@ -1607,7 +1607,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "dd7e3f6ce710dc0aca48492d459fa4db5b829b31a54a3039d2aa54dd0903163c"
+    "sha256": "82a04dcbd9776bd6713a913d4181132979aade2ff4da7d40c83fc717bfd3338f"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
+    "source": "local Codex skill: unity-cli/scripts/unity_compile_check.py",
+    "sha256": "33680c9aba8a52ff0eba5b89c496587d462d70c8925605b527447e950494aa23"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
@@ -1642,7 +1647,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/SKILL.md",
     "source": "local Codex skill: unity-game-dev/SKILL.md",
-    "sha256": "507f733ac467fec72da4fc0efbadae71d2791211549d8ec8c56159acf6021af0"
+    "sha256": "19ba401a164f636930d0c78065eebff6fdae64a4db2c948fc325e970e0535e74"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-optimization/agents/openai.yaml",
@@ -2187,7 +2192,7 @@
   {
     "path": "plugins/agent-foundry/agents/unity-feature-implementer.md",
     "source": "local Claude role: unity-feature-implementer",
-    "sha256": "764458d47902959b3099dcc2bcdc5e6cf7fd06d69b53992c1446150e0c1d1df3"
+    "sha256": "cfdb39cdfeea69772525a78db3ad6fcff74600e19586b1153fa5fa54e430b5ad"
   },
   {
     "path": "plugins/agent-foundry/agents/unity-test-verifier.md",
@@ -2197,7 +2202,7 @@
   {
     "path": "plugins/agent-foundry/agents/unity-bugfixer.md",
     "source": "local Claude role: unity-bugfixer",
-    "sha256": "1e33ac96f472e64023bbddd36ba6ed8212ce791a3aa32312e86f5278665ff394"
+    "sha256": "9af40baee3ffc9e6b72fd73ef2fade8ad9da49363b7c3e75d9de642f83aa46b8"
   },
   {
     "path": "commands/agent-orchestration.md",
@@ -2242,7 +2247,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/references/project-readiness.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "56592ccdb6bf49c05b97292a2d9675454e8bad3e3257e38ebfd696aef019e817"
+    "sha256": "440c3d6bc68c705bf68c15852bf64de4bfd14f4c5aa999d220b4ee90abff0e3e"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/references/project-readiness-checklist.md",

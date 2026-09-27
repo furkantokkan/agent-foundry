@@ -171,6 +171,9 @@ Apply the repository's approval policy before running commands:
   their status/log/result queries are already authorized after proving the
   exact project. Do not ask for a separate command approval or accepted task
   plan. Use a focused filter when practical and preserve unsaved Editor work.
+  Run tests only in the final stage. During development, use the
+  [Roslyn compile check](#development-compile-check-roslyn), which writes no
+  tracked file and needs no approval.
 - Other Editor mutations, `run`, `open`, `config`, and arbitrary Pipeline
   command execution follow the accepted task scope, declared paths, and risk
   gates. Do not ask again for each low-risk command within that scope.
@@ -181,6 +184,50 @@ Apply the repository's approval policy before running commands:
 `build`, `run`, and `test` can write generated or imported project state. Treat
 their project and output paths as declared owned paths, and report the exit code
 plus log/report path on failure.
+
+## Development compile check (Roslyn)
+
+During development, verify each Unity C# change with this check instead of a
+Unity Test Runner run. It compiles only the assemblies that contain the changed
+files with `dotnet build` (Roslyn), against the assemblies Unity already
+compiled into `Library/ScriptAssemblies`. It needs no running Editor, so it
+also works below Unity 6, and it takes seconds.
+
+```bash
+python "<unity-cli skill dir>/scripts/unity_compile_check.py" --project <project root> --files <changed and deleted files>
+```
+
+- Add `--dependents` after changing the public API of an assembly that others
+  reference. It then also compiles every assembly that depends on it.
+- New files are compiled into the assembly Unity would assign them to, and
+  deleted files are removed, even before Unity regenerates its project files.
+- If Unity's compiled copy of a dependency is older than its sources, the check
+  compiles that dependency from source first.
+- It ignores `.csproj` files left over from removed assemblies.
+- It writes only under the project's `Temp/` and one file in the system temp
+  folder.
+- It needs three things: the .NET SDK, the Unity Editor version the project
+  files target, and one earlier Unity compile of the project on this machine.
+
+Verdicts:
+- `COMPILE_OK` (exit 0): continue.
+- `COMPILE_ERRORS` (exit 1): lists the errors. Fix them before the next step.
+- `COMPILE_UNVERIFIED` (exit 2): explains why the check cannot decide, for
+  example a changed `.asmdef`, missing project files or Editor, or a project
+  Unity never compiled. Fall back to Unity's own compile: `recompile_status`
+  with a live Editor, or MCP for Unity below Unity 6. Or regenerate the project
+  files and run the check again.
+
+Test timing:
+- Do not run Unity tests during development.
+- Write or update the focused EditMode/PlayMode tests, then run them once in
+  the final stage: when the implementation is complete, before verifier
+  handoff, commit, or closure.
+- After that, re-run only failing tests.
+- Reproduce bugs from the supplied evidence (failing-test output, logs, a
+  concrete scenario) instead of re-running tests.
+- Run tests earlier only when the user asks.
+- Closure gates do not change.
 
 ## Drive a running Unity Editor (if one is open)
 

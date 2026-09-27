@@ -73,6 +73,8 @@ Focused tests and compile/recompile checks belong to verification after
 preflight. A user request to implement, fix, or verify Unity behavior
 authorizes those checks without separate contract or command approval once
 the exact project is confirmed. Preserve unsaved Editor work.
+During development, verification is the Roslyn compile check. Focused tests run
+once, in the final stage (see "Development compile check" in `SKILL.md`).
 Test-template creation must pass the canonical folder explicitly; UnitySkills
 defaults may not match `Assets/.../Tests/EditMode` and `PlayMode` conventions.
 

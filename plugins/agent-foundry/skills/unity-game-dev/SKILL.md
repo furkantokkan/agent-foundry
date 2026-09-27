@@ -131,14 +131,16 @@ it would break correctness, security, or the user's explicit request.
 2. Check whether the change is gameplay, UI, asset loading, Firebase/backend,
    editor tooling, animation/avatar, input, persistence, or performance-sensitive
    code.
-3. For bugs, reproduce the issue first when practical with a focused test,
-   console evidence, scene/prefab inspection, or a concrete manual scenario.
+3. For bugs, reproduce the issue first when practical with console evidence,
+   supplied failing-test output, scene/prefab inspection, or a concrete manual
+   scenario. Do not run tests to reproduce.
 4. Define success criteria before editing: behavior, affected scenes/assets,
    tests, and any manual Unity verification needed.
 5. Propose the file-level approach before large edits.
 6. Implement narrowly, following existing project conventions.
-7. Add or update tests when logic changes.
-8. Run available tests or explain exactly why they cannot run here.
+7. After each edit, run the Roslyn compile check from `unity-cli`.
+8. In the final stage, add or update tests for changed logic and run them once,
+   or explain exactly why they cannot run here. Re-run only failures.
 9. Re-check Unity Console when MCP is connected.
 10. Summarize changed files, verification, and residual risks.
 

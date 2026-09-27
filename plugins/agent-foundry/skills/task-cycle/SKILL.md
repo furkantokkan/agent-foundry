@@ -229,6 +229,12 @@ Use a deterministic failing signal at the correct public/runtime seam when
 practical. Do not accept a different green test as proof, add broad permanent
 logging, or leave temporary instrumentation behind.
 
+In Unity, follow the Unity test timing rule:
+- Take the failing signal from the recorded evidence; do not re-run tests for it.
+- Check each repair edit with the Roslyn compile check from `unity-cli`.
+- Run the original repro and the regression tests once, when the repair is
+  complete.
+
 Keep diagnosis claims at separate evidence levels:
 
 - `OBSERVED`: the exact externally visible failure and reproduction channel;

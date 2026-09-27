@@ -269,7 +269,8 @@ Never let orchestration expand the contract.
 1. Reproduce a bug or capture a comparable performance baseline when practical.
    For cycle work, establish a deterministic failing signal for each supplied
    defect at its original public/runtime seam before changing code when that
-   seam is available.
+   seam is available. In Unity, take that signal from the supplied evidence or
+   a concrete scenario; do not re-run tests for it (Unity test timing).
 2. Select the smallest relevant installed skills and role guidance.
    A Unity-shaped repository or a contract that targets Unity runtime, Editor,
    C#, assets, tests, UI, input, animation, physics, or build behavior must first
@@ -285,13 +286,17 @@ Never let orchestration expand the contract.
 3. Preserve established architecture and naming; do not introduce a competing
    framework or migrate adjacent systems incidentally.
 4. Make surgical edits only inside the accepted contract and add focused tests
-   for changed expected behavior where supported.
+   for changed expected behavior where supported. In Unity, check each edit
+   with the Roslyn compile check from `unity-cli` and write the tests in the
+   final stage.
 5. On the first genuine execution transition, update only the contract's
    managed lifecycle block to `in_progress` while holding the direct invocation
    lock; do not create `status.md`. When called by `task-cycle`, let the cycle
    own lifecycle transitions and keep using its validated parent lock.
 6. Run focused checks first, then compilation/build and broader checks required
-   by the effective verification depth and risk.
+   by the effective verification depth and risk. In Unity, the focused
+   EditMode/PlayMode tests run once here, as the final stage, after the
+   implementation is complete; after a fix, re-run only failing tests.
 7. Separate pre-existing failures from regressions. Do not regenerate golden
    fixtures merely to force a pass. A nearby green test does not prove a
    reported runtime symptom; rerun the original repro and required regression
