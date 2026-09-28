@@ -67,7 +67,7 @@ protected-mutation approval gates.
 An exact live writer on overlapping paths is not a planning question. If the
 new contract is otherwise complete, keep it `ready`, record the predecessor as
 an execution dependency, and—when execution is authorized—dispatch both IDs to
-`game-studio-orchestration`. The orchestrator must return
+`agent-orchestration`. The orchestrator must return
 `QUEUED_AFTER_OWNER`, wait for the predecessor's stable handoff and ownership
 release, then start the successor automatically. Do not downgrade the successor
 to `draft`, ask for another `continue`, or request stale-lock recovery while the
@@ -149,15 +149,21 @@ derived, do not write an empty artifact; ask for the missing outcome.
    artifact and an established task index entry when repository policy requires
    it. Preserve all unrelated dirty work.
 
-For a Unity-shaped target, invoke the installed `unity-preflight` skill before
+For a Unity-shaped target, invoke the installed `unity-cli` skill before
 Unity inspection or domain planning. Preserve its exact-repository, transport,
 ownership, dirty-work, and verification-readiness result; a blocking mismatch
 stops further Unity work instead of being hidden by task creation. Then inspect
-through the installed Unity CLI first: verify the command, prove the exact
-project with `unity status --json`, and pass `--project-path` when needed. If
+through the installed Unity CLI first: verify the command and apply the
+`unity-cli` version gate. Unity 6+ uses exact root/version proof from
+`unity status --json` and full `--project-path`; pre-Unity-6 uses
+[the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate)
+before selection or inspection, even with one connected Editor. If
 the CLI is missing, install it under the standing authorization before
 continuing. Use built-in `unity mcp` when needed; legacy MCP and UnitySkills are
-opt-in only through an explicit user request. Task creation never authorizes a
+opt-in only through an explicit user request, except MCP for Unity under the
+`unity-cli` pre-Unity-6 version gate. Check that gated route before file-only
+fallback; a CLI no-instance result is not an older Editor's identity verdict.
+Task creation never authorizes a
 Unity Editor mutation.
 
 After preflight passes or establishes a safe file-only inspection lane, invoke
@@ -392,14 +398,14 @@ Domain planning: unity-game-dev | <other skills> | none
 Open decisions: none | <items>
 Supersedes: <old-id | none>
 Dispatch: implement-task <id> | not dispatched
-Next: $implement-task <id> | $game-studio-orchestration <predecessor-id> <id> | $task-done <id> | $task-bug <existing-id> "<feedback>" | <one focused action>
+Next: $implement-task <id> | $agent-orchestration <predecessor-id> <id> | $task-done <id> | $task-bug <existing-id> "<feedback>" | <one focused action>
 ```
 
 For an unqueued `ready` task, the next step is `$implement-task <ID>`. For a
 queued `ready` task with execution authorization, the next step is automatic
 orchestration resume after the named predecessor; do not print another manual
 implement command. For a queued `ready` task without execution authorization,
-the next step is `$game-studio-orchestration <predecessor-id> <ID>` once the
+the next step is `$agent-orchestration <predecessor-id> <ID>` once the
 operator authorizes execution; never print a manual `$implement-task` next
 command for a queued task. For `draft`, do not recommend implementation until
 the named issue is resolved.

@@ -8,6 +8,12 @@ allowed-tools:
 
 # Unity CLI
 
+For every Unity task, first run the read-only [project readiness check](references/project-readiness.md). It owns repository/instruction discovery, exact identity, dirty work, path and serialized ownership, Editor state, and verification readiness. Report its READY / READY WITH WARNINGS / BLOCKED verdict before dependent work. This is part of unity-cli, not a separate skill.
+Reuse a fresh readiness snapshot across nested skill calls for the same task.
+Revalidate when the target, identity, ownership, instructions, dirty work, or
+relevant Editor state changes; do not repeat the check solely because another
+skill was loaded.
+
 ## Agent Foundry operating contract
 
 The official `unity@unity-agent-plugin` also exposes `unity:unity-cli` for
@@ -17,7 +23,9 @@ mutation twice.
 
 Use the installed `unity` CLI as the mandatory control plane for every Unity
 task. Always start by verifying `unity --version` and the relevant command help;
-for project work, use `unity status --json` to prove the exact Editor/project.
+for project work, read `ProjectSettings/ProjectVersion.txt` and apply the version
+gate below before choosing live identity evidence. Unity 6+ uses
+`unity status --json`; older supported Editors use the MCP identity gate.
 This requirement also applies when the final implementation is an ordinary
 source-file edit.
 
@@ -28,22 +36,124 @@ run it, and verify the installed binary; never pipe a remote response into a
 shell. Environment-level network or elevation approval may still be required.
 Do not bypass installation by switching to a legacy MCP transport.
 
-Transport order:
+Transport order (apply the pre-Unity-6 version gate before this sequence):
 
 1. **Unity CLI / Pipeline** — use direct CLI commands for discovery, Editor
    control, project operations, tests, builds, and automation.
 2. **Built-in `unity mcp`** — when an AI client requires MCP, start or configure
    the server through the installed CLI and pin it with `--project-path`.
-3. **Pinned source/file inspection** — only when the installed CLI has been
-   verified but cannot expose the required state or operation. Manual Unity YAML
-   editing remains the last resort.
+3. **Pinned source/file inspection** — only after the applicable live transport
+   has been checked and cannot safely expose the required state or operation.
+   It is not proof of live Editor identity. Manual Unity YAML editing remains
+   the last resort.
 
 Legacy standalone Unity MCP connections and UnitySkills REST are not automatic
 fallback transports. Use either only when the user explicitly requests it for
-the current task. Never perform the same mutation through two transports. When
-multiple Editors are visible, always pass the exact `--project-path`; never
-infer the target. The installed CLI's help and current official Unity
+the current task. The one exception is the version gate in
+[Editor older than Unity 6](#editor-older-than-unity-6-mcp-for-unity-fallback).
+Never perform the same mutation through two transports. When
+using CLI Editor commands, pass the full `--project-path` and independently
+match the returned canonical absolute project root and complete Unity version.
+CLI path filters may use substring matching; the flag alone is not identity
+proof. Never infer the target from a project name or the only returned row.
+The installed CLI's help and current official Unity
 documentation override this snapshot when flags or subcommands differ.
+
+### Editor older than Unity 6: MCP for Unity fallback
+
+The Pipeline package (`com.unity.pipeline`) needs Unity 6.0+. When
+`m_EditorVersion` in `ProjectSettings/ProjectVersion.txt` is below `6000.0`
+(for example `2022.3.x`), the CLI cannot reach the live Editor.
+`unity status` may report `STATUS_NO_INSTANCES`, and `unity pipeline list`
+may show `hasPipelinePackage: false`. These are diagnostics, not proof of the
+version gate, Editor absence, or target identity. Empty results can also reflect
+Safe Mode, sandbox restrictions, missing packages, or connection failure. Do not run
+`unity pipeline install` in that project. MCP for Unity (CoplayDev,
+`com.coplaydev.unity-mcp`, Unity 2021.3+) is then the approved live-Editor
+transport. The user does not need to request it for each task.
+
+1. Still verify `unity --version`. Record the requested repository's canonical
+   absolute root and complete `m_EditorVersion` from `ProjectVersion.txt`
+   (for example `2022.3.62f2`). Determine the gate from the numeric version,
+   not a lexical comparison or a CLI error. Use `unity pipeline list --json`
+   only as supporting diagnostics. A missing/unreadable version is unresolved,
+   not permission to select a transport. Editors below MCP for Unity's supported
+   minimum also need a compatible approved transport; do not infer support.
+2. Keep the CLI for work that does not need a live Editor: `doctor`,
+   `editors`, `logs`, `pipeline list`, `test`, `build`, and `run`. `test`,
+   `build`, and `run` need the Editor closed because Unity locks the project.
+3. Use MCP for Unity for live Editor control. Pin a release tag in
+   `Packages/manifest.json`:
+   `"com.coplaydev.unity-mcp": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.2.0"`.
+   Adding the package is still a package change and needs explicit target
+   authorization.
+4. Use server name `unityMCP` over HTTP at `http://127.0.0.1:<port>/mcp`. Take
+   the port from the project's `AGENTS.md`, `.mcp.json`, or
+   `.codex/config.toml`. Do not assume a default. Start the server from the
+   Unity MCP for Unity window. It runs through `uvx`, so `uv` must be
+   installed. Write it in project scope: `.mcp.json` for Claude and
+   `[mcp_servers.unityMCP]` in `.codex/config.toml` for Codex. Record the
+   exception and the port in the project `AGENTS.md` (and `CLAUDE.md`).
+   MCP for Unity stores the HTTP URL in machine-wide `EditorPrefs`
+   (`MCPForUnity.HttpUrl`), so another project can change it. If the server
+   does not answer, check that the port in the window matches the project
+   config.
+5. Complete [the exact MCP identity gate](#exact-mcp-identity-gate) before
+   selecting or using any Editor, even when only one instance is connected.
+   When MCP for Unity's `unity-mcp-skill` is installed, use it for tool
+   workflows only after this gate passes.
+6. Send each mutation through one transport only. When the project moves to
+   Unity 6+, return to the CLI transport order. Installing Pipeline or removing
+   fallback packages/configuration still requires explicit target approval.
+
+### Exact MCP identity gate
+
+1. **Discover without selecting.** Read `mcpforunity://instances`. Before
+   calling `set_active_instance`, require fresh evidence tying exactly one
+   listed full instance ID (and its session, when available) to both:
+   - the requested repository's canonical absolute project root;
+   - the complete Unity version from that repository's `ProjectVersion.txt`,
+     including patch and suffix, not merely `2022.3` or `6000`.
+   Resolve path separators, trailing separators, relative components, and
+   symlinks/junctions before comparison; respect filesystem case sensitivity.
+   Never use basename, substring, path-prefix, or worktree-parent matches.
+2. **Require all identity fields.** Use instance discovery fields when present,
+   or trusted read-only registration/process evidence explicitly bound to that
+   same full instance ID/session. A configured port, display name, hash/prefix,
+   remembered selection, or single connected Editor is not sufficient proof.
+   In MCP for Unity v10.2.0, HTTP discovery omits the full project path; do not
+   invent a `path` field. If no independent instance-bound path/version evidence
+   is available, return `BLOCKED: UNITY_TARGET_UNPROVEN` before selection.
+   Do not read the default active Editor's state or select candidates in turn
+   to discover which project they represent.
+3. **Pin only a unique proven match.** Missing, mismatched, ambiguous, or stale
+   identity means no selection, Editor query, test, or mutation. Report the
+   expected and observed identity and obtain fresh read-only evidence; never
+   choose the first/only candidate. For a proven match, explicitly call
+   `set_active_instance` with its full discovered `Name@hash`, including in
+   the single-instance case, and verify the response identifies that same ID.
+4. **Read back before work.** Now read `mcpforunity://project/info` through the
+   pinned session and compare `projectRoot` and `unityVersion` to the same
+   canonical root and complete version. Only then read
+   `mcpforunity://editor/state`, compilation/import/Play Mode state, or invoke
+   other Editor tools. A selection response alone is not a passing preflight.
+   If readback fails or disagrees, stop without Editor work.
+5. **Keep proof current.** Record the root, version, full instance ID, session
+   (when exposed), and evidence source in preflight. A reconnect, Editor
+   restart, changed instance list/selection, domain reload, or routing mismatch
+   invalidates the proof: repeat discovery, matching, pinning, and readback
+   before further Editor work. Preserve unsaved scenes and do not auto-switch.
+
+This gate also applies when another workflow invokes MCP indirectly. For
+pre-Unity-6, successful MCP proof is valid live evidence even if CLI status has
+no instances. Pinned source inspection can proceed without live proof only for
+work whose acceptance does not require the Editor; it never authorizes Editor
+operations on an unproven target. Unity 6+ does not gain automatic legacy-MCP
+permission from an empty CLI result.
+
+Source schema: [instance discovery](https://github.com/CoplayDev/unity-mcp/blob/v10.2.0/Server/src/services/resources/unity_instances.py),
+[project info](https://github.com/CoplayDev/unity-mcp/blob/v10.2.0/Server/src/services/resources/project_info.py),
+and [instance selection](https://github.com/CoplayDev/unity-mcp/blob/v10.2.0/Server/src/services/tools/set_active_instance.py).
 
 For non-interactive or parsed output, use:
 
@@ -61,6 +171,9 @@ Apply the repository's approval policy before running commands:
   their status/log/result queries are already authorized after proving the
   exact project. Do not ask for a separate command approval or accepted task
   plan. Use a focused filter when practical and preserve unsaved Editor work.
+  Run tests only in the final stage. During development, use the
+  [Roslyn compile check](#development-compile-check-roslyn), which writes no
+  tracked file and needs no approval.
 - Other Editor mutations, `run`, `open`, `config`, and arbitrary Pipeline
   command execution follow the accepted task scope, declared paths, and risk
   gates. Do not ask again for each low-risk command within that scope.
@@ -71,6 +184,50 @@ Apply the repository's approval policy before running commands:
 `build`, `run`, and `test` can write generated or imported project state. Treat
 their project and output paths as declared owned paths, and report the exit code
 plus log/report path on failure.
+
+## Development compile check (Roslyn)
+
+During development, verify each Unity C# change with this check instead of a
+Unity Test Runner run. It compiles only the assemblies that contain the changed
+files with `dotnet build` (Roslyn), against the assemblies Unity already
+compiled into `Library/ScriptAssemblies`. It needs no running Editor, so it
+also works below Unity 6, and it takes seconds.
+
+```bash
+python "<unity-cli skill dir>/scripts/unity_compile_check.py" --project <project root> --files <changed and deleted files>
+```
+
+- Add `--dependents` after changing the public API of an assembly that others
+  reference. It then also compiles every assembly that depends on it.
+- New files are compiled into the assembly Unity would assign them to, and
+  deleted files are removed, even before Unity regenerates its project files.
+- If Unity's compiled copy of a dependency is older than its sources, the check
+  compiles that dependency from source first.
+- It ignores `.csproj` files left over from removed assemblies.
+- It writes only under the project's `Temp/` and one file in the system temp
+  folder.
+- It needs three things: the .NET SDK, the Unity Editor version the project
+  files target, and one earlier Unity compile of the project on this machine.
+
+Verdicts:
+- `COMPILE_OK` (exit 0): continue.
+- `COMPILE_ERRORS` (exit 1): lists the errors. Fix them before the next step.
+- `COMPILE_UNVERIFIED` (exit 2): explains why the check cannot decide, for
+  example a changed `.asmdef`, missing project files or Editor, or a project
+  Unity never compiled. Fall back to Unity's own compile: `recompile_status`
+  with a live Editor, or MCP for Unity below Unity 6. Or regenerate the project
+  files and run the check again.
+
+Test timing:
+- Do not run Unity tests during development.
+- Write or update the focused EditMode/PlayMode tests, then run them once in
+  the final stage: when the implementation is complete, before verifier
+  handoff, commit, or closure.
+- After that, re-run only failing tests.
+- Reproduce bugs from the supplied evidence (failing-test output, logs, a
+  concrete scenario) instead of re-running tests.
+- Run tests earlier only when the user asks.
+- Closure gates do not change.
 
 ## Drive a running Unity Editor (if one is open)
 
@@ -94,7 +251,7 @@ unity command editor_play --project-path /path/to/MyProject
 
 A `unity status` instance's `project` field is what `--project-path` takes. For `unity command`/`list`/`job`/`mcp`, matching no running project fails with `AMBIGUOUS_EDITOR` and lists the candidates. [Details](references/integration-advanced.md#targeting-one-of-several-running-editors).
 
-Requires the project's `com.unity.pipeline` package (Unity 6.0+) — add it once with `unity pipeline install`. Full details — launching a headless Editor to drive, `unity list` tool discovery, and authoring custom `[CliCommand]` tools — are in [integration-advanced.md](references/integration-advanced.md).
+Requires the project's `com.unity.pipeline` package (Unity 6.0+) — add it once with `unity pipeline install`. For an older Editor, use [the MCP for Unity fallback](#editor-older-than-unity-6-mcp-for-unity-fallback) instead. Full details — launching a headless Editor to drive, `unity list` tool discovery, and authoring custom `[CliCommand]` tools — are in [integration-advanced.md](references/integration-advanced.md).
 
 The package also ships a deeper `unity-pipeline` agent skill, invisible to clients inside `Library/PackageCache` — in a project with the package, run `unity skill install <client> --local` once to mirror it beside this skill.
 
@@ -252,14 +409,19 @@ flags, environment variables, and exit codes above apply throughout. Every comma
 
 ### Edit a scene, GameObject, or asset — `unity status` first
 
-**Before editing any scene, GameObject, prefab, or asset, run `unity status` to detect a connected Editor.** If one is reachable, drive it with live commands instead of touching project files — the Editor applies changes to the *actual active scene* and keeps its in-memory state in sync.
+**Before editing any scene, GameObject, prefab, or asset, apply the version
+gate and prove the exact Editor identity.** For pre-Unity-6, complete the MCP
+identity gate above before considering file-only fallback. For Unity 6+, use
+`unity status` and the pinned CLI route below; a reachable unrelated Editor
+does not satisfy the gate. Preserve the target Editor's in-memory state.
 
 ```bash
-unity status                       # is an Editor connected? (look for state "ready")
-unity command                      # discover the scene/GameObject commands THIS Editor exposes
+unity status --project-path /absolute/path/to/project --json
+# Match the returned exact root/version; the path filter alone is not proof.
+unity command --project-path /absolute/path/to/project --json
 # then drive it with the commands it lists — for example, if your Editor exposes them:
-unity command create_gameobject    # act on the live, active scene
-unity command save_scene           # persist the active scene
+unity command create_gameobject --project-path /absolute/path/to/project
+unity command save_scene --project-path /absolute/path/to/project
 ```
 
 Command names are defined by the Editor, so run `unity command` (or `unity list`) to see the exact set — don't assume a name.
@@ -274,7 +436,10 @@ Command names are defined by the Editor, so run `unity command` (or `unity list`
 - **Safe Mode.** If an Editor *is* running for this project but `unity status` / `unity command` won't connect, it may be stuck in **Safe Mode** from a compile error rather than genuinely absent. Run `unity pipeline list` — if it reports Safe Mode, editing the C# source to fix the compile errors (and then restarting Unity) *is* the correct move, not a fallback. See [integration-advanced.md → Recovering from Safe Mode](references/integration-advanced.md#recovering-from-safe-mode-connection-fails-because-of-compile-errors).
 - **A sandboxed agent shell.** If your own shell commands run inside a restrictive sandbox — the normal case for a coding agent like this one — the sandbox can hide a genuinely running Editor from `unity status` the same way. This applies to **every** scene/GameObject/prefab/asset task that reaches this preflight, not only ones that obviously need a live Editor: a task you could otherwise finish without any CLI involvement (e.g. generating an asset through ordinary Editor APIs) can still get funneled into "no Editor" here and derailed. Don't treat "no instances" as proof the Editor is down, and don't quietly improvise a third path — like driving a separate headless Editor process to approximate what a live connection would have done — as a substitute for a disclosed file edit. Say plainly that your sandbox may be blocking your view of a real Editor, and ask whether one is actually open before falling back. Full detail: [integration-advanced.md → Sandboxed agent tooling can hide a running Editor](references/integration-advanced.md#sandboxed-agent-tooling-can-hide-a-running-editor).
 
-Only fall back to editing files directly once you've ruled out both of the above — and say so explicitly ("no live Editor detected, editing the file directly").
+Only consider file-only work after applying the version/identity gate and
+checking those diagnostics. Report the evidence gap precisely; unavailable
+transport does not prove that the Editor is closed. Never bypass unproven
+identity or serialized-asset approval gates by switching to raw file edits.
 
 ### Bootstrap a new project from scratch
 
@@ -405,9 +570,11 @@ git ls-files | grep -c '^Library/'     # must print 0
 **What the CLI does and doesn't cover.** The CLI handles editor, project, and source control.
 It does **not** manage UPM (Unity Package Manager) packages — to add packages beyond the
 template headlessly, use the **`unity-package-management`** skill (C# PackageManager Client
-API). For monetization/backend, hand off to the dedicated skills: `implement-in-app-purchases`
-(IAP), `levelplay-unity-integration` (ads), or `build-live-game` (accounts, cloud save,
-economy, remote config, leaderboards). Open the project to start working:
+API). For monetization, hand off to the dedicated skills: `implement-in-app-purchases`
+(IAP) or `levelplay-unity-integration` (ads). For accounts, cloud save, economy, remote
+config, or leaderboards, follow the project's existing backend: `firebase-game-backend` for
+Firebase projects, `build-live-game` only when the project already uses or the user chooses
+Unity Gaming Services. Open the project to start working:
 `unity open ~/UnityProjects/MyGame`.
 
 ### Find and install a missing editor

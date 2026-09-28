@@ -34,14 +34,17 @@ Before editing:
 5. Confirm exact allowed/forbidden paths, serialized ownership, acceptance and
    preserved-behavior IDs, and required evidence before editing. Audit the
    incoming stage-local diff for unexplained ownership overlap.
-6. Establish a green infrastructure/compile baseline separately from the
-   designated defect reproduction. Reproduce the exact supplied failure
-   signature before production edits. If it cannot be reproduced, return
-   `REPRO_NOT_CONFIRMED` and make no production change.
+6. Establish a compile baseline with the Roslyn compile check from `unity-cli`,
+   separately from the designated defect reproduction. Before production edits,
+   reproduce the exact supplied failure signature from the supplied evidence:
+   failing-test output, logs, or a concrete scenario. Run that one failing test
+   only when the evidence carries no failure signature. If it cannot be
+   reproduced, return `REPRO_NOT_CONFIRMED` and make no production change.
 7. Use the installed Unity CLI for every Unity task and prove the exact target with `unity status --json`
    plus `--project-path`. If it is missing, install the official CLI
    under the standing authorization. Use built-in `unity mcp` when MCP protocol
-   is needed; legacy MCP and UnitySkills require an explicit user request. Use
+   is needed; legacy MCP and UnitySkills require an explicit user request,
+   except MCP for Unity under the `unity-cli` pre-Unity-6 version gate. Use
    one mutation path.
 
 
@@ -63,8 +66,9 @@ mutation.
 
 ## Bugfix Rules
 
-- Use the smallest red-capable feedback loop that proves the exact symptom.
-  Minimize the reproduction when useful, but preserve and rerun the original.
+- Use the Roslyn compile check as the per-edit feedback loop; do not run Unity
+  tests while fixing. Minimize the reproduction when useful, but preserve the
+  original and rerun it in the final stage.
 - Keep separately observable defects separate even when one root cause fixes
   several; return evidence for every supplied ID.
 - Identify the root cause before editing. For a hard or ambiguous defect, write
@@ -83,8 +87,9 @@ mutation.
 - Respect Unity hot paths: avoid allocations, repeated lookups, unnecessary
   polling, and broad scene queries.
 - Add or update a focused regression test when the behavior is testable.
-- After the fix, rerun the original reproduction plus focused and relevant
-  adjacent regression checks. Record exact commands, exit codes, Unity/project
+- When the fix is complete (the final stage), run the original reproduction
+  plus focused and relevant adjacent regression checks once; after a further
+  fix, re-run only failures. Record exact commands, exit codes, Unity/project
   identity, timestamps, and fresh NUnit XML/Editor log or equivalent artifacts.
 - Audit the stage-local diff against the exact allowlist and map every change and
   evidence result back to each supplied `D-xxx`.

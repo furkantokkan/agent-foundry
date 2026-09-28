@@ -46,7 +46,10 @@ Choose the smallest relevant skill set:
 - Steam Coming Soon/store page, wishlist campaign, press/creator CRM, festival
   planning, Steam Next Fest, announcement posts, or indie launch marketing:
   use `steam-store-launch`.
-- Read-only readiness check before Unity Editor work: use `unity-preflight`.
+- Read-only readiness check before Unity Editor work: use `unity-cli`.
+- Independent investigations, cross-domain deliverables, or several changes
+  needing ownership and handoffs: use `agent-orchestration`. Keep a single
+  bounded task in the current agent; loading the skill does not force fan-out.
 - Full system GDD authoring: use `design-system`; small tuning/mechanic specs:
   use `quick-design`; GDD validation: use `design-review`.
 - Screens, HUD, flows, onboarding, feedback, accessibility: use `ux-design` or
@@ -58,7 +61,7 @@ Choose the smallest relevant skill set:
   references, not the Unity implementation route.
 - Tracked task lifecycle: use `create-task`, `implement-task`, `task-status`,
   `task-bug`, `task-cycle`, `task-done`, or `daily-handoff`; several ready
-  tasks: use `game-studio-orchestration`.
+  tasks: use `agent-orchestration`.
 - Web/SaaS work: use the installed web stack (React/Next.js, NestJS/ASP.NET
   Core, Supabase, shadcn/Radix, Playwright/webapp-testing, security,
   Vercel/Render deploy) as indexed in the global instructions.

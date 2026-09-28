@@ -69,14 +69,19 @@ do not edit package files without high-risk approval.
 
 Follow `.claude/rules/unity-automation.md`:
 
-1. Use the installed Unity CLI as the mandatory control plane and prove the
-   target with `unity status --json` plus exact `--project-path`.
+1. Verify the installed Unity CLI and apply `unity-cli`'s version gate first.
+   Unity 6+ uses `unity status --json`, full `--project-path`, and an exact
+   canonical-root/complete-version match.
 2. If it is missing, install the official CLI under the standing authorization
    before continuing.
 3. Use built-in `unity mcp` when MCP protocol is needed. Legacy MCP and
-   UnitySkills require an explicit user request. If requested, prove the exact
-   repository separately; otherwise use pinned file evidence as the final
-   fallback.
+   UnitySkills require an explicit user request, except MCP for Unity under the
+   `unity-cli` pre-Unity-6 version gate. On that route, complete
+   [the exact MCP identity gate](../../unity-cli/SKILL.md#exact-mcp-identity-gate)
+   before selection, then confirm project-info readback before tests or other
+   Editor operations. Check this route before pinned file evidence; valid
+   gated MCP proof is not blocked by an empty CLI status result. File evidence
+   never substitutes for required compilation or test execution.
 
 Require compilation to succeed, then run the affected EditMode and/or PlayMode
 tests. Preserve editor logs and NUnit XML. Do not report PASS from source

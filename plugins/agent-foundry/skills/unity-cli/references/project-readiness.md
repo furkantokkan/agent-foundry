@@ -1,16 +1,10 @@
----
-name: unity-preflight
-model: sonnet
-description: Run a read-only readiness check before Unity development. Use before implementing, debugging, testing, profiling, or mutating Editor state to verify the exact repository, Unity version, instructions, dirty work, automation target, permission mode, compilation/import/play state, and available verification path.
----
-
-# Unity Preflight
+# Project readiness
 
 Establish trustworthy starting evidence without changing files, Editor state,
-Play Mode, tests, permissions, selections, scenes, or assets.
+Play Mode, tests, permissions, object selections, scenes, or assets.
 
-Read `references/checklist.md` for every run. Read
-`references/unityskills-identity.md` when UnitySkills REST is available or
+Read [the checklist](project-readiness-checklist.md) for every run. Read
+[UnitySkills identity](unityskills-identity.md) when UnitySkills REST is available or
 expected.
 
 ## Resolve the target
@@ -26,11 +20,22 @@ expected.
 
 ## Verify live Unity identity
 
-Use the installed Unity CLI as the mandatory preflight control plane. Verify the
-live command and use `unity status --json --non-interactive --no-banner` to
-match the exact project root and Unity version before Editor-dependent
-inspection or later mutation. When several Editors are ready, require the exact
-`--project-path`.
+Use the installed Unity CLI as the mandatory preflight control plane. Verify
+the command and read the requested repository's `ProjectVersion.txt` before
+choosing the live transport under `unity-cli`'s version gate:
+
+- Unity 6+: use `unity status --json --non-interactive --no-banner` and the
+  full `--project-path`. Independently compare the returned canonical absolute
+  project root and complete Unity version; a substring filter or one returned
+  instance is not proof.
+- Pre-Unity-6: follow
+  [the exact MCP identity gate](../SKILL.md#exact-mcp-identity-gate).
+  Before selecting even a single instance, require fresh evidence tying its
+  full ID to the exact canonical project root and complete Unity version.
+  Missing, ambiguous, stale, or mismatched evidence blocks live work.
+  Only then pin the full ID, verify `mcpforunity://project/info` readback, and
+  inspect Editor state. Session-local routing after identity proof is allowed;
+  it does not authorize an Editor or asset mutation.
 
 If the CLI is missing, install the official Unity CLI first under the user's
 standing authorization, verify `unity --version`, then restart this read-only
@@ -38,12 +43,20 @@ preflight. The installation bootstrap is a machine-level prerequisite outside
 the read-only preflight itself. Do not substitute a legacy MCP connection merely
 because the CLI was absent.
 
-If direct CLI/Pipeline commands cannot expose required live state, use the
-built-in `unity mcp` server through the verified CLI and pin the exact project.
-Legacy Unity MCP connections and UnitySkills REST are allowed only when the user
-explicitly requests them for the current task. If the verified CLI and its
-built-in MCP mode still cannot prove the same repository, use pinned
-Editor/file inspection and mark live Editor evidence unavailable.
+For Unity 6+, use built-in `unity mcp` when direct CLI/Pipeline commands cannot
+expose required live state, pinned to the same proven project. Legacy MCP and
+UnitySkills REST still require an explicit current-task request, except MCP
+for Unity under the pre-Unity-6 gate. Record that gate and the full identity
+evidence instead of requiring CLI status to succeed on an older Editor.
+
+Check the applicable transport before considering pinned source/file
+inspection. Valid pre-Unity-6 MCP proof can satisfy live preflight even with
+`STATUS_NO_INSTANCES` from the CLI. If required live identity/state cannot be
+proven, return `BLOCKED`; source-only work that can be verified without the
+Editor may use `READY WITH WARNINGS`, explicitly marking live evidence
+unavailable. File inspection never authorizes an unproven Editor or bypasses
+serialized-asset approval. Revalidate identity after reconnect, restart,
+reload, or routing/instance changes.
 
 ## Safety boundary
 
@@ -60,6 +73,8 @@ Focused tests and compile/recompile checks belong to verification after
 preflight. A user request to implement, fix, or verify Unity behavior
 authorizes those checks without separate contract or command approval once
 the exact project is confirmed. Preserve unsaved Editor work.
+During development, verification is the Roslyn compile check. Focused tests run
+once, in the final stage (see "Development compile check" in `SKILL.md`).
 Test-template creation must pass the canonical folder explicitly; UnitySkills
 defaults may not match `Assets/.../Tests/EditMode` and `PlayMode` conventions.
 

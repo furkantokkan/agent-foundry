@@ -21,7 +21,7 @@ command directly to resume defects already recorded for one exact task.
 If the feedback also contains a distinct out-of-scope outcome, retain
 same-task defects, invoke create-task once for that outcome, and—when exactly
 one ready contract is returned—automatically hand both IDs to
-game-studio-orchestration. That orchestration must conflict-check first, use
+agent-orchestration. That orchestration must conflict-check first, use
 separate worktrees for disjoint writers, keep each task's role chain
 sequential, and queue single-Editor work. On any ownership/path/serialized or
 Editor collision with no proven owner/order, return PARALLEL BLOCKED without

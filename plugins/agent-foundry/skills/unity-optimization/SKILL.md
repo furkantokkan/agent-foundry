@@ -18,11 +18,14 @@ Before changing code or settings:
    notes when present.
 2. Inspect `ProjectSettings/ProjectVersion.txt`, `Packages/manifest.json`, and
    relevant `Assets/` code/settings.
-3. Use the installed Unity CLI first for Editor/profiling discovery and
-   machine-readable evidence; prove the exact target with `unity status --json`
-   and `--project-path`. If the CLI is missing, install it under the standing
-   authorization. Use built-in `unity mcp` when needed; otherwise use pinned
-   evidence. Legacy MCP and UnitySkills require an explicit user request.
+3. Verify the installed Unity CLI, installing it when missing, and apply
+   `unity-cli`'s version gate. Unity 6+ uses exact-root/version-matched
+   `unity status --json`, full `--project-path`, and built-in `unity mcp`
+   when needed. Pre-Unity-6 uses
+   [the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate)
+   before selection and project-info readback before profiling. Check this
+   route before pinned file evidence; other legacy MCP/UnitySkills use still
+   requires an explicit user request. File evidence is not live profiler proof.
 4. Identify target platform, target frame rate, device class, and the exact
    symptom before editing.
 

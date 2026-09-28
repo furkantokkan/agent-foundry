@@ -53,7 +53,21 @@ For standalone use, copy the whole
 including references, metadata and THIRD_PARTY_NOTICES.md, into
 `~/.codex/skills/` or `~/.claude/skills/`. Restart the agent session afterward.
 Check workflow dependencies before implementation: the core plugin bundles
-unity-preflight and implement-task; Editor transports are separate.
+unity-cli and implement-task; Editor transports are separate.
+
+## Unified orchestration and readiness migration
+
+Use `agent-orchestration` for independent deliverables or tracked task batches.
+The former `game-studio-orchestration` name remains an argument-preserving alias;
+its role resources remain available without running another scheduler.
+
+`unity-cli` now includes the read-only project-readiness procedure. The standalone
+`unity-preflight` skill and command are removed. Update project instructions to
+call `unity-cli` before Unity work. Fresh plugin installation discovers the new
+skill directly; after updating, restart the client and remove any separately
+copied obsolete `unity-preflight` entry from the installation you own. Do not
+edit vendor cache files. Manual exports should copy the complete skill folders,
+including relative references and license notices, rather than entry files alone.
 Avoid maintaining both standalone and plugin copies unless you deliberately
 manage which version is invoked.
 

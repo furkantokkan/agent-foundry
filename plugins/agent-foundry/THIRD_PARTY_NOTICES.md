@@ -60,3 +60,7 @@ The local domain skills, task-workflow extensions, command adapters, Unity role 
 The Steam marketing skill includes a pointer index to [How To Market A Game](https://howtomarketagame.com/blog/), not a redistributed article archive. Linked articles, commercial books, optional local PDF libraries, Unity/Onity documentation, and other external resources retain their respective owners' rights; the repository license does not license those external works.
 
 OpenAI/Anthropic system skills, third-party marketplace caches, commercial connectors, MCP credentials and account configuration are not included. Codex, Claude Code, Unity, Firebase and Steam are references to their respective products, not endorsements or included services.
+
+## Avenox orchestration adaptation
+
+Generic orchestration concepts were adapted from [avenoxai/avenoxskills](https://github.com/avenoxai/avenoxskills/tree/8a8035a989ea02cd5605baf397082f43eae55aca) (MIT). The [retained license](skills/agent-orchestration/LICENSE) accompanies the adapted skill; no Avenox runtime or other skill is distributed.

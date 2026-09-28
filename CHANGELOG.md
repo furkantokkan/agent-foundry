@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.4.0 - 2026-09-28
+
+- Unify `game-studio-orchestration` into one cross-domain `agent-orchestration`
+  workflow (compatibility alias kept) and fold Unity readiness into `unity-cli`;
+  the standalone `unity-preflight` skill and command are removed. Update
+  project instructions that still call `unity-preflight` to call `unity-cli`.
+- Add a Roslyn compile check (`unity-cli/scripts/unity_compile_check.py`). It
+  compiles only the assemblies of changed files with `dotnet build` against
+  `Library/ScriptAssemblies`, handles new/deleted files before Unity
+  regenerates project files, ignores `.csproj` files of removed assemblies, and
+  rebuilds dependencies whose compiled copy is older than their sources. It
+  runs in seconds with the Editor open or closed, also below Unity 6.
+- Unity test timing: implementation, repair, and bugfix loops use the compile
+  check per edit; focused EditMode/PlayMode tests are written and run once in
+  the final stage, then only failing tests re-run. Closure gates are unchanged.
+- Route backend handoffs by the project's existing backend: Firebase projects
+  use `firebase-game-backend`; `build-live-game` only when the project already
+  uses or the user chooses Unity Gaming Services.
+- Add the pre-Unity-6 version gate: below `6000.0`, MCP for Unity (`unityMCP`)
+  is the approved live-Editor transport, with exact project/version identity
+  proven before instance selection.
+- Let `review-all-gdds` inherit the session model instead of pinning Fable.
+
 ## 0.2.0 - 2026-09-21
 
 - Add 30 Unity specialist skills from `Unity-Technologies/skills` at revision

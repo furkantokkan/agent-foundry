@@ -81,7 +81,7 @@ and existing players; do not require an unbundled companion skill.
   audio, or DI stack.
 - Existing feel code. If a hub or kill switch already exists, route through
   it instead of adding another.
-- For Unity implementation, run `unity-preflight`, confirm the target version
+- For Unity implementation, run `unity-cli`, confirm the target version
   and pipeline, and follow `implement-task` for the bounded change. Declare
   allowed paths and serialized ownership; new packages, scenes, config assets
   and renderer settings need target approval. Skill authoring alone does not

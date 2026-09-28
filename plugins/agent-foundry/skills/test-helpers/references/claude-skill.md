@@ -65,7 +65,8 @@ separate. Never edit Unity YAML manually.
 Use the installed Unity CLI as the mandatory control plane with exact
 `unity status --json` identity. Install it when missing. Use built-in
 `unity mcp` when needed, then pinned file evidence. Legacy MCP and UnitySkills
-require an explicit user request. Use exactly one mutation path.
+require an explicit user request, except MCP for Unity under the `unity-cli`
+pre-Unity-6 version gate. Use exactly one mutation path.
 Require:
 
 - compilation success;

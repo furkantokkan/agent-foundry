@@ -335,7 +335,8 @@ controller naturally produces, you learn exactly what the AI needs to do.
 After writing the initial code, use the canonical Unity automation order for
 the Unity path (installed or auto-installed Unity CLI/Pipeline -> built-in
 `unity mcp` when needed -> pinned files). Legacy MCP and UnitySkills are
-explicit-request-only. If no
+explicit-request-only, except MCP for Unity under the `unity-cli` pre-Unity-6
+version gate. If no
 connected automation can launch the prototype, hand the exact run instructions to
 the user:
 

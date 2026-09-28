@@ -29,7 +29,8 @@ Before editing:
 3. Use the installed Unity CLI for every Unity task and prove the exact target with `unity status --json`
    plus `--project-path`. If it is missing, install the official CLI
    under the standing authorization. Use built-in `unity mcp` when MCP protocol
-   is needed; legacy MCP and UnitySkills require an explicit user request. Use
+   is needed; legacy MCP and UnitySkills require an explicit user request,
+   except MCP for Unity under the `unity-cli` pre-Unity-6 version gate. Use
    one mutation path.
 
 4. If another agent is working on the same feature, avoid overlapping files
@@ -72,9 +73,10 @@ when `project_get_info` identifies another project.
 - Establish a relevant baseline before the patch. When compilation or a focused
   check already fails for an unrelated reason, retain the evidence and return
   `BASELINE_BLOCKED` instead of attributing it to this implementation.
-- Work in the smallest vertical slices that keep the project reviewable. Run
-  compilation and the cheapest relevant focused check during the work rather
-  than deferring all feedback until the handoff.
+- Work in the smallest vertical slices that keep the project reviewable. After
+  each slice, run the Roslyn compile check from `unity-cli`. Do not run Unity
+  tests during the work; write the task-owned tests at the end and leave the
+  test run to the verifier, which is the final stage.
 - Keep MonoBehaviours thin; put behavior and state rules in plain testable C#.
 - Follow the repository's canonical architecture policy. Preserve an established
   bounded-context composition model; otherwise use Onity for new greenfield

@@ -64,7 +64,7 @@ commit.
 The command writes `production/tasks/<ID>/contract.md` and returns readiness,
 risk, ownership, the selected domain-planning skill, and the next command. It
 does not implement production code during its planning action. Unity targets
-run `unity-preflight` first, then use `unity-game-dev` in read-only planning
+run `unity-cli` first, then use `unity-game-dev` in read-only planning
 scope.
 
 For exactly one task retained by the same conversation, `devam et`, `continue`,
@@ -72,7 +72,7 @@ or another unambiguous affirmative is execution authorization. If a
 repository-grounded resolution changes that task from draft to ready in the
 same turn, continue directly into `implement-task`; do not stop at
 `TASK UPDATED` and ask again. If one exact live predecessor owns overlapping
-paths, keep the task ready, route both IDs to `game-studio-orchestration`, and
+paths, keep the task ready, route both IDs to `agent-orchestration`, and
 wait/start it automatically after stable handoff. Genuine unanswered
 product/architecture decisions, multiple candidates, and another conversation
 do not use this shortcut.
@@ -106,7 +106,7 @@ router forwards it internally before any new write.
 Contractless ad-hoc follow-ups may continue inside their execution-local
 contract. Feedback for a closed tracked task routes through `task-bug`; its
 downstream cycle reopens automatically only when existing acceptance fails.
-For Unity work, `implement-task` invokes `unity-preflight` first and
+For Unity work, `implement-task` invokes `unity-cli` first and
 `unity-game-dev` after it passes, before Unity-specific diagnosis,
 production/test mutation, or verification, and reports both results in its
 handoff.
@@ -212,7 +212,7 @@ change task state, commit, or push. With no IDs, it selects active recorded task
 Task IDs are the complete normal prompt:
 
 ```text
-/game-studio-orchestration GAME-201 GAME-202 GAME-203
+/agent-orchestration GAME-201 GAME-202 GAME-203
 ```
 
 The skill derives readiness, objective, paths, serialized ownership, risk,

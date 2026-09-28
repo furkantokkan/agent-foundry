@@ -59,7 +59,7 @@ unavailable. A `ready` task cannot contain placeholders.
 ## Verification and risk
 
 - Focused test path/command: <test>
-- Required execution preflight: `unity-preflight` | not applicable
+- Required execution preflight: `unity-cli` | not applicable
 - Required Unity domain workflow: `unity-game-dev` | not applicable
 - Unity compilation/Console evidence: <required evidence or not applicable>
 - EditMode: <required evidence or not applicable>

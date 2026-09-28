@@ -21,7 +21,7 @@ feedback is not a defect. With an explicit task it returns
 `CONTRACT_CHANGE_REQUIRED` or `STATUS_QUERY` without lifecycle dispatch;
 without an owner it may go once to `create-task` as a planned change.
 If a proven live writer already owns the matched task or the new task's paths,
-route through `game-studio-orchestration` as `WAITING_FOR_OWNER`; retain the
+route through `agent-orchestration` as `WAITING_FOR_OWNER`; retain the
 raw feedback and execution authorization, then resume automatically after the
 owner releases.
 

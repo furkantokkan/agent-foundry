@@ -65,7 +65,7 @@ allowed/forbidden paths, evidence, and handoff before mutation.
 
 Exactly one active writer owns every serialized Unity asset. Use the installed
 Unity CLI first and prove this worktree/project with `unity status --json` plus
-`--project-path`. If the CLI is missing, install it under the standing authorization. Use built-in `unity mcp` when needed; legacy MCP and UnitySkills require an explicit user request. Otherwise use pinned file evidence.
+`--project-path`. If the CLI is missing, install it under the standing authorization. Use built-in `unity mcp` when needed; legacy MCP and UnitySkills require an explicit user request, except MCP for Unity under the `unity-cli` pre-Unity-6 version gate. Otherwise use pinned file evidence.
 
 Before writing any code:
 

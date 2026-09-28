@@ -229,6 +229,12 @@ Use a deterministic failing signal at the correct public/runtime seam when
 practical. Do not accept a different green test as proof, add broad permanent
 logging, or leave temporary instrumentation behind.
 
+In Unity, follow the Unity test timing rule:
+- Take the failing signal from the recorded evidence; do not re-run tests for it.
+- Check each repair edit with the Roslyn compile check from `unity-cli`.
+- Run the original repro and the regression tests once, when the repair is
+  complete.
+
 Keep diagnosis claims at separate evidence levels:
 
 - `OBSERVED`: the exact externally visible failure and reproduction channel;
@@ -267,11 +273,15 @@ All defects being verified is necessary but not sufficient when another
 required channel remains unproven. Likewise, green acceptance rows never hide
 an unresolved defect.
 
-Use the installed Unity CLI first for exact-project inspection: verify the
-command, prove identity with `unity status --json`, and pass `--project-path`
-when needed. If the CLI is missing, install it under the standing authorization.
-Use built-in `unity mcp` when MCP protocol is needed; legacy MCP and UnitySkills
-require an explicit user request. Never repeat one mutation through two paths.
+Verify the installed Unity CLI, installing it when missing, then apply
+`unity-cli`'s repository version gate. Unity 6+ uses exact-root/version-matched
+`unity status --json`, full `--project-path`, and built-in `unity mcp` when
+needed. Pre-Unity-6 uses
+[the exact MCP identity gate](../unity-cli/SKILL.md#exact-mcp-identity-gate)
+before selection and project-info readback before Editor work. Check this route
+before file-only fallback or an unavailable-runner verdict. Other legacy
+MCP/UnitySkills use requires an explicit user request. Never repeat one mutation
+through two paths.
 
 ## 6. Record transitions and evidence idempotently
 
@@ -353,7 +363,7 @@ For `CONTINUE_SAME_TASK`:
    fingerprints, all unresolved defect IDs, exact repros, feedback,
    failed/unproven criteria, and the detected project domain.
 2. For a Unity-shaped repository or Unity contract, require `implement-task` to
-   invoke `unity-preflight` first and `unity-game-dev` after it passes, before
+   invoke `unity-cli` first and `unity-game-dev` after it passes, before
    Unity diagnosis, production/test mutation, or verification. Do not run a
    competing preflight inside the cycle; preserve the handoff result from the
    implementation lane. `task-bug` remains a read-only router and does not
@@ -427,7 +437,7 @@ at a manual `create-task` suggestion.
 1. Write the current cycle evidence and release its lifecycle lock.
 2. Invoke `$create-task` exactly once with the bounded independent outcome.
 3. If creation returns exactly one `ready` task, invoke
-   `$game-studio-orchestration <current-id> <new-id>` automatically. It must
+   `$agent-orchestration <current-id> <new-id>` automatically. It must
    build the conflict graph first, use separate worktrees/branches for
    disjoint writers, keep each implementer -> verifier chain sequential, and
    queue single-Editor work.
