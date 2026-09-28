@@ -166,7 +166,9 @@ containing the already loaded `implement-task/SKILL.md`, never from the target
 repository working directory. Atomically acquire the exact
 task's shared Git-common-dir lock, confirm its owner token, re-read canonical
 state under the lock, hold it through the complete direct
-implementation/verifier handoff, and release it from a `finally` path only when
+implementation/verifier handoff except while waiting for a submitted test
+result (the lock protocol's release-while-waiting steps), and release it from
+a `finally` path only when
 both the authoritative `.lock.claim` file and `owner.json` still contain that
 exact token. If direct acquisition finds one proven live owner, perform no
 write and hand the still-authorized invocation to `agent-orchestration`
@@ -301,9 +303,12 @@ Never let orchestration expand the contract.
    by the effective verification depth and risk. In Unity, the focused
    EditMode/PlayMode tests run once here, as the final stage, after the
    implementation is complete. Submit them through the `unity-cli` shared test
-   batch (`unity_test_batch.py submit`) so sessions working on the same project
-   share one Unity launch, and record its `TEST_BATCH:` line byte-for-byte as
-   the automated verification. After a fix, resubmit only the failing tests.
+   batch (`unity_test_batch.py submit --no-wait`) so sessions working on the
+   same project share one Unity launch. Release the task lock and its paths
+   while the result is pending, as `lifecycle-lock.md` describes, so other
+   agents can work on those files; re-acquire the lock on the result. Record
+   its `TEST_BATCH:` line byte-for-byte as the automated verification. After a
+   fix, resubmit only the failing tests.
 7. Separate pre-existing failures from regressions. Do not regenerate golden
    fixtures merely to force a pass. A nearby green test does not prove a
    reported runtime symptom; rerun the original repro and required regression

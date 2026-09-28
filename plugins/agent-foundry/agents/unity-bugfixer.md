@@ -90,7 +90,9 @@ mutation.
 - When the fix is complete (the final stage), run the original reproduction
   plus focused and relevant adjacent regression checks once, through the
   `unity-cli` shared test batch; after a further fix, resubmit only failures.
-  Record the `TEST_BATCH:` line, exact filters, exit codes, Unity/project
+  Submit with `--no-wait` and return `AWAITING_TESTS` with the request ID to
+  the lock holder, which releases the task lock while the result is pending
+  and resumes you with it. Record the `TEST_BATCH:` line, exact filters, exit codes, Unity/project
   identity, timestamps, and fresh NUnit XML/Editor log or equivalent artifacts.
 - Audit the stage-local diff against the exact allowlist and map every change and
   evidence result back to each supplied `D-xxx`.

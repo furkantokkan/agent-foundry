@@ -106,9 +106,12 @@ mismatched project identity forbids editor mutation.
   `D-xxx` IDs and linked records before reproduced failures may be assigned to
   `unity-bugfixer`, unless the user explicitly changes role ownership.
 - Run the original reproduction, focused checks, and relevant adjacent
-  regression coverage once, through the `unity-cli` shared test batch
-  (`unity_test_batch.py submit`), so other sessions on the same project share
-  the Unity launch. Record the `TEST_BATCH:` line byte-for-byte, the exact
+  regression coverage once, through the `unity-cli` shared test batch, so
+  other sessions on the same project share the Unity launch. Submit with
+  `unity_test_batch.py submit --no-wait` and return `AWAITING_TESTS` with the
+  request ID to the invoking lifecycle owner. The owner releases the task lock
+  while the result is pending, so other agents can work on those files, and
+  resumes you with the result. Record the `TEST_BATCH:` line byte-for-byte, the exact
   filters, exit code, Unity version, project identity, and the result, NUnit
   XML, and log paths it prints. `NO_TESTS`, `STALE`, and missing or stale
   artifacts remain unproven.
@@ -141,7 +144,8 @@ Repository rules and current Unity docs override these older PDF references.
 
 ## Output Contract
 
-Return a `VERIFICATION_HANDOFF`, never `DONE`, `VERIFIED`, or
+Return a `VERIFICATION_HANDOFF` (or `AWAITING_TESTS <request-id>` while a
+submitted test result is pending), never `DONE`, `VERIFIED`, or
 `READY_TO_CLOSE`. At handoff, report:
 
 - Task ID, contract path and authority fingerprint.

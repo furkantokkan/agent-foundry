@@ -6,6 +6,11 @@ leader: it seals the queue, gates it with the Roslyn compile check, runs one
 `unity test` per test platform with the merged filter, and gives each request
 only the results its own filter selects. The other callers wait for their result.
 
+A caller that holds a task lock submits with `--no-wait`, releases its locks so
+other agents can edit the same files, and waits with `wait --id`. Every read of
+a result re-hashes the request's files: a result for bytes that changed since
+the run reads as STALE.
+
 When the project is open in an Editor, batch mode cannot run. The leader then
 prints a plan with the merged filter and exits with LEADER_RUN_REQUIRED; that
 session runs the plan through the live Editor and calls `publish`.
@@ -344,6 +349,7 @@ def outcome_record(request: dict, status: str, **fields: object) -> dict:
         "task": request.get("task"),
         "mode": request["mode"],
         "filters": request["filters"],
+        "files": request["files"],
         "digest": request["digest"],
         "status": status,
         "matched": 0,
@@ -658,12 +664,25 @@ def print_plan(plan_path: Path) -> None:
         print(f"    then: {run['publish']}")
 
 
+def fresh_result(queue: Queue, result: dict) -> dict:
+    """Re-hash the request's files on every read.
+
+    The requester holds no lock while it waits, so another agent may edit its
+    files after the run. A result is only evidence for the bytes it tested.
+    """
+    if result["status"] == "STALE" or "files" not in result:
+        return result
+    if files_digest(queue.project, result["files"]) == result["digest"]:
+        return result
+    return dict(result, status="STALE", detail="files changed after the run; resubmit after the last edit")
+
+
 def wait_for(queue: Queue, request_id: str, options: argparse.Namespace) -> int:
     deadline = time.time() + options.wait_limit
     while True:
         result = read_json(queue.result_path(request_id))
         if result:
-            return print_result(queue, result)
+            return print_result(queue, fresh_result(queue, result))
         claim = LeaderClaim(queue)
         if claim.try_acquire():
             plan = lead(queue, claim, options)
@@ -700,6 +719,10 @@ def command_submit(options: argparse.Namespace) -> int:
     write_json(queue.requests / f"{request['id']}.json", request)
     print(f"TEST_BATCH_REQUEST: {request['id']} project={project} mode={options.mode} digest={request['digest']}")
     sys.stdout.flush()
+    if options.no_wait:
+        # The request is durable now; the caller releases its locks and waits separately.
+        print(f'  queued; wait with: wait --project "{project}" --id {request["id"]}')
+        return 0
     return wait_for(queue, request["id"], options)
 
 
@@ -763,6 +786,7 @@ def main(argv: list[str] | None = None) -> int:
     submit.add_argument("--files", nargs="+", required=True, help="Changed files the result must prove, including test files. Deleted files too.")
     submit.add_argument("--task", help="Tracked task ID, recorded in the result.")
     submit.add_argument("--runner-project", help="Shadow project that shares this project's Assets, used while the Editor is open.")
+    submit.add_argument("--no-wait", action="store_true", help="Queue the request and return at once; wait later with `wait --id`.")
     wait = commands.add_parser("wait", help="Resume waiting for a submitted request.")
     wait.add_argument("--project", required=True)
     wait.add_argument("--id", required=True)

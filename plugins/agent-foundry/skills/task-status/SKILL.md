@@ -58,6 +58,10 @@ as blockers. Never attribute unrelated dirty paths to a task.
 
 ## 3. Choose one next action
 
+- phase `awaiting_tests`: the task holds no lock while its submitted test
+  request runs; report the recorded `Pending test request`. Its owner resumes
+  on the result. With no live waiter, `$task-cycle <ID>` (or
+  `$implement-task <ID>` for an empty ledger) resumes from that request;
 - `ready_to_close`: where verified automatic closure is authorized, a task
   stranded by the removed handshake; route it to `$task-cycle <ID>`, which
   re-checks the gates at the current revision and closes it if they still
