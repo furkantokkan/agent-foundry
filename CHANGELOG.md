@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.6.0 - 2026-09-28
+
+- Release the lock while waiting for tests. A lifecycle owner submits its
+  final-stage tests with `unity_test_batch.py submit --no-wait`, records
+  `Current phase: awaiting_tests` and `Pending test request`, releases the task
+  lock and its paths, and waits with `wait --id`. Other agents can work on the
+  same scripts in the meantime. On the result the owner re-acquires the lock
+  as a new owner and re-reads state before using the evidence.
+- `AWAITING_TESTS` is a stable handoff. `agent-orchestration` dispatches a
+  successor queued on the same paths at that point instead of after the test
+  result. A returning predecessor queues behind the current owner, and a
+  failing base is reported to the successor's owner.
+- Role agents that submit tests (verifier, bugfixer) return
+  `AWAITING_TESTS <request-id>` to the lock holder, which resumes them with the
+  result. `task-status` reports the phase and resumes a task that has no live
+  waiter.
+- The batch script re-hashes a request's files on every read of its result, so
+  a result for bytes changed after the run reads as `STALE`. `--no-wait`
+  queues a request without waiting.
+
 ## 0.5.0 - 2026-09-28
 
 - Automatic verified closure: where the caller's user, global, or repository

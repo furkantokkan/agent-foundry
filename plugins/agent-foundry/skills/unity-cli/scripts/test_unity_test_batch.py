@@ -204,6 +204,30 @@ class SharedRunTests(BatchTestCase):
         self.assertEqual(self.result(other["id"])["status"], "BLOCKED_BY_OTHER_COMPILE")
         self.assertEqual(self.unity_calls(), [])
 
+    def test_detached_request_holds_nothing_and_runs_when_waited_for(self) -> None:
+        code, output = self.submit("Game.Reward", ["Assets/Scripts/Reward.cs"], "--no-wait")
+        self.assertEqual(code, 0)
+        self.assertIn("queued", output)
+        self.assertEqual(self.unity_calls(), [])
+        self.assertFalse(self.queue.claim_path.exists(), "a detached submit takes no leader claim")
+
+        request_id = output.split()[1]
+        with contextlib.redirect_stdout(io.StringIO()) as waited:
+            code = batch.main(["wait", "--project", str(self.project), "--id", request_id,
+                               "--unity-bin", str(self.unity_bin), "--wait-limit", "30"])
+        self.assertEqual(code, batch.EXIT_CODES["PASS"], waited.getvalue())
+        self.assertEqual(len(self.unity_calls()), 1)
+
+    def test_result_read_after_another_agent_edits_the_files_is_stale(self) -> None:
+        code, output = self.submit("Game.Reward", ["Assets/Scripts/Reward.cs"])
+        self.assertEqual(code, batch.EXIT_CODES["PASS"])
+        (self.project / "Assets" / "Scripts" / "Reward.cs").write_text("class Reward { int edited; }", encoding="utf-8")
+
+        with contextlib.redirect_stdout(io.StringIO()) as reread:
+            code = batch.main(["wait", "--project", str(self.project), "--id", output.split()[1]])
+        self.assertEqual(code, batch.EXIT_CODES["STALE"])
+        self.assertIn("files changed after the run", reread.getvalue())
+
     def test_request_that_matches_no_test_is_not_a_pass(self) -> None:
         code, output = self.submit("Game.Typo", ["Assets/Scripts/Inventory.cs"])
         self.assertEqual(code, batch.EXIT_CODES["NO_TESTS"])

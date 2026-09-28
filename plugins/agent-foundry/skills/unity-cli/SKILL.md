@@ -249,6 +249,11 @@ python "<unity-cli skill dir>/scripts/unity_test_batch.py" submit --project <pro
 
 - Run it in the background and wait for its exit notification. It blocks until
   this request's result exists.
+- A caller that holds a task lock or file ownership submits with `--no-wait`
+  instead, releases the lock and its paths so other agents can work on those
+  files, then waits with `wait --project <root> --id <request>` (see the task
+  lifecycle lock protocol). Every read of a result re-hashes the request's
+  files; if they changed since the run, the result reads as `STALE`.
 - The first caller becomes the leader. It waits for more requests until none
   has arrived for 20 seconds, and never more than 90 seconds after the oldest
   (`should_seal`). It then runs the Roslyn check once over every
@@ -270,7 +275,8 @@ Results and exit codes:
 - `COMPILE_ERRORS` (1): your files do not compile. Fix them and resubmit.
 - `BLOCKED_BY_OTHER_COMPILE` (7): another session's files break the build.
   Resubmit after they change.
-- `STALE` (5): your files changed after you submitted. Resubmit after the last edit.
+- `STALE` (5): your files changed after you submitted or after the run.
+  Resubmit after the last edit.
 - `INFRA_ERROR` (6): Unity produced no report (license, crash, timeout, missing CLI). Read the printed log.
 - `WAIT_TIMEOUT` (4): resume with `wait --project <root> --id <request>`.
 - `LEADER_RUN_REQUIRED` (10): the project is open in an Editor, so batch mode

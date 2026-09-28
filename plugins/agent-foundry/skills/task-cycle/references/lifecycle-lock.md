@@ -61,7 +61,8 @@ stale recovery.
 ## Parent and nested work
 
 `task-cycle` owns the lock for its complete transition, including the
-implementer/verifier handoff. Pass the owner token and lock path in
+implementer/verifier handoff, except while it waits for a submitted test
+result (see below). Pass the owner token and lock path in
 `CycleContext`. `implement-task` called from that cycle reuses the parent lock;
 it never acquires a nested lock. A direct tracked `implement-task` call must
 acquire the same protocol before changing lifecycle state.
@@ -69,6 +70,38 @@ acquire the same protocol before changing lifecycle state.
 `task-bug` is read-only. It may inspect and report the shared lock, but
 `task-cycle` performs authoritative acquisition. Orchestration must schedule at
 most one lifecycle writer per task and must never bypass or remove a lock.
+
+## Release while waiting for tests
+
+A task waiting for a submitted final-stage test result holds no lock, so other
+agents can work on the same files in the meantime.
+
+1. Submit the request without waiting (`unity_test_batch.py submit --no-wait`)
+   and keep the printed request ID and files digest.
+2. While still holding the lock, write one lifecycle transition:
+   `Current phase: awaiting_tests` and
+   `Pending test request: <request-id> <files-digest>`, with every result and
+   defect row unchanged. Then release the lock normally. Report
+   `AWAITING_TESTS` to the orchestrator: it is a stable handoff that frees the
+   task's writable paths for queued agents.
+3. Wait with `wait --id <request-id>` while holding no lock. A role agent that
+   submits tests returns `AWAITING_TESTS` with the request ID to the lock
+   holder instead of waiting inside the role.
+4. When the result arrives, acquire the lock again as a new owner (a live
+   owner means `WAITING_FOR_OWNER`, then retry). Re-read the contract, ledger,
+   and records. Confirm `Pending test request` still names this request. Read
+   the result again under the lock (`wait --id` re-hashes the files) and
+   recompute the reviewed revision. Clear `Pending test request` in the next
+   lifecycle write.
+5. Only a fresh `PASS` for unchanged bytes counts as evidence. `STALE` means
+   another agent changed the files: queue behind that agent while it owns them
+   (`WAITING_FOR_OWNER`), then resubmit after its handoff. On `FAIL`, resume
+   the same verifier with the result when its classification is needed, then
+   continue the normal repair path once the paths are free.
+
+A task found in `awaiting_tests` with no live waiter is resumed by its
+lifecycle skill from step 4. The new owner passes its new token in any later
+`CycleContext`; the token from before the release is void.
 
 ## Queue and release signalling
 
@@ -87,8 +120,8 @@ encounters a live claim must keep the invocation active and:
    `continue` or `implement-task` command is required.
 
 For overlapping paths across different task IDs, the orchestrator also waits
-for the predecessor's stable handoff (`READY_TO_CLOSE`, `closed`, or another
-explicit release state) and then runs the successor sequentially in the same
+for the predecessor's stable handoff (`AWAITING_TESTS`, `READY_TO_CLOSE`,
+`closed`, or another explicit release state) and then runs the successor sequentially in the same
 worktree when it must inherit uncommitted predecessor changes. It must not
 create parallel worktrees for logically dependent overlapping writers.
 

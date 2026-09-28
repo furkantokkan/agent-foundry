@@ -587,7 +587,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-bugfixer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-bugfixer.md",
-    "sha256": "ed979ed07d70194ca0fd9a54bb4c1e189265a31b2cc38fc31d7972be2c456f4d"
+    "sha256": "9990ac0963a7d35d2515a02747c991e18a4791520d80257ba5c46d1af9932453"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-dots-specialist.md",
@@ -612,7 +612,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-test-verifier.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-test-verifier.md",
-    "sha256": "dc4752344402a3dd4490ceb894314a8955e11c03e700b016e99b09d83ff214fc"
+    "sha256": "1fd12ecf66e1dad5514fef6b05185ce6af107a4198674a1fb5f0a4289023e13b"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-ui-specialist.md",
@@ -1037,7 +1037,7 @@
   {
     "path": "plugins/agent-foundry/skills/implement-task/SKILL.md",
     "source": "local Codex skill: implement-task/SKILL.md",
-    "sha256": "142baab03d0b16b10dcfd13933170dc1593ad5d306bd11791e2ca1ed5bc9aa42"
+    "sha256": "4311d1e0a23aec5d99a2d4573f36d2c2083766c57622a8d177a9d74eb12a9db8"
   },
   {
     "path": "plugins/agent-foundry/skills/javascript-game-tools/references/javascript-patterns.md",
@@ -1402,7 +1402,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/references/lifecycle-lock.md",
     "source": "local Codex skill: task-cycle/references/lifecycle-lock.md",
-    "sha256": "5122db4ae9691da53c97858c819d2e66d444c5a054e957467faa233cad35336f"
+    "sha256": "30372b92e9a55cd237e9b515611833a63e03e081951d2db5af863dfe04d84f66"
   },
   {
     "path": "plugins/agent-foundry/skills/task-cycle/references/reviewed-evidence-identity.md",
@@ -1412,7 +1412,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/SKILL.md",
     "source": "local Codex skill: task-cycle/SKILL.md",
-    "sha256": "00bce5f92be37bea7888b6fc20a43e9d6ac792a6b15387308611deda010bc9b4"
+    "sha256": "c74617417c5a85cba48adbbd02891cfb1a92a301c266f690b91542c81835cf56"
   },
   {
     "path": "plugins/agent-foundry/skills/task-done/agents/openai.yaml",
@@ -1432,7 +1432,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-status/SKILL.md",
     "source": "local Codex skill: task-status/SKILL.md",
-    "sha256": "bcab41f68f61a7074c97e10c81507b324865e294a95c41f5fefcff13dd2ec9b8"
+    "sha256": "46678b9a8659ea543deeb864da796a1389f68dfa7472c78227e8287a5e83f8a9"
   },
   {
     "path": "plugins/agent-foundry/skills/team-audio/references/claude-skill.md",
@@ -1607,7 +1607,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "f04f9cdc4d12e22eaf4454400a7328cd660113ca1412f865957fb81debeb18cb"
+    "sha256": "119fc76c2db08cad1d6020ba8c4f2e5034ce14de3b20d816e3001269fa18e77d"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
@@ -1617,12 +1617,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_test_batch.py",
     "source": "local Claude skill: unity-cli/scripts/unity_test_batch.py",
-    "sha256": "5ed7d204c5bc45db77a0cd3c28b11a8313da702ebbc8449f16bb80ba3fb758b6"
+    "sha256": "696fcfbbf59f57a5ff9bca40f17f9dd2aba94c62b6d0047d6df0fda605342fed"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/test_unity_test_batch.py",
     "source": "local Claude skill: unity-cli/scripts/test_unity_test_batch.py",
-    "sha256": "5ae068454a809f821780a360f5128868b5c740d0927fb5f6109c6f6c30c11694"
+    "sha256": "0c8981315fc3f77412c29f6fdb08681f95e6776c7618bb18fc4862f3363cdf8f"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
@@ -2207,12 +2207,12 @@
   {
     "path": "plugins/agent-foundry/agents/unity-test-verifier.md",
     "source": "local Claude role: unity-test-verifier",
-    "sha256": "d7d16616efc450026db83aa00cf9e1d29580a8776469a1271cd1ea1c86badcdd"
+    "sha256": "6c88468ba288281f2bb084bf9487be3db69f07d41ff981a38b847b1c795f5534"
   },
   {
     "path": "plugins/agent-foundry/agents/unity-bugfixer.md",
     "source": "local Claude role: unity-bugfixer",
-    "sha256": "4f5274434b2636e1b675cda46ec9ed9fbd438b6558180fcbab459caa55d13f1a"
+    "sha256": "281cedb806d2d9f6ff6bc60a86563c316f359630ec1d6b776ce46af3a3ee9b04"
   },
   {
     "path": "commands/agent-orchestration.md",
@@ -2237,7 +2237,7 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/tracked-production.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "b7ef06783fbe08d20fb6f5ba237cc2c60d713c0156df6a5a0485e3a69e1a54e7"
+    "sha256": "35b2db63f572e5ba1f62223557e8d3523ae6e32f7841973df970bc3bd14965d6"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/game-and-unity.md",

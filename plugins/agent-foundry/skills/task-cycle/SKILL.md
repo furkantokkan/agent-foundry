@@ -242,8 +242,10 @@ In Unity, follow the Unity test timing rule:
 - Check each repair edit with the Roslyn compile check from `unity-cli` first.
   Use Unity's own compile only on `COMPILE_UNVERIFIED`.
 - Run the original repro and the regression tests once, when the repair is
-  complete, through the `unity-cli` shared test batch. Record its
-  `TEST_BATCH:` line byte-for-byte; `NO_TESTS` and `STALE` prove nothing.
+  complete, through the `unity-cli` shared test batch. Submit with
+  `--no-wait` and release the lock while the result is pending (the lock
+  protocol's release-while-waiting steps). Record its `TEST_BATCH:` line
+  byte-for-byte; `NO_TESTS` and `STALE` prove nothing.
 
 Keep diagnosis claims at separate evidence levels:
 
@@ -339,7 +341,9 @@ exactly as the loaded lock protocol requires.
 Then re-read the current contract, complete ledger, linked records,
 fingerprints, and reviewed revision. Hold that same ownership through every
 transition and the complete implementer -> verifier -> optional bugfixer ->
-verifier loop. If acquisition reports a live owner, perform no write and emit
+verifier loop, except while waiting for a submitted test result: then release
+it and re-acquire it on the result as `references/lifecycle-lock.md`
+describes, and pass the new token to later nested work. If acquisition reports a live owner, perform no write and emit
 the non-terminal scheduling state `WAITING_FOR_OWNER`. When this invocation or
 its parent orchestrator can observe the owner, keep the authorized work queued,
 wait for the provider completion event or claim-file release, then re-read and

@@ -55,6 +55,11 @@ $agent-orchestration GAME-201 GAME-202 GAME-203
    `QUEUED_AFTER_OWNER` and run it sequentially after the predecessor's stable
    handoff; do not turn a schedulable collision into `OWNERSHIP BLOCKED`.
    Block only when no unique owner/order or safe handoff can be proven.
+   A predecessor that reports `AWAITING_TESTS` has submitted its final-stage
+   tests and released its lock and paths; dispatch the queued successor then
+   instead of waiting for the test result. When the predecessor's result
+   returns, it queues behind whoever now owns its paths. If that result is
+   `FAIL`, tell the successor's owner that its base failed tests.
 4. Give independent tasks separate branches/worktrees and run them in parallel
    up to safe available capacity. Do not create extra writers merely to consume
    capacity. A failed or blocked independent task does not stop unrelated tasks.
@@ -120,8 +125,8 @@ Keep the orchestration invocation alive. Prefer the provider-native
 agent/thread completion event when this orchestrator owns the predecessor;
 otherwise monitor the exact lifecycle claim read-only at intervals no longer
 than 30 seconds and publish a short heartbeat at least once per minute. After
-the predecessor reaches `READY_TO_CLOSE`, `closed`, or another explicit stable
-handoff and releases ownership, re-read both contracts, current diffs,
+the predecessor reaches `AWAITING_TESTS`, `READY_TO_CLOSE`, `closed`, or
+another explicit stable handoff and releases ownership, re-read both contracts, current diffs,
 fingerprints, risk gates, and Unity project identity. Then dispatch the
 successor automatically without asking for another `continue`.
 

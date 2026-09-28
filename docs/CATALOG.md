@@ -1,6 +1,6 @@
 # Skill catalog
 
-93 Agent Foundry skills from the public v0.5.0 snapshot. Descriptions come from each skill's frontmatter. Install [Unity Technologies' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.
+93 Agent Foundry skills from the public v0.6.0 snapshot. Descriptions come from each skill's frontmatter. Install [Unity Technologies' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.
 
 | Skill | When to use it |
 | --- | --- |
