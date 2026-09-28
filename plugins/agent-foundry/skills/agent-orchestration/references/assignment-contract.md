@@ -16,6 +16,7 @@ Forbidden paths and actions:
 Exact serialized assets and runtime/Editor ownership, when applicable:
 Acceptance and preservation criteria / verification commands:
 Existing authorization and any protected target still awaiting approval:
+Close authority (lifecycle owner only): automatic_verified | explicit_user | none:
 Selected model/effort and reason, when the harness permits selection:
 Stop conditions / retry budget / no nested delegation unless authorized:
 Output: findings or diff, changed paths, evidence, unresolved items, next action:
@@ -33,6 +34,11 @@ The implementer reports what changed and which checks actually ran. The
 verifier reads acceptance criteria and original evidence, verifies the exact
 revision, and reports PASS/FAIL/UNVERIFIED with the command, result, and relevant
 artifact. A failing required check is not a successful task with a footnote.
+
+`Close authority` is copied from the caller's resolved policy, never widened.
+Only the lifecycle owner (`implement-task` or `task-cycle`) uses it: with
+`automatic_verified` it closes the task as soon as the verifier's fresh result
+and every other gate pass. Role agents and read-only delegates get `none`.
 
 The decision owner distinguishes pre-existing failures from regressions using
 evidence. A stale result is rechecked only where the changed input invalidates

@@ -1,7 +1,7 @@
 ---
 name: implement-task
 model: inherit
-description: Resolve and initially execute a task ID, contract path, story path, or bounded ad-hoc request with focused verification. Automatically route raw post-implementation bug feedback through task-bug. Treat an explicit user acceptance of named criteria as a verification continuation for the exact or sole retained task; it needs no artifact. Treat an immediate plain continue phrase as execution only for the sole newly returned ready task.
+description: Resolve and initially execute a task ID, contract path, story path, or bounded ad-hoc request with focused verification, and close a clean empty-ledger task automatically when its verified tests and every other gate pass and the caller's policy authorizes it. Automatically route raw post-implementation bug feedback through task-bug. Treat an explicit user acceptance of named criteria as a verification continuation for the exact or sole retained task; it needs no artifact. Treat an immediate plain continue phrase as execution only for the sole newly returned ready task.
 ---
 
 # Implement Task
@@ -130,9 +130,12 @@ Treat legacy `blocked` contracts as `draft` and report their exact
 Read current execution state from the contract's delimited `TASK-LIFECYCLE`
 block. For a legacy task without that block, read a sibling `status.md` only as
 migration context; never create or update `status.md`. `CONTINUE_SAME_TASK`
-identifies remaining work inside the current authority. `READY_TO_CLOSE` means
-implementation should not resume without new evidence; direct the operator to
-`$task-done <ID>`. `NEW_TASK_REQUIRED`, `CONTRACT_CHANGE_REQUIRED`, or
+identifies remaining work inside the current authority. A `ready_to_close` task
+needs no new implementation. Where automatic closure is authorized, it was
+stranded by the removed close handshake: route it to `$task-cycle <ID>`, which
+re-checks the gates at the current revision and closes it when they still
+hold. In explicit-close mode, direct the operator to `$task-done <ID>`.
+`NEW_TASK_REQUIRED`, `CONTRACT_CHANGE_REQUIRED`, or
 `BLOCKED` must not be bypassed. A `closed` task with new feedback routes through
 Section 0 instead of being rejected. If code/evidence changed after review,
 treat prior evidence as stale and continue only within unchanged authority.
@@ -286,9 +289,10 @@ Never let orchestration expand the contract.
 3. Preserve established architecture and naming; do not introduce a competing
    framework or migrate adjacent systems incidentally.
 4. Make surgical edits only inside the accepted contract and add focused tests
-   for changed expected behavior where supported. In Unity, check each edit
-   with the Roslyn compile check from `unity-cli` and write the tests in the
-   final stage.
+   for changed expected behavior where supported. In Unity, the Roslyn compile
+   check from `unity-cli` is always the first check after each edit: fix
+   `COMPILE_ERRORS` before the next step, and use Unity's own compile only on
+   `COMPILE_UNVERIFIED`. Write the tests in the final stage.
 5. On the first genuine execution transition, update only the contract's
    managed lifecycle block to `in_progress` while holding the direct invocation
    lock; do not create `status.md`. When called by `task-cycle`, let the cycle
@@ -296,7 +300,10 @@ Never let orchestration expand the contract.
 6. Run focused checks first, then compilation/build and broader checks required
    by the effective verification depth and risk. In Unity, the focused
    EditMode/PlayMode tests run once here, as the final stage, after the
-   implementation is complete; after a fix, re-run only failing tests.
+   implementation is complete. Submit them through the `unity-cli` shared test
+   batch (`unity_test_batch.py submit`) so sessions working on the same project
+   share one Unity launch, and record its `TEST_BATCH:` line byte-for-byte as
+   the automated verification. After a fix, resubmit only the failing tests.
 7. Separate pre-existing failures from regressions. Do not regenerate golden
    fixtures merely to force a pass. A nearby green test does not prove a
    reported runtime symptom; rerun the original repro and required regression
@@ -339,8 +346,8 @@ branch, or a bare commit hash in `Freshness`.
 ### Finalize a direct tracked execution
 
 An initial direct tracked invocation owns non-defect acceptance finalization
-while it holds its direct lifecycle lock. It must not require a redundant
-`task-cycle` pass merely to compute close readiness.
+and automatic closure while it holds its direct lifecycle lock. It must not
+require a redundant `task-cycle` pass merely to compute close readiness.
 
 After the implementer -> independent verifier handoff:
 
@@ -355,18 +362,16 @@ After the implementer -> independent verifier handoff:
 3. If every required acceptance and preservation row has `Result` `PASS`, every
    `Freshness` cell equals the complete `Reviewed revision` token
    byte-for-byte, the ledger remains empty, ownership/risk gates pass, and no
-   feedback is unclassified, update only the managed block:
-   - `Task state: ready_to_close`;
-   - `Current phase: verification`;
-   - `Last cycle verdict: READY_TO_CLOSE`;
-   - the computed fingerprints and reviewed revision;
-   - `PASS` acceptance `Result` cells whose `Freshness` cells each contain the
-     complete reviewed-revision token byte-for-byte;
-   - `Blocker: none`;
-   - `Next action: $task-done <ID>`;
-   - one compact transition-history entry.
-   Keep closure fields `none`, release the owned lock safely, and return
-   `Terminal verdict: READY_TO_CLOSE` plus `Next: $task-done <ID>`.
+   feedback is unclassified, and automatic closure is authorized (see
+   `reviewed-evidence-identity.md`), close the task in this same write. Update only
+   the managed block with the automatic verified closure fields listed in
+   `reviewed-evidence-identity.md` (`Task state: closed`,
+   `Closed by: automatic_verified_closure`, `Next action: None`, and the rest),
+   validate them after the write, release the owned lock safely, and return
+   `Terminal verdict: TASK_CLOSED`. The passing test result is the close
+   authority; do not wait for the operator. Otherwise follow that reference's
+   explicit-close mode: record `READY_TO_CLOSE`, keep closure fields `none`,
+   and return `Next: $task-done <ID>`.
 4. If the independent verifier finds a same-task acceptance failure or
    task-caused regression, do not create or edit a defect row. Finish the
    current lifecycle write, release the direct lock, then invoke
@@ -376,7 +381,8 @@ After the implementer -> independent verifier handoff:
    retain the exact `UNPROVEN` criterion, set a focused next action, and return
    `ACTION_REQUIRED: USER_ACCEPTANCE`; name the criterion but do not request a
    log, screenshot, artifact, or other proof. A subsequent explicit acceptance
-   is consumed automatically by Section 0 and finalizes the task. If an
+   is consumed automatically by Section 0 and finalizes the task, closing it
+   when automatic closure is authorized and it was the last open gate. If an
    environment action rather than judgment is genuinely required, report that
    exact environment blocker. If the
    operator's check observes a failure, that observation is raw feedback for
@@ -409,6 +415,7 @@ Report verification channels separately, for example:
 Automated verification: PASS | FAIL | NOT_RUN | STALE
 Manual/visual verification: PASS | FAIL | UNPROVEN | STALE | NOT_REQUIRED
 Acceptance criteria: COMPLETE | INCOMPLETE | BLOCKED
+Closure: TASK_CLOSED (automatic_verified_closure) | READY_TO_CLOSE (explicit-close mode) | NOT_CLOSED: <first failing gate>
 ```
 
 Do not say `no blocking defect`, `complete`, or `done` when any required channel
@@ -416,7 +423,9 @@ is `FAIL`, `UNPROVEN`, `STALE`, or `NOT_RUN`. Qualify partial success as
 `automated checks passed; required manual verification remains`.
 
 For a direct durable task whose required acceptance-criteria rows have `Result` `PASS` and
-`Freshness` exactly equal to the complete `Reviewed revision` token, report the
+`Freshness` exactly equal to the complete `Reviewed revision` token, report
+`TASK_CLOSED` with the closed revision and the verification that closed it
+(for Unity, the `TEST_BATCH:` line); in explicit-close mode, report the
 recorded `READY_TO_CLOSE` result and `$task-done <ID>` directly. Never return
 `$task-cycle <ID>` to repeat successful acceptance classification or as the
 next command for an empty-ledger task awaiting manual evidence; that

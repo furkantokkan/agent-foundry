@@ -19,7 +19,10 @@ lifecycle skill before scheduling. This profile's `READY_TO_CLOSE` and
 explicit standing authorization for verified automatic closure instead lets
 the existing lifecycle owner close after all gates pass; the scheduler accepts
 that verified `TASK_CLOSED`/`closed` handoff and does not add a second handshake.
-The orchestrator itself never writes a closure or grants that authorization.
+Forward the resolved policy to each dispatched lifecycle owner as
+`Close authority: automatic_verified | explicit_user` so a delegated owner can
+close on its own verified test result. The orchestrator itself never writes a
+closure or grants authorization the caller lacks.
 
 If applicable rules cannot be reconciled by precedence,
 preserve evidence and resolve the conflict before closure, while independent
@@ -58,9 +61,10 @@ $agent-orchestration GAME-201 GAME-202 GAME-203
 5. Keep one sequential role chain under one lifecycle owner per task. A direct
    initial lane requires no `CycleContext`, task state `ready`, `Attempt count:
    0`, and a header-only empty defect ledger; `$implement-task` owns its
-   implementer -> verifier handoff. On a clean independent pass,
-   `$implement-task` records `READY_TO_CLOSE` and returns `$task-done <ID>`
-   as the next action, without invoking closure. On a
+   implementer -> verifier handoff. On a clean independent pass under
+   `Close authority: automatic_verified`, `$implement-task` closes the task in
+   the same write and returns `TASK_CLOSED`. Under `explicit_user` it records
+   `READY_TO_CLOSE` and returns `$task-done <ID>`. On a
    same-task failure, it releases the direct lock and dispatches `$task-cycle`,
    which records/deduplicates each `D-xxx` row and `defects/D-xxx.md` record
    before optional bugfixer -> verifier work. Populated-ledger or resumed
@@ -68,7 +72,11 @@ $agent-orchestration GAME-201 GAME-202 GAME-203
 6. Queue Editor-bound mutation and verification through one confirmed Unity
    Editor connection. Parallel Editor operations require separately matched
    Editor instances rooted at their own worktrees. Code-only work may continue
-   while the single Editor slot is occupied.
+   while the single Editor slot is occupied. During implementation every lane
+   uses the Roslyn compile check, which needs no Editor slot. Final-stage Unity
+   test runs from several tasks or sessions on one project root go through the
+   `unity-cli` shared test batch, which merges them into one Unity launch per
+   test platform; do not schedule them as separate Editor-queue slots.
 7. For Unity targets, apply the installed `unity-cli` version gate: Unity 6+
    uses CLI/Pipeline; pre-6 live Editor work uses the approved MCP for Unity
    route. Pin exact project/version/instance. Do not ask the user to repeat

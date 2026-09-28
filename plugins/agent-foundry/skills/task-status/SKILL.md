@@ -58,7 +58,11 @@ as blockers. Never attribute unrelated dirty paths to a task.
 
 ## 3. Choose one next action
 
-- `ready_to_close`: `$task-done <ID>`;
+- `ready_to_close`: where verified automatic closure is authorized, a task
+  stranded by the removed handshake; route it to `$task-cycle <ID>`, which
+  re-checks the gates at the current revision and closes it if they still
+  hold. In explicit-close mode, or for an operator override close,
+  `$task-done <ID>`;
 - new unrecorded bug feedback: `$task-bug [<ID>] "<feedback>"`;
 - any populated defect-ledger row, or a lifecycle/handoff that records a
   reopened or resumable cycle: `$task-cycle <ID>`;

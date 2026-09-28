@@ -88,8 +88,9 @@ mutation.
   polling, and broad scene queries.
 - Add or update a focused regression test when the behavior is testable.
 - When the fix is complete (the final stage), run the original reproduction
-  plus focused and relevant adjacent regression checks once; after a further
-  fix, re-run only failures. Record exact commands, exit codes, Unity/project
+  plus focused and relevant adjacent regression checks once, through the
+  `unity-cli` shared test batch; after a further fix, resubmit only failures.
+  Record the `TEST_BATCH:` line, exact filters, exit codes, Unity/project
   identity, timestamps, and fresh NUnit XML/Editor log or equivalent artifacts.
 - Audit the stage-local diff against the exact allowlist and map every change and
   evidence result back to each supplied `D-xxx`.

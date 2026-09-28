@@ -1,7 +1,7 @@
 ---
 name: task-cycle
 model: inherit
-description: Execute the canonical defect lifecycle for one already-resolved tracked task by confirming candidate matches, maintaining the sole defect ledger and linked evidence, running bounded repair and verification, and reopening safely. Use $task-bug first for new user bug feedback.
+description: Execute the canonical defect lifecycle for one already-resolved tracked task by confirming candidate matches, maintaining the sole defect ledger and linked evidence, running bounded repair and verification, closing automatically when every gate passes and the caller's policy authorizes it, and reopening safely. Use $task-bug first for new user bug feedback.
 ---
 
 # Task Cycle
@@ -27,8 +27,10 @@ $task-cycle GAME-202 "Dash VFX is absent, the grave spawns at the caster, and th
 The contract authority outside `TASK-LIFECYCLE` is immutable. The cycle may
 update only that managed block and linked
 `production/tasks/<ID>/defects/D-xxx.md` evidence records, and may invoke
-bounded work inside already accepted production/test ownership. It never closes
-the task, widens authority, approves protected work, commits, or pushes.
+bounded work inside already accepted production/test ownership. It closes the
+task only through authorized automatic verified closure when every gate passes
+(section 7). It never widens authority, approves protected work, commits, or
+pushes.
 
 Before any lifecycle mutation, read and follow
 `references/lifecycle-lock.md`. Resolve it relative to the directory containing
@@ -208,6 +210,12 @@ For lifecycle state `closed`:
 Reopening is idempotent for the same defect/evidence/revision. Closure alone is
 never a reason to create a duplicate task or a second record.
 
+Where automatic closure is authorized, a task in state `ready_to_close` was
+stranded by the removed close handshake. Under the lock, recompute its
+identities and re-check every close gate at the current revision. Close it
+automatically when they hold; otherwise record the first failing gate. This
+consumes no implementation attempt and runs no tests.
+
 ## 5. Classify evidence and completion
 
 Inspect the contract, current diff/revision, handoffs, retained test/build
@@ -231,9 +239,11 @@ logging, or leave temporary instrumentation behind.
 
 In Unity, follow the Unity test timing rule:
 - Take the failing signal from the recorded evidence; do not re-run tests for it.
-- Check each repair edit with the Roslyn compile check from `unity-cli`.
+- Check each repair edit with the Roslyn compile check from `unity-cli` first.
+  Use Unity's own compile only on `COMPILE_UNVERIFIED`.
 - Run the original repro and the regression tests once, when the repair is
-  complete.
+  complete, through the `unity-cli` shared test batch. Record its
+  `TEST_BATCH:` line byte-for-byte; `NO_TESTS` and `STALE` prove nothing.
 
 Keep diagnosis claims at separate evidence levels:
 
@@ -256,9 +266,10 @@ Choose the effective outcome using these gates:
 2. same-task authority conflict -> `CONTRACT_CHANGE_REQUIRED`;
 3. unresolved same-task defect -> `CONTINUE_SAME_TASK` when safely actionable;
 4. distinct outcome only -> `NEW_TASK_REQUIRED`;
-5. `READY_TO_CLOSE` only when all conditions below hold.
+5. closure (`TASK_CLOSED`, or `READY_TO_CLOSE` in explicit-close mode) only
+   when all conditions below hold.
 
-Close readiness requires all of the following at the current reviewed revision:
+Closure requires all of the following at the current reviewed revision:
 
 - every required acceptance and preservation channel is fresh `PASS`;
 - every defect ledger row is `VERIFIED` with original-repro/regression evidence;
@@ -307,16 +318,17 @@ the same managed structure and do not rename them during lifecycle-only writes.
 - a safety/authority stop uses `BLOCKED` without deleting evidence.
 
 Map ordinary continuation to task state `in_progress`; a reopened task remains
-`reopened` until close-ready or blocked. Map close readiness to
-`ready_to_close`. Preserve the block byte-for-byte when nothing semantic
-changed and append one history entry per genuine transition.
+`reopened` until closed, close-ready, or blocked. Map passing close gates to
+`closed` through authorized automatic verified closure, or to
+`ready_to_close` in explicit-close mode. Preserve the block byte-for-byte when
+nothing semantic changed and append one history entry per genuine transition.
 
 Compute the terminal `Reviewed revision` and `Evidence fingerprint` only after
 the final relevant production/test change or recorded user acceptance, using
 `references/reviewed-evidence-identity.md`. Every `PASS` acceptance row and
 every `VERIFIED` defect row must name that exact reviewed revision. A planning
 base revision, prior-cycle fingerprint, timestamp, or child-agent claim is
-stale evidence and cannot support `READY_TO_CLOSE`.
+stale evidence and cannot support closure.
 
 Serialize all lifecycle writes for one task. Before the first lifecycle
 read-modify-write, atomically acquire the authoritative
@@ -395,20 +407,19 @@ must finish the lifecycle work before returning:
    criterion at the same reviewed revision. A criterion may be verified by an
    automated test, manual verification, or explicit user acceptance; do not
    demand extra artifacts for the user-acceptance channel.
-9. If all close-readiness gates pass, compute the canonical reviewed revision
-   and evidence fingerprint, then atomically record:
-   - `Task state: ready_to_close`;
-   - `Current phase: verification`;
-   - `Last cycle verdict: READY_TO_CLOSE`;
-   - fresh `PASS` acceptance-criteria rows and current-revision `VERIFIED` rows;
-   - `Blocker: none`;
-   - `Next action: $task-done <ID>`, replacing any earlier verification, rerun,
-     implementation, or cycle command;
-   - one transition-history entry.
-   Keep closure fields `none`, re-read and validate the identities, then return
-   the complete canonical `TASK CYCLE` block from section 8. In that block, the
-   close fields must be exactly `Terminal verdict: READY_TO_CLOSE` and
-   `Next: $task-done <ID>`; do not substitute prose or a child workflow's
+9. If all close gates pass and automatic closure is authorized (see
+   `reviewed-evidence-identity.md`), compute the canonical reviewed revision and
+   evidence fingerprint, then close the task in the same atomic write with the
+   automatic verified closure fields from `reviewed-evidence-identity.md`
+   (`Task state: closed`, `Closed by: automatic_verified_closure`,
+   `Next action: None`, and the rest), replacing any earlier verification,
+   rerun, implementation, or cycle command. The verifier's passing result is
+   the close authority; do not wait for the operator. Re-read and validate the
+   identities, then return the complete canonical `TASK CYCLE` block from
+   section 9 with exactly `Terminal verdict: TASK_CLOSED` and
+   `Current state: closed`. Otherwise use that reference's explicit-close
+   mode and return exactly `Terminal verdict: READY_TO_CLOSE` and
+   `Next: $task-done <ID>`. Do not substitute prose or a child workflow's
    result schema.
 10. If any gate remains unresolved, continue the bounded loop or record the
     exact blocker. Never return `$task-cycle <ID>` as the next command from an
@@ -465,7 +476,8 @@ Orchestration: DISPATCHED_PARALLEL | QUEUED_AFTER_OWNER | QUEUED_EDITOR |
 
 ## 9. Stop gates and report
 
-- `READY_TO_CLOSE` -> `$task-done <ID>`;
+- `TASK_CLOSED` -> closed in the same write; next `$daily-handoff <ID>` or none.
+  In explicit-close mode, `READY_TO_CLOSE` -> `$task-done <ID>`;
 - distinct new outcome -> automatic split-and-dispatch above; use
   `NEW_TASK_REQUIRED` only when creation or orchestration cannot safely proceed;
 - `CONTRACT_CHANGE_REQUIRED` -> one exact authority/approval decision;
@@ -476,7 +488,8 @@ Orchestration: DISPATCHED_PARALLEL | QUEUED_AFTER_OWNER | QUEUED_EDITOR |
   `Waiting reason`, and one `Action required`. Never persist task state
   `blocked`; the verdict describes this attempt, not a dead task.
 
-Never automatically invoke `task-done`.
+This cycle writes authorized automatic closure itself; never invoke
+`task-done` for it. `task-done` remains the explicit user-confirmation lane.
 
 Every terminal return must use the complete canonical `TASK CYCLE` block below.
 Do not return only a verdict/next pair or forward a child workflow's schema.
@@ -489,9 +502,9 @@ Previous state: <state>
 Current state: in_progress | reopened | ready_to_close | waiting | closed
 Reopened: yes | no
 Attempts: <0-3>
-Terminal verdict: READY_TO_CLOSE | NEW_TASK_REQUIRED |
+Terminal verdict: TASK_CLOSED | NEW_TASK_REQUIRED |
                   CONTRACT_CHANGE_REQUIRED | WAITING_FOR_OWNER | BLOCKED |
-                  TASK_CLOSED
+                  READY_TO_CLOSE (explicit-close mode)
 Acceptance criteria: <PASS/FAIL/UNPROVEN/STALE summary; verification channels>
 Defect match: CONFIRMED_REUSE <ID> | CONFIRMED_RECURRENCE <ID> |
               NEW_DEFECT <ID> | AMBIGUOUS | none
