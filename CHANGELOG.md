@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.1 - 2026-09-28
+
+- Drop the fixed "about an hour" session budget from 0.8.0. The rule is now to
+  size the process to the work. Estimate the work and the process around it
+  (batch cycles, reviews, decisions, waiting) separately, and restructure when
+  the process costs more than the work, as when an hour of edits is planned as
+  eight hours. The fast finish starts when the user asks to wrap up, or when
+  waiting and repeated cycles keep extending the estimate, not at a time limit.
+
 ## 0.8.0 - 2026-09-28
 
 - Fast finish. `agent-orchestration` gains "Time budget and fast finish": aim

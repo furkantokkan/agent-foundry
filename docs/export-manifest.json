@@ -1037,7 +1037,7 @@
   {
     "path": "plugins/agent-foundry/skills/implement-task/SKILL.md",
     "source": "local Codex skill: implement-task/SKILL.md",
-    "sha256": "0229fa27cfcc30698254c3294546f060c2022697f4c2486ee041573586f3e228"
+    "sha256": "ebe7dec525c9ed30350ca868314a9dbb733a4846825bea7b0acec44b437407b7"
   },
   {
     "path": "plugins/agent-foundry/skills/javascript-game-tools/references/javascript-patterns.md",
@@ -1412,7 +1412,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/SKILL.md",
     "source": "local Codex skill: task-cycle/SKILL.md",
-    "sha256": "1228cc393d4b2555b37d46d310b73714be6f5e10f7bb303cb9f7c77b42f41033"
+    "sha256": "e4f35c0e8997c103150fb9d5dcb83c1d2bcd0dc3738b48fe796374c9ffee6c62"
   },
   {
     "path": "plugins/agent-foundry/skills/task-done/agents/openai.yaml",
@@ -2222,7 +2222,7 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/SKILL.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "8d7baf85e3ea1afc8c70d0d84335bb8a309d971df6cb12b427c923ec519e4a37"
+    "sha256": "ce983fd8b79a715ef265ce5e9796fe5c9c8f1630f45c52814353f28cf7f8b4ef"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/LICENSE",

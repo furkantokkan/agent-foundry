@@ -119,12 +119,15 @@ When no authorized available route remains, preserve a handoff and report it.
 
 ## Time budget and fast finish
 
-Aim every plan at a fast finish. A session's remaining work should fit in about
-an hour. Many hours of sequential batches in one session are an exception the
-user chooses, not the default.
+Size the process to the work. There is no fixed session limit. The failure to
+avoid is overhead that stretches a short job into a long one, for example an
+hour of edits planned as eight hours of batches, reviews, and waiting.
 
-- Estimate each remaining step from measured durations (for example recent
-  batch times) and show the total before starting long work.
+- Estimate the work itself (the edits and the checks it needs) separately from
+  the process around it (batch cycles, reviews, decisions, handoffs, waiting).
+  Use measured durations, such as recent batch times, and show both before
+  starting long work. When the process costs more than the work, restructure
+  before continuing.
 - Group small fixes by file cluster, so that one batch means one implement ->
   verify cycle. Verify each batch with the Roslyn compile check and a diff
   review, and run tests once at the end.
@@ -133,8 +136,8 @@ user chooses, not the default.
 - Do not wait inside the session for another owner's paths. Do other work, or
   defer the dependent chain.
 
-When the remaining estimate exceeds the budget, or the user asks to wrap up,
-switch to the fast finish and show its estimate:
+When the user asks to wrap up, or waiting and repeated cycles keep extending
+the estimate, switch to the fast finish and show its estimate:
 
 1. Start no new batch. Give the batch in flight a short time box of about 15
    minutes. If it still fails and it only improves quality (readability,
