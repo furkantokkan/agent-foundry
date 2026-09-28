@@ -408,8 +408,9 @@ authoritative terminal transition while retaining its parent lock.
 reports evidence and root cause without changing production code. The default
 `--mode implement` completes the bounded change and verification.
 
-When the user asks to finish quickly, or the remaining estimate exceeds the
-session budget, follow `agent-orchestration`'s fast finish. Finish or revert
+Size the process to the work: when verification, review, or waiting costs more
+than the change itself, restructure as `agent-orchestration` describes. When
+the user asks to finish quickly, follow its fast finish. Finish or revert
 the step in flight within its time box, split the rest into a follow-up task,
 and verify once. The fast finish never relaxes a close gate.
 
