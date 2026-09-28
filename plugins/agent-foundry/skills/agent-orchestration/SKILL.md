@@ -34,12 +34,18 @@ The tracked production profile belongs to this skill. Do not dispatch back to
 the legacy alias or recursively start a second orchestrator.
 
 Closure is owned by the existing lifecycle skill under the invoking caller's
-current user/global/repository policy. Default to explicit user closure; do not
-infer permission from a pass or from delegation. If that caller has an explicit
-standing rule for verified automatic closure, the lifecycle owner follows it
-after all gates pass. This orchestration skill grants no new close authority.
-Do not copy one provider's closure preference into another. See the tracked
-profile's policy-resolution rule before interpreting terminal verdicts.
+current user/global/repository policy. Resolve that policy once and forward it
+unchanged in every lifecycle assignment as
+`Close authority: automatic_verified | explicit_user`. With
+`automatic_verified` (a caller's explicit standing rule for verified automatic
+closure), the delegated `implement-task` or `task-cycle` owner closes the task
+in the same write once its test result and every other gate pass; nobody waits
+for a `task-done` handshake. Without such a rule, forward `explicit_user`.
+Role agents (implementer, verifier, bugfixer) never close; they return
+evidence to that owner. The orchestrator itself never writes a closure, never
+forwards authority the caller lacks, and never copies one provider's closure
+preference into another. See the tracked profile's policy-resolution rule
+before interpreting terminal verdicts.
 
 ## Plan before dispatch
 

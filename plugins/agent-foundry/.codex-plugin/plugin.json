@@ -1,6 +1,6 @@
 {
   "name": "agent-foundry",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Task-first workflows with unified orchestration, Unity CLI readiness, game design, Firebase, QA and releases. 93 skills; pair with Unity’s official specialist plugin.",
   "author": {
     "name": "Furkan Tokkan"

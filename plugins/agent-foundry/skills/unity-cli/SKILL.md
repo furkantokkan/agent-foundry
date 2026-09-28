@@ -167,11 +167,12 @@ Apply the repository's approval policy before running commands:
   `logs`, `env`, bare `command`, `test_status`, `recompile_status`,
   and `--help`) may run without approval.
 - For a user-requested Unity implementation, repair, or verification task,
-  focused `unity test`, `unity command run_tests`, recompile checks, and
-  their status/log/result queries are already authorized after proving the
-  exact project. Do not ask for a separate command approval or accepted task
-  plan. Use a focused filter when practical and preserve unsaved Editor work.
-  Run tests only in the final stage. During development, use the
+  focused `unity test`, `unity command run_tests`, recompile checks,
+  [shared test batch](#final-stage-test-runs-shared-batch) submissions and
+  publishes, and their status/log/result queries are already authorized after
+  proving the exact project. Do not ask for a separate command approval or
+  accepted task plan. Use a focused filter when practical and preserve unsaved
+  Editor work. Run tests only in the final stage. During development, use the
   [Roslyn compile check](#development-compile-check-roslyn), which writes no
   tracked file and needs no approval.
 - Other Editor mutations, `run`, `open`, `config`, and arbitrary Pipeline
@@ -221,13 +222,74 @@ Verdicts:
 Test timing:
 - Do not run Unity tests during development.
 - Write or update the focused EditMode/PlayMode tests, then run them once in
-  the final stage: when the implementation is complete, before verifier
-  handoff, commit, or closure.
+  the final stage, through the [shared test batch](#final-stage-test-runs-shared-batch):
+  when the implementation is complete, before verifier handoff, commit, or
+  closure.
 - After that, re-run only failing tests.
 - Reproduce bugs from the supplied evidence (failing-test output, logs, a
   concrete scenario) instead of re-running tests.
 - Run tests earlier only when the user asks.
 - Closure gates do not change.
+
+## Final-stage test runs (shared batch)
+
+Verification order for every Unity change:
+
+1. The Roslyn compile check after each edit. It is always the first check.
+2. Unity's own compile only when the Roslyn check returns `COMPILE_UNVERIFIED`.
+3. Unity tests once, in the final stage, through this shared batch.
+
+Several sessions or tasks often reach the final stage on the same project at
+about the same time. Each Unity launch costs one to three minutes of Editor
+start-up and domain reload, so they share one run:
+
+```bash
+python "<unity-cli skill dir>/scripts/unity_test_batch.py" submit --project <project root> --mode EditMode --filter "<full names or regexes, ';'-separated>" --files <changed files, tests included> [--task <ID>]
+```
+
+- Run it in the background and wait for its exit notification. It blocks until
+  this request's result exists.
+- The first caller becomes the leader. It waits for more requests until none
+  has arrived for 20 seconds, and never more than 90 seconds after the oldest
+  (`should_seal`). It then runs the Roslyn check once over every
+  requested and every dirty C# file, then runs one `unity test` per test
+  platform with the merged filter. Each caller receives only the tests its own
+  filter selects.
+- Submit EditMode and PlayMode as two requests. Omit `--filter` only when a
+  criterion needs the whole platform; it widens the shared run for everyone.
+  `!` exclusions are rejected because they would hide other sessions' tests.
+- Requests share a run only on the same project root. Separate worktrees are
+  separate projects and run separately.
+- Record the `TEST_BATCH:` line byte-for-byte as the automated verification
+  evidence, together with the result path it prints.
+
+Results and exit codes:
+- `PASS` (0): every matched test passed.
+- `FAIL` (8): lists the failed tests and messages. After the fix, resubmit only those.
+- `NO_TESTS` (3): the filter matched no test that ran. Never a pass; fix the filter.
+- `COMPILE_ERRORS` (1): your files do not compile. Fix them and resubmit.
+- `BLOCKED_BY_OTHER_COMPILE` (7): another session's files break the build.
+  Resubmit after they change.
+- `STALE` (5): your files changed after you submitted. Resubmit after the last edit.
+- `INFRA_ERROR` (6): Unity produced no report (license, crash, timeout, missing CLI). Read the printed log.
+- `WAIT_TIMEOUT` (4): resume with `wait --project <root> --id <request>`.
+- `LEADER_RUN_REQUIRED` (10): the project is open in an Editor, so batch mode
+  cannot open it, and this session is the leader. Run the printed merged filter
+  once through the live Editor (Unity 6+: `unity command run_tests`; below
+  Unity 6: MCP for Unity `run_tests`). Save the report as NUnit XML or as a
+  JSON list of `{fullname, result, message}`, then run the printed `publish`
+  command. The other sessions receive their results from that one run.
+
+A shadow runner project whose `Assets` links to this project's `Assets` and
+keeps its own `Library` lets batch mode run while the Editor stays open. Pass it
+with `--runner-project`. The script uses it only when `Assets` resolves to the
+same folder and `Packages/manifest.json`, `Packages/packages-lock.json`, and
+`ProjectSettings/ProjectVersion.txt` match byte-for-byte.
+
+Run `unity test` directly for task verification only when the batch script
+itself cannot run, and say so in the evidence. `status --project <root>` shows
+the queue, the leader, and recent batches. Tests for the script:
+`python scripts/test_unity_test_batch.py`.
 
 ## Drive a running Unity Editor (if one is open)
 

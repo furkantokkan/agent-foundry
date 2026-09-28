@@ -37,6 +37,12 @@ confirmation. Unmet or unverified acceptance criteria change the closure mode;
 they do not cancel a direct user close order. An explicit user close order must
 not trigger a request for a test log, screenshot, artifact, or other proof.
 
+Where the caller's policy authorizes verified automatic closure, `task-cycle`
+and a clean-ledger `implement-task` close a task themselves once every
+criterion and lifecycle gate is green. This skill is the explicit
+user-confirmation lane and also owns strict closure, supersede reconciliation,
+legacy closure, and tasks left in `ready_to_close`.
+
 `--strict` retains criteria-gated behavior and closes only a current
 `READY_TO_CLOSE` task.
 

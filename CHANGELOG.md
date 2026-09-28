@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.5.0 - 2026-09-28
+
+- Automatic verified closure: where the caller's user, global, or repository
+  policy authorizes it (or an assignment carries
+  `Close authority: automatic_verified`), `implement-task` and `task-cycle`
+  close a task in the same lifecycle write that finds every gate green,
+  recording `Closed by: automatic_verified_closure`. Without that
+  authorization the `READY_TO_CLOSE` -> `task-done` handshake is unchanged.
+  `task-cycle` closes tasks left in `ready_to_close` after re-checking the gates.
+- `agent-orchestration` forwards the resolved close policy to delegated
+  lifecycle owners through a new `Close authority` assignment field. Role
+  agents never close.
+- Add a shared final-stage Unity test batch
+  (`unity-cli/scripts/unity_test_batch.py`, with tests). Sessions on one
+  project queue their requests. A leader runs the Roslyn gate once, then one
+  `unity test` per platform with the merged filter, and hands each request only
+  its own tests. A request whose filter matches nothing is `NO_TESTS`, never a
+  pass. Files changed after submit make the result `STALE`. An open Editor
+  hands the merged plan to the leader session, which publishes a live-Editor
+  report. An optional shadow runner project is also supported.
+- Verification order for Unity changes: the Roslyn compile check first, Unity's
+  own compile only on `COMPILE_UNVERIFIED`, and tests once at the end through
+  the shared batch.
+
 ## 0.4.0 - 2026-09-28
 
 - Unify `game-studio-orchestration` into one cross-domain `agent-orchestration`

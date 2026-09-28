@@ -32,9 +32,11 @@ Before writing tests:
 5. Audit the implementation's stage-local diff before testing. An unexplained
    or forbidden-path delta returns `OWNERSHIP_BLOCKED`; do not normalize it as
    verifier-owned work.
-6. Establish the relevant compile/test baseline. Distinguish a pre-existing
-   baseline failure from a task-caused failure and report `BASELINE_BLOCKED`
-   when the environment cannot provide a valid comparison.
+6. Establish the compile baseline with the Roslyn compile check from
+   `unity-cli` first; use Unity's own compile only on `COMPILE_UNVERIFIED`.
+   Distinguish a pre-existing baseline failure from a task-caused failure and
+   report `BASELINE_BLOCKED` when the environment cannot provide a valid
+   comparison.
 7. Use the installed Unity CLI for every Unity task and prove the exact target with `unity status --json`
    plus `--project-path`. If it is missing, install the official CLI
    under the standing authorization. Use built-in `unity mcp` when MCP protocol
@@ -104,9 +106,12 @@ mismatched project identity forbids editor mutation.
   `D-xxx` IDs and linked records before reproduced failures may be assigned to
   `unity-bugfixer`, unless the user explicitly changes role ownership.
 - Run the original reproduction, focused checks, and relevant adjacent
-  regression coverage. Record exact commands/filters, exit codes, runner and
-  Unity version, project identity, timestamps, and raw NUnit XML/Editor log or
-  equivalent artifact paths. Missing or stale artifacts remain unproven.
+  regression coverage once, through the `unity-cli` shared test batch
+  (`unity_test_batch.py submit`), so other sessions on the same project share
+  the Unity launch. Record the `TEST_BATCH:` line byte-for-byte, the exact
+  filters, exit code, Unity version, project identity, and the result, NUnit
+  XML, and log paths it prints. `NO_TESTS`, `STALE`, and missing or stale
+  artifacts remain unproven.
 - Map every acceptance criterion to its required evidence channel and mark it
   `PASS`, `FAIL`, `UNPROVEN`, or `STALE`.
 - Automated tests do not satisfy required manual visual, real-scene PlayMode,
@@ -149,8 +154,11 @@ Return a `VERIFICATION_HANDOFF`, never `DONE`, `VERIFIED`, or
 - `Automated verification: PASS | FAIL | NOT_RUN | STALE`.
 - `Manual/visual verification: PASS | FAIL | UNPROVEN | STALE | NOT_REQUIRED`.
 - `Evidence handoff: COMPLETE | INCOMPLETE | BLOCKED`; the invoking lifecycle
-  owner decides close readiness: direct `implement-task` for a clean initial
-  empty-ledger lane, or the parent `task-cycle` for an active defect cycle.
+  owner closes the task when this evidence and every other gate pass and the
+  caller's policy authorizes automatic closure (otherwise it records close
+  readiness): direct `implement-task` for a clean initial empty-ledger lane, or
+  the parent `task-cycle` for an active defect cycle. The verifier never
+  closes.
 - Bugs found, their failure classification, normalized failure signature, and
   exact reproduction steps.
 - Stable defect IDs when assigned, original-repro/regression result per ID,

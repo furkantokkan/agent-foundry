@@ -63,7 +63,9 @@ close tasks, or change external trackers.
 
 Use short navigation:
 
-- recorded `ready_to_close`: `$task-done <ID>`;
+- recorded `ready_to_close`: `$task-cycle <ID>` to re-check the gates and close
+  where verified automatic closure is authorized; otherwise, or for an
+  operator override close, `$task-done <ID>`;
 - new unrecorded post-implementation bug feedback: `$task-bug [<ID>] "<feedback>"`;
 - any populated defect-ledger row, or a lifecycle/handoff that records a
   reopened or resumable cycle: `$task-cycle <ID>`;

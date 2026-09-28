@@ -77,8 +77,7 @@ regardless of its `Result`.
 ## Readiness and closure
 
 Re-read the review set after writing the lifecycle block; because the managed
-block is excluded, the reviewed revision must remain stable. `READY_TO_CLOSE`
-requires:
+block is excluded, the reviewed revision must remain stable. Closure requires:
 
 - non-`none` contract, reviewed-revision, and evidence fingerprints;
 - every required acceptance-criteria row has `Result` `PASS` and a `Freshness` cell equal
@@ -89,3 +88,42 @@ requires:
 `task-done` recomputes and compares these identities without rerunning tests.
 If an identity cannot be computed deterministically, do not claim readiness;
 return `BLOCKED: EVIDENCE_IDENTITY_UNAVAILABLE` with the exact missing input.
+
+An automated-test `PASS` counts only when the tests ran after the final
+relevant production/test change. For Unity, that is a shared-batch
+`TEST_BATCH: PASS` result whose request was submitted after the last edit; a
+`STALE`, `NO_TESTS`, or earlier-revision result proves nothing.
+
+## Automatic verified closure
+
+Automatic closure is authorized when the caller's user, global, or repository
+policy has a standing rule for verified automatic closure, or when a delegated
+assignment carries `Close authority: automatic_verified` copied from such a
+policy. Then the lifecycle owner that holds the task lock (a direct
+`implement-task` or a `task-cycle`) closes the task in the same write that
+finds every closure condition above true. There is no `ready_to_close`
+resting state and no `task-done` handshake. Record exactly:
+
+- `Task state: closed`;
+- `Current phase: closed`;
+- `Last cycle verdict: TASK_CLOSED`;
+- the computed contract fingerprint, reviewed revision, and evidence fingerprint;
+- the fresh `PASS` acceptance rows and current-revision `VERIFIED` defect rows;
+- `Blocker: none`;
+- `Closure mode: criteria_verified`;
+- `Closed revision:` the complete reviewed-revision token;
+- `Closed at:` the current UTC timestamp;
+- `Closed by: automatic_verified_closure`;
+- `Next action: None`;
+- one transition-history entry naming the verification channels that closed it.
+
+After the write, re-read the contract, recompute all three identities, and
+require them unchanged before releasing the lock. If validation fails, report
+`TASK CLOSURE WRITE INVALID` and do not claim closure.
+
+Explicit-close mode applies when automatic closure is not authorized, and
+whenever repository instructions, the task contract, the current invocation,
+or `Close authority: explicit_user` requires the user to close. Then record
+`Task state: ready_to_close`, `Current phase: verification`,
+`Last cycle verdict: READY_TO_CLOSE`, keep the closure fields `none`, and set
+`Next action: $task-done <ID>`.
