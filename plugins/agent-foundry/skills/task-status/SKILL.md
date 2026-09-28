@@ -58,6 +58,11 @@ as blockers. Never attribute unrelated dirty paths to a task.
 
 ## 3. Choose one next action
 
+- a lock whose owner stopped (session process gone, or no activity for the
+  lease window in the lifecycle lock protocol), or an active task with no lock
+  at all: report it as `takeover-able`, not locked. `$task-cycle <ID>` takes it
+  over and continues from its recorded state (`$implement-task <ID>` for an
+  empty-ledger direct lane);
 - phase `awaiting_tests`: the task holds no lock while its submitted test
   request runs; report the recorded `Pending test request`. Its owner resumes
   on the result. With no live waiter, `$task-cycle <ID>` (or
