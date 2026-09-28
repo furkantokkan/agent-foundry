@@ -408,6 +408,11 @@ authoritative terminal transition while retaining its parent lock.
 reports evidence and root cause without changing production code. The default
 `--mode implement` completes the bounded change and verification.
 
+When the user asks to finish quickly, or the remaining estimate exceeds the
+session budget, follow `agent-orchestration`'s fast finish. Finish or revert
+the step in flight within its time box, split the rest into a follow-up task,
+and verify once. The fast finish never relaxes a close gate.
+
 ## 7. Hand off the result
 
 Lead with the outcome. Report the selected domain workflow, changed files,

@@ -11,12 +11,17 @@ other agents can edit the same files, and waits with `wait --id`. Every read of
 a result re-hashes the request's files: a result for bytes that changed since
 the run reads as STALE.
 
+A session whose in-progress change fails some tests by design `declare`s them.
+Other sessions' results still list those failures, but mark them declared, and
+a request whose only failures are declared by another owner is FOREIGN_FAIL.
+
 When the project is open in an Editor, batch mode cannot run. The leader then
 prints a plan with the merged filter and exits with LEADER_RUN_REQUIRED; that
 session runs the plan through the live Editor and calls `publish`.
 
 Exit codes: 0 PASS, 1 COMPILE_ERRORS, 2 usage error, 3 NO_TESTS, 4 WAIT_TIMEOUT,
-5 STALE, 6 INFRA_ERROR, 7 BLOCKED_BY_OTHER_COMPILE, 8 FAIL, 10 LEADER_RUN_REQUIRED.
+5 STALE, 6 INFRA_ERROR, 7 BLOCKED_BY_OTHER_COMPILE, 8 FAIL, 9 FOREIGN_FAIL,
+10 LEADER_RUN_REQUIRED.
 """
 from __future__ import annotations
 
@@ -42,6 +47,7 @@ EXIT_CODES = {
     "INFRA_ERROR": 6,
     "BLOCKED_BY_OTHER_COMPILE": 7,
     "FAIL": 8,
+    "FOREIGN_FAIL": 9,
 }
 EXIT_USAGE = 2
 EXIT_WAIT_TIMEOUT = 4
@@ -146,7 +152,7 @@ def files_digest(project: Path, files: list[str]) -> str:
 
 
 class Queue:
-    """The shared state of one Unity project: queue, results, batches, leader claim."""
+    """The shared state of one Unity project: queue, results, batches, leader claim, declared failures."""
 
     def __init__(self, project: Path):
         self.project = project
@@ -155,8 +161,9 @@ class Queue:
         self.requests = self.root / "queue"
         self.results = self.root / "results"
         self.batches = self.root / "batches"
+        self.declared = self.root / "declared"
         self.claim_path = self.root / "leader.claim"
-        for folder in (self.requests, self.results, self.batches):
+        for folder in (self.requests, self.results, self.batches, self.declared):
             folder.mkdir(parents=True, exist_ok=True)
 
     def pending(self) -> list[Path]:
@@ -164,6 +171,15 @@ class Queue:
 
     def result_path(self, request_id: str) -> Path:
         return self.results / f"{request_id}.json"
+
+    def declaration_path(self, owner: str) -> Path:
+        return self.declared / f"{hashlib.sha256(owner.encode('utf-8')).hexdigest()[:16]}.json"
+
+    def declarations(self) -> list[dict]:
+        """Unexpired declarations of tests that an owner's in-progress change fails by design."""
+        now = time.time()
+        items = (read_json(path) for path in sorted(self.declared.glob("*.json")))
+        return [item for item in items if item and item.get("until", 0) > now]
 
 
 # --- Leader claim ---------------------------------------------------------------
@@ -365,16 +381,34 @@ def outcome_record(request: dict, status: str, **fields: object) -> dict:
     return record
 
 
-def cases_record(request: dict, cases: list[dict], **fields: object) -> dict:
+def declared_by_other(request: dict, full_name: str, declarations: list[dict]) -> dict | None:
+    """The live declaration of another owner that expects this test to fail, if any."""
+    for item in declarations:
+        if item["owner"] in (request.get("task"), request.get("session")):
+            continue
+        if any(filter_matches(pattern, full_name) for pattern in item["tests"]):
+            return item
+    return None
+
+
+def cases_record(request: dict, cases: list[dict], declarations: list[dict], **fields: object) -> dict:
     selected = select_cases(cases, request["filters"])
-    failures = [
-        {"fullname": case["fullname"], "message": case["message"][:MAX_MESSAGE_LENGTH]}
-        for case in selected
-        if case["result"] == "Failed"
-    ]
+    failures = []
+    for case in selected:
+        if case["result"] != "Failed":
+            continue
+        failure = {"fullname": case["fullname"], "message": case["message"][:MAX_MESSAGE_LENGTH]}
+        declared = declared_by_other(request, case["fullname"], declarations)
+        if declared:
+            failure.update(declared_by=declared["owner"], reason=declared["reason"])
+        failures.append(failure)
+    status = classify(selected)
+    if status == "FAIL" and all("declared_by" in failure for failure in failures):
+        # Every failure is one another owner declared by design; it is not this request's regression.
+        status = "FOREIGN_FAIL"
     return outcome_record(
         request,
-        classify(selected),
+        status,
         matched=len(selected),
         passed=sum(1 for case in selected if case["result"] == "Passed"),
         failed=len(failures),
@@ -610,7 +644,7 @@ def run_batch(queue: Queue, claim: LeaderClaim, batch: Path, requests: list[dict
             elif files_digest(project, request["files"]) != request["digest"]:
                 record = outcome_record(request, "STALE", detail="files changed during the run", **fields)
             else:
-                record = cases_record(request, cases, detail=runner_note, **fields)
+                record = cases_record(request, cases, queue.declarations(), detail=runner_note, **fields)
             write_json(queue.result_path(request["id"]), record)
     write_json(batch / "done.json", {"at": time.time(), "unity_runs": len(runs)})
     return None
@@ -645,7 +679,8 @@ def print_result(queue: Queue, result: dict) -> int:
         f"unity_runs={result.get('unity_runs', 0)}"
     )
     for failure in result["failures"]:
-        print(f"  FAILED {failure['fullname']}: {failure['message']}")
+        declared = f" [declared by {failure['declared_by']}: {failure['reason']}]" if "declared_by" in failure else ""
+        print(f"  FAILED {failure['fullname']}: {failure['message']}{declared}")
     if result.get("detail"):
         print(f"  detail: {result['detail'][-2000:]}")
     print(f"  result: {queue.result_path(result['request'])}")
@@ -752,7 +787,7 @@ def command_publish(options: argparse.Namespace) -> int:
         if files_digest(queue.project, request["files"]) != request["digest"]:
             record = outcome_record(request, "STALE", detail="files changed during the live-Editor run", **fields)
         else:
-            record = cases_record(request, cases, **fields)
+            record = cases_record(request, cases, queue.declarations(), **fields)
         write_json(queue.result_path(request_id), record)
         exit_code = max(exit_code, print_result(queue, record))
     write_json(batch / f"published-{options.mode}.json", {"at": time.time()})
@@ -772,6 +807,29 @@ def command_status(options: argparse.Namespace) -> int:
     for batch in sorted(queue.batches.iterdir())[-5:]:
         state = "done" if (batch / "done.json").exists() else "abandoned" if (batch / "abandoned.json").exists() else "running"
         print(f"batch {batch.name}: {state}, {len(list((batch / 'requests').glob('*.json')))} request(s)")
+    for item in queue.declarations():
+        print(f"declared by {item['owner']} until {time.strftime('%H:%M', time.localtime(item['until']))}: "
+              f"{';'.join(item['tests'])} ({item['reason']})")
+    return 0
+
+
+def command_declare(options: argparse.Namespace) -> int:
+    """Record tests that the owner's in-progress change fails by design, so other sessions can tell them apart."""
+    queue = Queue(resolve_project(options.project))
+    tests = split_filters(options.tests)
+    if not tests:
+        raise UsageError("Name the tests that fail by design.")
+    until = time.time() + options.hours * 3600
+    write_json(queue.declaration_path(options.owner),
+               {"owner": options.owner, "tests": tests, "reason": options.reason, "until": until})
+    print(f"DECLARED {len(tests)} test pattern(s) for {options.owner} until {time.strftime('%Y-%m-%d %H:%M', time.localtime(until))}")
+    return 0
+
+
+def command_undeclare(options: argparse.Namespace) -> int:
+    queue = Queue(resolve_project(options.project))
+    queue.declaration_path(options.owner).unlink(missing_ok=True)
+    print(f"UNDECLARED {options.owner}")
     return 0
 
 
@@ -804,8 +862,19 @@ def main(argv: list[str] | None = None) -> int:
     status = commands.add_parser("status", help="Show the queue, the leader, and recent batches.")
     status.add_argument("--project", required=True)
 
+    declare = commands.add_parser("declare", help="Declare tests your in-progress change fails by design.")
+    declare.add_argument("--project", required=True)
+    declare.add_argument("--owner", required=True, help="Your task ID: the value you pass to submit as --task.")
+    declare.add_argument("--tests", required=True, help="Full names or regular expressions, ';'-separated.")
+    declare.add_argument("--reason", required=True, help="Why they fail and what will fix them.")
+    declare.add_argument("--hours", type=float, default=12, help="Expiry in hours (default 12); undeclare when you release the files.")
+    undeclare = commands.add_parser("undeclare", help="Remove your declaration once the tests are fixed.")
+    undeclare.add_argument("--project", required=True)
+    undeclare.add_argument("--owner", required=True)
+
     arguments = parser.parse_args(argv)
-    handlers = {"submit": command_submit, "wait": command_wait, "publish": command_publish, "status": command_status}
+    handlers = {"submit": command_submit, "wait": command_wait, "publish": command_publish, "status": command_status,
+                "declare": command_declare, "undeclare": command_undeclare}
     try:
         return handlers[arguments.command](arguments)
     except UsageError as error:

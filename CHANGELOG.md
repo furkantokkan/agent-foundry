@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.8.0 - 2026-09-28
+
+- Fast finish. `agent-orchestration` gains "Time budget and fast finish": aim
+  a session's remaining work at about an hour, estimate it from measured batch
+  times, and group small fixes so that one batch means one implement -> verify
+  cycle, with tests once at the end. Consult the decision owner at plan and
+  end, not per batch, and never wait in-session for another owner's paths.
+  When the estimate is larger, or the user asks to wrap up:
+  - time-box the batch in flight (revert it when it only improved quality);
+  - defer long or blocked chains to follow-up tasks with their specs;
+  - verify once (Roslyn, then an Editor refresh for new files, then one shared
+    test batch of the changed code's tests);
+  - report in one short step.
+
+  `implement-task` and `task-cycle` point to it. It never relaxes a close gate.
+- Declared failures. A session whose in-progress change fails tests by design
+  runs `unity_test_batch.py declare` (with an owner, tests, reason, and
+  expiry). Other sessions' results still list those failures but mark them
+  declared. A request whose only failures are declared by another owner is
+  `FOREIGN_FAIL` (exit 9) instead of `FAIL`. A declaration never hides a
+  failure from its own owner. A criterion that rests on declared failures stays
+  `UNPROVEN` until a rerun after `undeclare`.
+- The live-Editor batch run refreshes the Editor first when files were added.
+
 ## 0.7.0 - 2026-09-28
 
 - A task whose session stopped is takeover-able, not locked. The lock protocol

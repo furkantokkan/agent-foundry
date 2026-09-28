@@ -1037,7 +1037,7 @@
   {
     "path": "plugins/agent-foundry/skills/implement-task/SKILL.md",
     "source": "local Codex skill: implement-task/SKILL.md",
-    "sha256": "69abed5c309fda8d8b615f8eae423db033c8995e5bc22fac77b6e9de0a5d810f"
+    "sha256": "0229fa27cfcc30698254c3294546f060c2022697f4c2486ee041573586f3e228"
   },
   {
     "path": "plugins/agent-foundry/skills/javascript-game-tools/references/javascript-patterns.md",
@@ -1407,12 +1407,12 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/references/reviewed-evidence-identity.md",
     "source": "local Codex skill: task-cycle/references/reviewed-evidence-identity.md",
-    "sha256": "1180790846c223fe854650cbfb4e2d7f4cf4703f03eb400b2389684142985bc6"
+    "sha256": "5382d61f920d49b622390bf491f8615b637aacb39738ff3acf1db402c09e15b7"
   },
   {
     "path": "plugins/agent-foundry/skills/task-cycle/SKILL.md",
     "source": "local Codex skill: task-cycle/SKILL.md",
-    "sha256": "42bf62a83c80462642864bfaf50302b711af3328a056301bbf0099706ad51fb5"
+    "sha256": "1228cc393d4b2555b37d46d310b73714be6f5e10f7bb303cb9f7c77b42f41033"
   },
   {
     "path": "plugins/agent-foundry/skills/task-done/agents/openai.yaml",
@@ -1607,7 +1607,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "119fc76c2db08cad1d6020ba8c4f2e5034ce14de3b20d816e3001269fa18e77d"
+    "sha256": "904dc59eb730cc41370b52523fc28567b20b82fef45ddf725bfb12c49f520425"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
@@ -1617,12 +1617,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_test_batch.py",
     "source": "local Claude skill: unity-cli/scripts/unity_test_batch.py",
-    "sha256": "696fcfbbf59f57a5ff9bca40f17f9dd2aba94c62b6d0047d6df0fda605342fed"
+    "sha256": "7d4122c3be79ef746055d1528bc31aeeea35a37d1722d351ccae89332da0d991"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/test_unity_test_batch.py",
     "source": "local Claude skill: unity-cli/scripts/test_unity_test_batch.py",
-    "sha256": "0c8981315fc3f77412c29f6fdb08681f95e6776c7618bb18fc4862f3363cdf8f"
+    "sha256": "4025d0fcbe1e97653e4366a589367deefdc88b7100b9013cb6dadba5db9d0678"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
@@ -2222,7 +2222,7 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/SKILL.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "b78d72f56619e9912f98aa28230b74e51ad9f057be9551d8f31b1d41c13a74f9"
+    "sha256": "8d7baf85e3ea1afc8c70d0d84335bb8a309d971df6cb12b427c923ec519e4a37"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/LICENSE",

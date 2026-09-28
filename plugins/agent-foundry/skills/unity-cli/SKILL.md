@@ -271,6 +271,10 @@ python "<unity-cli skill dir>/scripts/unity_test_batch.py" submit --project <pro
 Results and exit codes:
 - `PASS` (0): every matched test passed.
 - `FAIL` (8): lists the failed tests and messages. After the fix, resubmit only those.
+- `FOREIGN_FAIL` (9): every failure is one another owner declared by design
+  (see below). They are not your regressions; the tests that passed are
+  evidence. Tests among the declared failures prove nothing for you until a
+  rerun after that owner undeclares.
 - `NO_TESTS` (3): the filter matched no test that ran. Never a pass; fix the filter.
 - `COMPILE_ERRORS` (1): your files do not compile. Fix them and resubmit.
 - `BLOCKED_BY_OTHER_COMPILE` (7): another session's files break the build.
@@ -282,7 +286,8 @@ Results and exit codes:
 - `LEADER_RUN_REQUIRED` (10): the project is open in an Editor, so batch mode
   cannot open it, and this session is the leader. Run the printed merged filter
   once through the live Editor (Unity 6+: `unity command run_tests`; below
-  Unity 6: MCP for Unity `run_tests`). Save the report as NUnit XML or as a
+  Unity 6: MCP for Unity `run_tests`). When files were added, refresh the
+  Editor first so it imports them and writes their `.meta` files. Save the report as NUnit XML or as a
   JSON list of `{fullname, result, message}`, then run the printed `publish`
   command. The other sessions receive their results from that one run.
 
@@ -292,9 +297,21 @@ with `--runner-project`. The script uses it only when `Assets` resolves to the
 same folder and `Packages/manifest.json`, `Packages/packages-lock.json`, and
 `ProjectSettings/ProjectVersion.txt` match byte-for-byte.
 
+When your in-progress change fails other tests by design until a later phase,
+declare them so the other sessions' results separate them from real
+regressions, and undeclare when you release the files:
+
+```bash
+python "<unity-cli skill dir>/scripts/unity_test_batch.py" declare --project <project root> --owner <your task ID> --tests "<full names, ';'-separated>" --reason "<why, and what fixes them>"
+python "<unity-cli skill dir>/scripts/unity_test_batch.py" undeclare --project <project root> --owner <your task ID>
+```
+
+A declaration expires after 12 hours (`--hours`). It never hides a failure from
+its own owner, and results still list every declared failure.
+
 Run `unity test` directly for task verification only when the batch script
 itself cannot run, and say so in the evidence. `status --project <root>` shows
-the queue, the leader, and recent batches. Tests for the script:
+the queue, the leader, recent batches, and live declarations. Tests for the script:
 `python scripts/test_unity_test_batch.py`.
 
 ## Drive a running Unity Editor (if one is open)

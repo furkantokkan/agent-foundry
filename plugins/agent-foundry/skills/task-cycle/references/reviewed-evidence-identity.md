@@ -92,7 +92,10 @@ return `BLOCKED: EVIDENCE_IDENTITY_UNAVAILABLE` with the exact missing input.
 An automated-test `PASS` counts only when the tests ran after the final
 relevant production/test change. For Unity, that is a shared-batch
 `TEST_BATCH: PASS` result whose request was submitted after the last edit; a
-`STALE`, `NO_TESTS`, or earlier-revision result proves nothing.
+`STALE`, `NO_TESTS`, or earlier-revision result proves nothing. A
+`FOREIGN_FAIL` result proves the tests that passed. A criterion whose tests are
+among another owner's declared failures stays `UNPROVEN`, naming that owner,
+until a rerun after the owner undeclares them.
 
 ## Automatic verified closure
 
