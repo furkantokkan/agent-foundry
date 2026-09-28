@@ -55,6 +55,8 @@ def main():
     agents = sorted((PLUGIN / 'agents').glob('*.md'))
     check(len(skills) == 93, 'Expected 93 Agent Foundry skills; update documented inventory for an intentional change')
     check('agent-orchestration' in names and 'unity-preflight' not in names, 'Unified orchestration/readiness migration is incomplete')
+    for folder in sorted((PLUGIN / 'skills').iterdir()):
+        check(not folder.is_dir() or (folder / 'SKILL.md').is_file(), f'Skill folder without SKILL.md: {folder.relative_to(ROOT).as_posix()}')
     active_routes = commands + aliases + [
         path for path in (PLUGIN / 'skills').rglob('*')
         if path.suffix in {'.md', '.yaml', '.yml'}
@@ -144,7 +146,7 @@ def main():
         if args.refresh:
             item['sha256'] = digest
         check(item['sha256'] == digest, f'Export hash changed: {item["path"]}; review then use --refresh')
-    catalog = '# Skill catalog\n\n93 Agent Foundry skills from the public v0.4.0 snapshot. Descriptions come from each skill\'s frontmatter. Install [Unity Technologies\' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
+    catalog = '# Skill catalog\n\n93 Agent Foundry skills from the public v0.4.1 snapshot. Descriptions come from each skill\'s frontmatter. Install [Unity Technologies\' official plugin](https://github.com/Unity-Technologies/unity-agent-plugin) separately for 30 specialist skills. See [installation notes](INSTALLATION.md) for setup.\n\n| Skill | When to use it |\n| --- | --- |\n'
     for skill in skills:
         target = '../' + skill.relative_to(ROOT).as_posix()
         catalog += f'| [{skill.parent.name}]({target}) | {description(skill)} |\n'

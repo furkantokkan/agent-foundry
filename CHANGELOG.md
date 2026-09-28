@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1 - 2026-09-28
+
+- Remove the leftover `unity-preflight/agents/openai.yaml`. 0.4.0 removed the
+  skill but kept this Codex UI metadata, so an empty `unity-preflight` folder
+  shipped. Validation now rejects any packaged skill folder without `SKILL.md`.
+
 ## 0.4.0 - 2026-09-28
 
 - Unify `game-studio-orchestration` into one cross-domain `agent-orchestration`
