@@ -228,6 +228,34 @@ class SharedRunTests(BatchTestCase):
         self.assertEqual(code, batch.EXIT_CODES["STALE"])
         self.assertIn("files changed after the run", reread.getvalue())
 
+    def declare(self, owner: str, tests: str, hours: str = "12") -> None:
+        with contextlib.redirect_stdout(io.StringIO()):
+            code = batch.main(["declare", "--project", str(self.project), "--owner", owner, "--tests", tests,
+                               "--reason", "rewritten in phase 2", "--hours", hours])
+        self.assertEqual(code, 0)
+
+    def test_failures_another_owner_declared_are_foreign_not_ours(self) -> None:
+        self.declare("GAME-9", "Game.Inventory.InventoryTests.Remove_Underflows")
+        code, output = self.submit("Game.Inventory", ["Assets/Scripts/Inventory.cs"])
+        self.assertEqual(code, batch.EXIT_CODES["FOREIGN_FAIL"])
+        self.assertIn("TEST_BATCH: FOREIGN_FAIL (1/2)", output)
+        self.assertIn("[declared by GAME-9: rewritten in phase 2]", output)
+
+    def test_own_declaration_never_hides_a_failure(self) -> None:
+        self.declare("GAME-1", "Game.Inventory.InventoryTests.Remove_Underflows")
+        code, _ = self.submit("Game.Inventory", ["Assets/Scripts/Inventory.cs"])
+        self.assertEqual(code, batch.EXIT_CODES["FAIL"])
+
+    def test_expired_or_removed_declarations_no_longer_apply(self) -> None:
+        self.declare("GAME-9", "Game.Inventory.InventoryTests.Remove_Underflows", hours="0")
+        code, _ = self.submit("Game.Inventory", ["Assets/Scripts/Inventory.cs"])
+        self.assertEqual(code, batch.EXIT_CODES["FAIL"])
+
+        self.declare("GAME-9", "Game.Inventory.InventoryTests.Remove_Underflows")
+        with contextlib.redirect_stdout(io.StringIO()):
+            batch.main(["undeclare", "--project", str(self.project), "--owner", "GAME-9"])
+        self.assertEqual(self.queue.declarations(), [])
+
     def test_request_that_matches_no_test_is_not_a_pass(self) -> None:
         code, output = self.submit("Game.Typo", ["Assets/Scripts/Inventory.cs"])
         self.assertEqual(code, batch.EXIT_CODES["NO_TESTS"])

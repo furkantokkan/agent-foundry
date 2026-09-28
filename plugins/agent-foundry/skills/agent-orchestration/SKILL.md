@@ -117,6 +117,45 @@ limits/user information. Follow the established exhausted-model fallback;
 never wait out a quota reset or buy/use an API fallback without user direction.
 When no authorized available route remains, preserve a handoff and report it.
 
+## Time budget and fast finish
+
+Aim every plan at a fast finish. A session's remaining work should fit in about
+an hour. Many hours of sequential batches in one session are an exception the
+user chooses, not the default.
+
+- Estimate each remaining step from measured durations (for example recent
+  batch times) and show the total before starting long work.
+- Group small fixes by file cluster, so that one batch means one implement ->
+  verify cycle. Verify each batch with the Roslyn compile check and a diff
+  review, and run tests once at the end.
+- Consult the decision owner when planning and at the end, not after every
+  batch.
+- Do not wait inside the session for another owner's paths. Do other work, or
+  defer the dependent chain.
+
+When the remaining estimate exceeds the budget, or the user asks to wrap up,
+switch to the fast finish and show its estimate:
+
+1. Start no new batch. Give the batch in flight a short time box of about 15
+   minutes. If it still fails and it only improves quality (readability,
+   naming, cleanup), revert that batch's own uncommitted changes. Otherwise
+   keep its evidence and defer it.
+2. Defer long, sequential, or blocked chains as follow-up task contracts
+   (`create-task`) that keep their specs, so another session can run them.
+   Tell any peer session that was waiting on that chain.
+3. Verify once. Run the Roslyn check over every changed file. Refresh the
+   Editor when files were added, so it imports them and writes their `.meta`
+   files. Then run one shared test batch for the tests of the changed code,
+   with EditMode and PlayMode as two requests.
+4. Separate our failures from other owners' declared failures: the batch
+   reports those as `FOREIGN_FAIL`. When a peer says its change breaks tests by
+   design, ask it to `declare` them instead of keeping the list in chat.
+5. Close or hand off with one short report: what is done, what was deferred
+   (with follow-up IDs), the verification, and how to resume.
+
+The fast finish never relaxes a gate. Deferred work leaves the finished scope
+only as a follow-up task, and nothing unverified is reported as done.
+
 ## Supervision and completion
 
 Read [harness operations](references/harness-operations.md) when dispatching.

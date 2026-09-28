@@ -442,6 +442,12 @@ attempts use `BLOCKED: AUTO_CYCLE_LIMIT`. An identical duplicate report or a
 still-blocked defect with no new evidence does not consume an attempt. Preserve
 all ledger rows at either stop and never create a replacement task.
 
+When the user asks to finish quickly, or the remaining estimate exceeds the
+session budget, follow `agent-orchestration`'s fast finish. Finish or revert
+the attempt in flight within its time box, split distinct remaining outcomes
+into a follow-up task (same-task defects stay in this ledger), and verify once.
+The fast finish never relaxes a close gate.
+
 If only user judgment remains and no explicit user acceptance has been given,
 stop `ACTION_REQUIRED: USER_ACCEPTANCE` without spending an implementation
 attempt. Name the exact criterion to approve; do not demand a log, screenshot,
