@@ -1037,7 +1037,7 @@
   {
     "path": "plugins/agent-foundry/skills/implement-task/SKILL.md",
     "source": "local Codex skill: implement-task/SKILL.md",
-    "sha256": "4311d1e0a23aec5d99a2d4573f36d2c2083766c57622a8d177a9d74eb12a9db8"
+    "sha256": "69abed5c309fda8d8b615f8eae423db033c8995e5bc22fac77b6e9de0a5d810f"
   },
   {
     "path": "plugins/agent-foundry/skills/javascript-game-tools/references/javascript-patterns.md",
@@ -1402,7 +1402,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/references/lifecycle-lock.md",
     "source": "local Codex skill: task-cycle/references/lifecycle-lock.md",
-    "sha256": "30372b92e9a55cd237e9b515611833a63e03e081951d2db5af863dfe04d84f66"
+    "sha256": "8fc17b47b116410e61c855ff78c7c6a5c505b05c24896b468ed4c2967008aad3"
   },
   {
     "path": "plugins/agent-foundry/skills/task-cycle/references/reviewed-evidence-identity.md",
@@ -1412,7 +1412,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/SKILL.md",
     "source": "local Codex skill: task-cycle/SKILL.md",
-    "sha256": "c74617417c5a85cba48adbbd02891cfb1a92a301c266f690b91542c81835cf56"
+    "sha256": "42bf62a83c80462642864bfaf50302b711af3328a056301bbf0099706ad51fb5"
   },
   {
     "path": "plugins/agent-foundry/skills/task-done/agents/openai.yaml",
@@ -1432,7 +1432,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-status/SKILL.md",
     "source": "local Codex skill: task-status/SKILL.md",
-    "sha256": "46678b9a8659ea543deeb864da796a1389f68dfa7472c78227e8287a5e83f8a9"
+    "sha256": "3cd59f2064d573099f7aeae92146b0e7b3d2fe43fe2f8106b7e2c6cbe77c31b4"
   },
   {
     "path": "plugins/agent-foundry/skills/team-audio/references/claude-skill.md",
@@ -2237,7 +2237,7 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/tracked-production.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "35b2db63f572e5ba1f62223557e8d3523ae6e32f7841973df970bc3bd14965d6"
+    "sha256": "7192c58812f00bcdbc3a7f20b63841c03134d70fa3121de0ff91fe4699533ef8"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/game-and-unity.md",

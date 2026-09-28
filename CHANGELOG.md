@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.7.0 - 2026-09-28
+
+- A task whose session stopped is takeover-able, not locked. The lock protocol
+  replaces "stale recovery" with "Liveness and takeover". The claim records the
+  long-lived agent process that owns the conversation, with its start time,
+  never the short-lived shell that ran the lock command, plus a heartbeat the
+  owner renews at every step boundary. The owner has stopped when that process
+  is gone or when no heartbeat or lifecycle write happened for the lease window
+  (30 minutes unless the repository sets another).
+- A waiting agent takes a stopped task over without asking. It moves the claim
+  to the audit folder, acquires the lock, keeps the stopped owner's
+  uncommitted changes, records the takeover in the lifecycle history, and
+  continues the task through its lifecycle skill. An active task with no claim
+  has no owner and never blocks.
+- An owner that paused re-checks its token before its next write. A lost
+  token means `LOCK_TAKEN_OVER`: write nothing more and queue behind the new
+  owner.
+- `agent-orchestration` takes over and finishes a stopped predecessor on the
+  same paths before dispatching the successor, instead of waiting. It still
+  waits at real gates (a user decision, a contract change, a protected-target
+  approval). `task-status` reports such tasks as `takeover-able`.
+
 ## 0.6.0 - 2026-09-28
 
 - Release the lock while waiting for tests. A lifecycle owner submits its

@@ -37,26 +37,29 @@ The claim metadata contains:
 - schema version;
 - task ID;
 - owner token;
-- provider/session or process identity;
+- provider and session identity;
+- the owner process ID and its start time: the long-lived agent process that
+  owns the conversation (see Liveness and takeover), or `unknown`;
 - host;
 - absolute worktree path;
-- acquisition UTC timestamp;
+- acquisition UTC timestamp and last heartbeat UTC;
 - contract fingerprint and reviewed revision observed before acquisition.
 
 After the claim succeeds, create the inspection metadata directory and write
 the same metadata to `owner.json`. Re-read both the claim file and `owner.json`
 and confirm that both tokens match before any lifecycle write. If
-`FileMode.CreateNew` reports that the claim exists, read claim metadata and
-return `BUSY: TASK_LIFECYCLE_BUSY` to the caller without writing. Do not steal,
-overwrite, delete, or run a second writer. A live claim is a scheduling
+`FileMode.CreateNew` reports that the claim exists, read claim metadata. If its
+owner has stopped (see Liveness and takeover), take the task over. Otherwise
+return `BUSY: TASK_LIFECYCLE_BUSY` to the caller without writing. Never steal a
+live claim, overwrite, delete, or run a second writer. A live claim is a scheduling
 dependency, not a persistent task blocker: an owning orchestrator must surface
 `WAITING_FOR_OWNER`, retain the authorized work in its queue, and wait for the
 owner-completion or claim-release signal before retrying acquisition.
 
 If metadata-directory materialization fails after the claim succeeds, treat
 the attempt as blocked. Remove the claim only after re-reading it and proving
-that its token matches the current holder; otherwise leave it for explicit
-stale recovery.
+that its token matches the current holder; otherwise leave it for the takeover
+rules below.
 
 ## Parent and nested work
 
@@ -112,7 +115,8 @@ encounters a live claim must keep the invocation active and:
    in its in-memory orchestration plan;
 2. prefer the provider's agent/thread completion signal when it owns the active
    writer; otherwise re-read the exact claim read-only at intervals no longer
-   than 30 seconds;
+   than 30 seconds. At each read, apply the liveness rules: take over a stopped
+   owner instead of waiting for it;
 3. provide a short progress heartbeat at least once per minute while waiting;
 4. when the owner completes or the claim disappears, re-read task state,
    ownership, paths, dirty fingerprints, and risk gates before dispatch;
@@ -146,18 +150,54 @@ the current holder. Remove the inspection metadata directory first and the
 exact claim file last. If either token is absent or mismatched, remove neither.
 A process must never remove another owner's lock.
 
-## Stale recovery
+## Liveness and takeover
 
-Age alone never proves staleness. Recovery requires:
+A claim blocks other agents only while its owner is live. A task whose owning
+session stopped is not locked: another agent takes it over and continues it.
 
-1. the acquisition timestamp exceeds the repository's stale threshold;
-2. the owner process/session is proven absent on the same host, or the operator
-   explicitly authorizes recovery of the exact lock;
-3. the contract fingerprint and reviewed revision are re-read;
-4. the stale claim file is atomically renamed to an audit name containing its
-   prior owner token and recovery UTC before its metadata directory is renamed
-   and a new acquisition is attempted.
+The owner is live while both hold:
 
-If any check is unavailable or ambiguous, retain `WAITING_FOR_OWNER` and report
-the exact stale-recovery evidence gap. Never silently delete a stale-looking
-lock or ask for recovery while the recorded owner is proven live.
+1. its session process runs: the recorded owner process on this host still
+   exists with the recorded start time. The owner process is the long-lived
+   agent process that owns the conversation, never the short-lived shell that
+   ran the lock command;
+2. it shows activity: the claim heartbeat or a lifecycle write to the contract
+   is younger than the lease window. The window is 30 minutes unless repository
+   instructions set another. The owner renews the heartbeat at every step
+   boundary (an edit batch, a handoff, a test submission) and at least every
+   10 minutes while it works.
+
+The owner has stopped, and the task is takeover-able, when its recorded process
+is gone (or the PID now belongs to a process with another start time), or when
+no activity was seen for the lease window. The second rule also covers a
+session that is still open but no longer working (usage limit, crash loop,
+abandoned prompt). When the process is unknown or on another host, only the
+activity rule applies.
+
+A waiting agent with authorized work in the same place takes over without
+asking. The user's standing order for stopped sessions is the authorization.
+
+1. Re-read the claim and confirm the same token and the stopped verdict.
+2. Atomically rename the claim file to an audit name containing its prior
+   owner token and the takeover UTC, then move its metadata directory the same
+   way. If the rename fails, another agent won the race: re-read and retry as a
+   waiter.
+3. Acquire normally with `FileMode.CreateNew`.
+4. Re-read the contract, ledger, records, and the stopped owner's uncommitted
+   changes. Keep every one of them; never discard or revert the stopped
+   owner's work.
+5. Record one lifecycle history entry:
+   `Taken over from <prior session or token>: <process gone | idle N min>`.
+   Then continue the task from its recorded state through its lifecycle skill:
+   `task-cycle` for defect or resumed work, the `implement-task` continuation
+   for an empty-ledger direct lane, or the release-while-waiting steps for
+   `awaiting_tests`.
+
+A task in `in_progress`, `reopened`, or `awaiting_tests` with no claim at all
+has no owner. It never blocks another agent, which may take it over the same
+way from step 3.
+
+An owner that pauses (waiting for the user, a long step, a resumed session)
+re-reads its token in the claim and `owner.json` before its next write of any
+kind. A mismatch means the task was taken over: it writes nothing more, reports
+`LOCK_TAKEN_OVER`, and queues behind the new owner as `WAITING_FOR_OWNER`.

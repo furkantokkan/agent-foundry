@@ -347,9 +347,15 @@ describes, and pass the new token to later nested work. If acquisition reports a
 the non-terminal scheduling state `WAITING_FOR_OWNER`. When this invocation or
 its parent orchestrator can observe the owner, keep the authorized work queued,
 wait for the provider completion event or claim-file release, then re-read and
-retry automatically. Never ask for another command, steal, overwrite, or start
-a second writer. If no monitor can remain active, report that exact operational
-limitation and owner identity; do not label the task persistently blocked.
+retry automatically. Never ask for another command, steal a live claim,
+overwrite, or start a second writer. If no monitor can remain active, report
+that exact operational limitation and owner identity; do not label the task
+persistently blocked. A claim whose owner stopped (session process gone, or no
+activity for the lease window) is not live: take the task over as
+`references/lifecycle-lock.md` describes, keep the stopped owner's changes, and
+continue from its recorded state. While holding the lock, renew its heartbeat
+at every step boundary and re-validate the token before any write after a
+pause; a lost token means `LOCK_TAKEN_OVER`.
 
 Pass the exact lock path and owner token in `CycleContext` to each nested
 `implement-task`. The child validates and reuses the parent lock; it never

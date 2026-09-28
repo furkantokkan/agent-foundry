@@ -130,9 +130,15 @@ another explicit stable handoff and releases ownership, re-read both contracts, 
 fingerprints, risk gates, and Unity project identity. Then dispatch the
 successor automatically without asking for another `continue`.
 
-If the predecessor exits without a safe handoff, keep the successor waiting and
-report the predecessor's real stop gate. Ask for stale recovery only when the
-recorded owner is proven absent and the lock protocol's stale conditions pass.
+If the predecessor stopped a live task at a real gate (a user decision, a
+contract change, a protected-target approval), keep the successor waiting and
+report that gate. If its session stopped instead, the predecessor task is
+takeover-able, not locked. This covers a claim whose owner process is gone or
+idle past the lease window under the lock protocol's liveness rules, and an
+`in_progress`, `reopened`, or `awaiting_tests` task with no claim at all. Take
+the predecessor over in the same worktree through its lifecycle skill, keep its
+uncommitted changes, and finish it; then dispatch the successor. Do not wait
+for a stopped session or ask the user to recover it.
 If this provider cannot remain active or observe a wake signal, say that
 automatic wake-up is not armed and return `WAITING_FOR_OWNER`; never pretend a
 background scheduler exists.

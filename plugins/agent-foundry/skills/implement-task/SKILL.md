@@ -174,7 +174,13 @@ exact token. If direct acquisition finds one proven live owner, perform no
 write and hand the still-authorized invocation to `agent-orchestration`
 as `WAITING_FOR_OWNER`. It must wait for owner completion/claim release,
 revalidate, and retry automatically without another user command. Do not turn a
-live, ordered owner into a persistent blocked task or request stale recovery.
+live, ordered owner into a persistent blocked task. A claim whose owner stopped
+(the lock protocol's liveness rules: session process gone, or no activity for
+the lease window) is not a live owner: take the task over as that protocol
+describes, keep the stopped owner's changes, and continue instead of waiting.
+While holding the lock, renew its heartbeat at every step boundary, and
+re-validate the token before any write after a pause; a lost token means
+`LOCK_TAKEN_OVER`, so write nothing more and queue behind the new owner.
 For an internal `task-cycle`
 handoff, require the lock path and owner token in `CycleContext`, re-read and
 validate them, and reuse the parent lock. Never acquire, replace, or release a
