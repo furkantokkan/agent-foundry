@@ -99,6 +99,9 @@ agents; it is never task lifecycle authority.
 Use the current global model-selection rules for actual complexity, and honor
 an explicit user model choice. Do not pin every delegate to one model or raise
 every reviewer to maximum effort. Keep the same decision owner across reviews.
+When no host or repository routing policy is defined, use the
+[bundled model guidance](references/model-routing.md): Sonnet 5.5 through
+`sonnet` for Claude Code, and `gpt-6.1-sol` for bounded Codex work.
 Do not spawn an agent solely to change models. Prevent nested fan-out by
 default: a delegate returns a proposed split to its owner before spawning.
 

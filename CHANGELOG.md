@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.2 - 2026-09-29
+
+- Add portable model-routing guidance for Sonnet 5.5 through the `sonnet`
+  family alias and `gpt-6.1-sol` for bounded Codex work. Keep existing host
+  policies, explicit user choices, task complexity, and reasoning effort in
+  control. Orchestration loads these defaults only when no host/repository
+  routing policy exists.
+- Document Sonnet 5.5's Claude Code 2.1.284 minimum and session restart.
+  Preserve Sonnet alias entries rather than pinning every skill to a version.
+
 ## 0.8.1 - 2026-09-28
 
 - Drop the fixed "about an hour" session budget from 0.8.0. The rule is now to

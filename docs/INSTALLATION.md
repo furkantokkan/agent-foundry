@@ -37,6 +37,20 @@ Claude Code discovers the plugin's `skills`, `commands`, and `agents` directorie
 
 Codex does not load Claude agent declarations. Treat the bundled roles as references and use the collaboration facilities allowed by the running host. A workflow must not invent an unavailable tool or bypass its host policy.
 
+## Model selection
+
+Bounded-work defaults are Sonnet 5.5 through the `sonnet` family alias for
+Claude Code and `gpt-6.1-sol` for Codex. Explicit user choices and current
+host/repository routing policies take precedence. Preserve routes for work
+that needs a different model or effort.
+
+Sonnet 5.5 requires Claude Code 2.1.284 or later. Run `claude update` and
+restart existing sessions if needed. For Codex, confirm the exact model is
+available in the running host's model catalog; skill frontmatter does not
+change the active conversation's model. See the
+[bundled model guidance](../plugins/agent-foundry/skills/agent-orchestration/references/model-routing.md)
+for scope, provider mapping, and verification sources.
+
 ## Liquid UI for Unity
 
 The core plugin includes `game-feel-polish`; no separate Liquid UI plugin is
