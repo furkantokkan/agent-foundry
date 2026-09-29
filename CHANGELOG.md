@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.1 - 2026-10-08
+
+- Add portable model-routing guidance for Sonnet 5.5 through the `sonnet`
+  family alias and `gpt-6.1-sol` for bounded Codex work. Keep existing host
+  policies, explicit user choices, task complexity, and reasoning effort in
+  control. Orchestration loads these defaults only when no host/repository
+  routing policy exists.
+- Document Sonnet 5.5's Claude Code 2.1.284 minimum and session restart.
+  Preserve Sonnet alias entries rather than pinning every skill to a version.
+- First prepared as 0.8.2 on 2026-09-29; rebased onto 0.9.0 and renumbered.
+
 ## 0.9.0 - 2026-10-08
 
 - Keep Unity Editors bounded during agentic work. `unity-cli` adds "Editor

@@ -2222,12 +2222,17 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/SKILL.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "c3b055af192ffe74495e4116318cea86f3b1e19cf3a14a3b5e894aa7179b6631"
+    "sha256": "3ab37e75cefb43dd1122b9fbb69eb58e95b6f54a04debc634b641a06f80063c1"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/LICENSE",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
     "sha256": "c108d012cb8624f5731dd36491a3b61c63df9d7a9d869af2776aa7e3a79b2299"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/agent-orchestration/references/model-routing.md",
+    "source": "Agent Foundry portable model-routing guidance",
+    "sha256": "b5897b38072da49591dfbc12a695d26d080f527ba8538dd7962a86327ce7e547"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/assignment-contract.md",
