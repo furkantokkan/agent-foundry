@@ -81,6 +81,8 @@ Load only what is relevant:
 - Unity general implementation rules: use `unity-game-dev`.
 - SOLID/refactoring boundaries: use `clean-oop-architecture`.
 - Performance code review: use `game-code-review`.
+- Pool checkout identity, material-property ownership and measured batching
+  comparisons: [Unity ownership and authoring](../unity-game-dev/references/ownership-and-authoring.md#pools-and-measured-rendering).
 - Local optimization PDF index:
   `optional local reference library (not included; skip if unavailable)`
 - Broader Unity/game programming PDF index:

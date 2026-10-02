@@ -162,7 +162,7 @@
   {
     "path": "plugins/agent-foundry/skills/clean-oop-architecture/SKILL.md",
     "source": "local Codex skill: clean-oop-architecture/SKILL.md",
-    "sha256": "afd5b06717b43621a17b16fe152eaceb57a3dd21a2f026079bb3ddffa4025d15"
+    "sha256": "9f82981104548fd0537ca901de7b1b58ccabd73025149844ca3bed393f15018e"
   },
   {
     "path": "plugins/agent-foundry/skills/consistency-check/references/claude-skill.md",
@@ -1647,7 +1647,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/unity-patterns.md",
     "source": "local Codex skill: unity-game-dev/references/unity-patterns.md",
-    "sha256": "abbb015623c7104528230c7528a7fd109397c5b9424350f4ec6027a957500447"
+    "sha256": "6020d4d7116b158645b52d68b84d2eec0726a0bd69b8c975de49c883f3d475dd"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/unity-project-layout.md",
@@ -1657,7 +1657,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/SKILL.md",
     "source": "local Codex skill: unity-game-dev/SKILL.md",
-    "sha256": "19ba401a164f636930d0c78065eebff6fdae64a4db2c948fc325e970e0535e74"
+    "sha256": "f7382a4793b70ef6fc8d6450f8bea06824ddbcf746d12906b4c7569a8563e50d"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-optimization/agents/openai.yaml",
@@ -1667,7 +1667,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-optimization/SKILL.md",
     "source": "local Codex skill: unity-optimization/SKILL.md",
-    "sha256": "52e923537854f3d3a7ed857bfba9e53713eeb6eb4b6f2dd77741c2ff725e5a98"
+    "sha256": "edcdc4f7cc628adf8e33f45a91096fb86738786ed06b3fe99814583560407731"
   },
   {
     "path": "plugins/agent-foundry/skills/ux-design/references/claude-skill.md",
@@ -2268,5 +2268,10 @@
     "path": "plugins/agent-foundry/skills/unity-cli/references/unityskills-identity.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
     "sha256": "402b0773c86a8128fcae736f8f35778532aea29a4ced6990ccea8e310625c896"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-game-dev/references/ownership-and-authoring.md",
+    "source": "Agent Foundry original Unity ownership and authoring guidance",
+    "sha256": "1d31d897217674e2142ed5518021f0de31e3c0c1d852b21dd3db1c5b742df8c4"
   }
 ]

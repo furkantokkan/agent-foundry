@@ -94,7 +94,9 @@ it would break correctness, security, or the user's explicit request.
 ## Core Rules
 
 - Prefer composition over deep MonoBehaviour inheritance.
-- Use ScriptableObjects for data-driven content and config.
+- Give each authored dataset one editable authority: ScriptableObject by
+  default, or JSON when content volume, patching or tooling favors it. Copy
+  mutable runtime state into scope-owned plain models.
 - Use interfaces for gameplay contracts, not global singletons.
 - Use `[SerializeField] private` instead of public inspector fields.
 - Cache component references in `Awake`; avoid `GetComponent` in hot paths.
@@ -124,6 +126,10 @@ it would break correctness, security, or the user's explicit request.
 - For external services, local model runtimes, Firebase, HTTP clients, file I/O,
   and platform APIs, keep typed service boundaries and DTOs. Gameplay code
   should not scatter raw URLs, JSON, credentials, or vendor SDK calls.
+- For lifecycle, persistence, scene flow, authored data, UI, editor tooling,
+  pooling or rendering changes, load `references/ownership-and-authoring.md`.
+  Apply its relevant ownership and verification rules without importing
+  another project's tuning values or serialized assets.
 
 ## Workflow
 
@@ -194,6 +200,9 @@ Load only what is relevant:
 - Unity MCP and verification workflow:
   `references/unity-mcp-workflow.md`
 - Unity architecture and patterns: `references/unity-patterns.md`
+- Lifetime, transaction, UI authoring, scoped Editor saves, preview/solver
+  parity, pool ownership and rendering evidence:
+  `references/ownership-and-authoring.md`
 - Unity C# naming, lifecycle order, UI Toolkit style, async/reactive choices,
   and ServiceLocator/DI precedence: `references/unity-csharp-style-guide.md`
 - Onity package selection, install notes, DI, reactive state, and messaging:

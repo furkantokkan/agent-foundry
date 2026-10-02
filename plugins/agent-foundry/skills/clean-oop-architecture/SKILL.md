@@ -71,6 +71,8 @@ Load only the relevant reference:
 - `references/clean-code-review.md` for review checklists.
 - `references/refactoring-smells.md` for smell-to-refactor mapping.
 - `references/unity-oop.md` for Unity-specific architecture.
+- Unity lifetime boundaries, reentrant transitions, scoped Editor writes and
+  domain/authoring parity: [Unity ownership and authoring](../unity-game-dev/references/ownership-and-authoring.md).
 - `references/llm-coding-guidelines.md` when starting non-trivial
   implementation, bug fixing, refactoring, or review work that risks hidden
   assumptions, overengineering, drive-by edits, or weak verification.

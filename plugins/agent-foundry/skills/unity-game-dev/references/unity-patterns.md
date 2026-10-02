@@ -4,8 +4,9 @@
 
 - Game-specific rules should live in plain C# services where possible.
 - MonoBehaviours should adapt Unity lifecycle/events to domain services.
-- ScriptableObjects hold authored data, tuning values, item definitions,
-  ability definitions, event channels, and editor-friendly config.
+- Authored data has one editable authority: ScriptableObject by default, or
+  JSON when volume/patching/tooling favors it. Mutable runtime state lives in
+  scope-owned plain models, never on a shared authored asset.
 - Keep UI, gameplay, persistence, and networking/Firebase access separated.
 - Follow the target bounded context's composition model. If it owns an
   established ServiceLocator, use its contracts and registration pattern.
@@ -49,8 +50,9 @@
 
 ## Async
 
-- If UniTask is present, prefer it for sequential async flows, coroutine
-  replacement, PlayerLoop waits, and async composition. If it is not present,
+- In an Onity context, use its `OnityTask` and owning lifetime pattern.
+  Otherwise, if UniTask is already present, prefer it for sequential async
+  flows, coroutine replacement, PlayerLoop waits, and async composition. If it is not present,
   use Unity `Awaitable` or standard `async`/`await` based on the local Unity
   version and project convention.
 - Use Onity messaging for cross-system typed pub/sub, event aggregation, and
@@ -60,7 +62,10 @@
   exists.
 - Tie cancellation to object lifetime (`destroyCancellationToken` on newer
   Unity versions, or project-standard cancellation source).
-- Do not fire-and-forget without explicit exception handling.
+- Do not use `async void` or untracked fire-and-forget. Track work under one
+  owner, pass its token, observe completion/faults, and reject stale results.
+- Cancelling a caller's wait does not cancel shared work owned by a longer-lived
+  service; that service still owns completion and teardown.
 - Avoid blocking the main thread on `Task.Result`, `.Wait()`, or sync waits.
 
 ## Addressables
@@ -81,3 +86,7 @@
 - Avoid querying the visual tree every frame; cache references.
 - Use BEM-style kebab-case names/classes in UXML and USS, and centralize queried
   names as C# constants.
+
+For detailed lifecycle, authored-data, transaction, UI preview, scoped Editor
+write, pool and rendering checks, load
+[Ownership and Authoring](ownership-and-authoring.md).

@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased - 2026-10-02
+
+- Add reusable Unity ownership and authoring guidance for lifetimes, reentrant
+  transitions, owned async work, data authority, committed transactions, UI
+  previews/input, scoped Editor saves/tests, solver parity and pool identity.
+- Route implementation, architecture and optimization skills to the shared
+  reference; align async/data examples with its ownership rules.
+- Validation: package/reference/hash checks and independent instruction review.
+  This documentation change does not claim new Unity or device test results.
+
 ## 0.8.1 - 2026-09-28
 
 - Drop the fixed "about an hour" session budget from 0.8.0. The rule is now to
