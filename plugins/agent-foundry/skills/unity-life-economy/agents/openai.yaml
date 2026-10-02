@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Life Economy"
+  short_description: "Build offline life refills and atomic life spending"
+  default_prompt: "Use $unity-life-economy to implement timed lives, paid refills and attempt-level charging in this Unity project."

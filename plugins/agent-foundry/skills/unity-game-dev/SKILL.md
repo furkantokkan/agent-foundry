@@ -11,6 +11,17 @@ Code and Codex workflow.
 Use it for Unity implementation, architecture, debugging, refactoring, setup,
 testing, and performance work.
 
+For rebuilding a specific mechanic, load the focused recipe:
+
+- `unity-grid-drag-puzzle`: irregular pieces, collision-safe drag and gate exits.
+- `unity-grid-puzzle-effects`: Arrow/Ice, cell restrictions and effect composition.
+- `unity-transactional-boosters`: targeting, committed costs and starting effects.
+- `unity-life-economy`: timed lives/energy, paid refill and attempt charging.
+- `unity-grid-level-editor`: grid authoring, Undo/drafts, exact saves and solving.
+
+Load only the recipe whose boundary is needed; its numeric tuning and product
+policies must come from the destination project's design.
+
 For specialist Unity procedures, load the exact matching skill from the
 separately installed official `unity@unity-agent-plugin` marketplace plugin:
 `/unity:<name>` in Claude Code or `unity:<name>` in Codex. Examples include

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Grid Puzzle Effects"
+  short_description: "Compose arrow, ice and board restriction mechanics"
+  default_prompt: "Use $unity-grid-puzzle-effects to add a composable board effect with fresh attempt state and focused tests."

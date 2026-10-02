@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Grid Level Editor"
+  short_description: "Build Undo-safe grid authoring and runtime-parity checks"
+  default_prompt: "Use $unity-grid-level-editor to implement a grid authoring tool with recoverable drafts, exact saves and runtime-parity validation."

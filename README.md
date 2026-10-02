@@ -7,7 +7,7 @@
 Reusable skills for **Codex** and **Claude Code**, built around **Unity game development**.
 From game design and implementation to bug fixes, UI polish, Blender assets, and release prep.
 
-**93 workflow skills + 31 official Unity skills + 19 visual skills · Codex + Claude Code**
+**98 workflow skills + 31 official Unity skills + 19 visual skills · Codex + Claude Code**
 
 [![Validate](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml/badge.svg)](https://github.com/furkantokkan/agent-foundry/actions/workflows/validate.yml)
 [![MIT + Unity Companion](https://img.shields.io/badge/license-MIT%20%2B%20Unity%20Companion-blue.svg)](THIRD_PARTY_NOTICES.md)
@@ -41,7 +41,7 @@ Every skill is readable Markdown. Inspect the instructions, adapt them to your r
 
 ## Install
 
-Choose your agent. Install the **93-skill Agent Foundry core** and the **official 31-skill Unity plugin** from separate marketplaces. Use a CLI version with plugin marketplace support, then restart your agent session.
+Choose your agent. Install the **98-skill Agent Foundry core** and the **official 31-skill Unity plugin** from separate marketplaces. Use a CLI version with plugin marketplace support, then restart your agent session.
 
 ### Codex
 
@@ -121,6 +121,9 @@ Task creation plans the feature. Implementation and verification follow. Closure
 | Choose a workflow for the current job | `adaptive-skills` |
 | Design a mechanic or progression system | `game-design-studio`, `quick-design`, `design-system` |
 | Implement or review Unity code | `unity-game-dev`, `game-code-review` |
+| Rebuild grid dragging or board effects | `unity-grid-drag-puzzle`, `unity-grid-puzzle-effects` |
+| Rebuild durable boosters or timed lives | `unity-transactional-boosters`, `unity-life-economy` |
+| Build a grid authoring tool | `unity-grid-level-editor` |
 | Diagnose CPU, GPU, or GC problems | `unity-optimization` |
 | Polish menus, HUDs, or combat feedback | `game-feel-polish` |
 | Build a Firebase game API or JavaScript tool | `firebase-game-backend`, `javascript-game-tools` |
@@ -128,7 +131,7 @@ Task creation plans the feature. Implementation and verification follow. Closure
 | Hand off today's work | `daily-handoff` |
 | Plan QA, a release, or a Steam launch | `qa-plan`, `release-checklist`, `steam-store-launch` |
 
-**[Browse all 93 core skills →](docs/CATALOG.md)**
+**[Browse all 98 core skills →](docs/CATALOG.md)**
 
 The [official Unity plugin](https://github.com/Unity-Technologies/unity-agent-plugin) supplies the specialist Unity skills. Agent Foundry keeps its `unity-cli` workflow for project identity, transport, permissions, and verification; its name also exists upstream. Select the official namespaced skill for a specific Unity feature, such as `unity:ui-uitk` or `unity:physics-3d-collision`.
 
@@ -149,12 +152,12 @@ Install the companions when your work moves into asset production.
 
 | Plugin | Skills | What it covers |
 | --- | ---: | --- |
-| **[Agent Foundry](docs/CATALOG.md)** | 93 | Task workflows, Unity CLI policy, game design, Firebase, code review, QA, and releases. |
+| **[Agent Foundry](docs/CATALOG.md)** | 98 | Task workflows, Unity CLI policy, reusable mechanics, game design, Firebase, code review, QA, and releases. |
 | **[Official Unity plugin](https://github.com/Unity-Technologies/unity-agent-plugin)** | 31 | Unity Technologies' CLI, Editor, 2D, UI, physics, package, and platform workflows; install separately. |
 | **[Blender & Texture Foundry](docs/BLENDER_TEXTURES.md)** | 16 | Modeling, CC0 textures, PBR materials, UVs, baking, lighting, and Unity export. |
 | **[AI 3D Foundry](docs/AI_3D.md)** | 3 | Modeling from references, image-to-textured-mesh generation, and assembly of generated assets in Blender. |
 
-The four catalogs contain 142 unique skill names; `unity-cli` appears in both Agent Foundry and the official Unity plugin. Agent Foundry does not vendor the other 30 official Unity skills.
+The four catalogs contain 147 unique skill names; `unity-cli` appears in both Agent Foundry and the official Unity plugin. Agent Foundry does not vendor the other 30 official Unity skills.
 
 <details>
 <summary><strong>Install the optional companions</strong></summary>

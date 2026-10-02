@@ -12,7 +12,7 @@
   {
     "path": "plugins/agent-foundry/skills/adaptive-skills/SKILL.md",
     "source": "local Codex skill: adaptive-skills/SKILL.md",
-    "sha256": "5b6e0fc3f1c2d3346da0f13c37de6f932677969c84ec836acec77811c3a0009f"
+    "sha256": "d18fff8a9c094b99df3b100f6f04423ba46cd85bf61f3ae0243a813aaf406391"
   },
   {
     "path": "plugins/agent-foundry/skills/adopt/references/claude-skill.md",
@@ -1657,7 +1657,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/SKILL.md",
     "source": "local Codex skill: unity-game-dev/SKILL.md",
-    "sha256": "f7382a4793b70ef6fc8d6450f8bea06824ddbcf746d12906b4c7569a8563e50d"
+    "sha256": "b4a839f5c4c4a8bf171ae91e2d8edccd69360fe75d94b7d641cf5516934ec812"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-optimization/agents/openai.yaml",
@@ -2273,5 +2273,80 @@
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/ownership-and-authoring.md",
     "source": "Agent Foundry original Unity ownership and authoring guidance",
     "sha256": "1d31d897217674e2142ed5518021f0de31e3c0c1d852b21dd3db1c5b742df8c4"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-drag-puzzle/SKILL.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "91b79ad5d8afc3b711d266a1250acc7fe9cc284942c023608b0a275cf5ff2043"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-drag-puzzle/agents/openai.yaml",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "b013b6a17da63d4ebea9fe473cf3f467a598d46ba7835a95ab9478fe464b6337"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-drag-puzzle/references/mechanics.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "5efb261be1b82cf88e895d279af3c031e0dab20bc0a6a8899c2810782ae72952"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-puzzle-effects/SKILL.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "9c100a928f87b980f48b1cf3772c7f8d4903ade71db949b3c1e760b0dabcf65d"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-puzzle-effects/agents/openai.yaml",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "7f064cfad0571b2b112cfdbe2d305be5d5f01a44fdd4dfd691abada545c5b69c"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-puzzle-effects/references/mechanics.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "516fec23324ec03399575802c243b8570c7ed2b1c4293c5850ddbc8e37b62a29"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-transactional-boosters/SKILL.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "df13ea31d527a39815e64bc50e9358c231326642ac07df631057ca121a764f7c"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-transactional-boosters/agents/openai.yaml",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "960de97f03b25a4054fb9b3bbe8c061fa82a8efd9f17ee0c95126d11303fee1f"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-transactional-boosters/references/mechanics.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "6220d7a9ad8af8cd031a95149e500e9400b13400d5f002788d65a913b4f8fa9a"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-life-economy/SKILL.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "b3693218b178038295aee83ef4c9c155ef9e06713e917432af6ffb677aeef026"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-life-economy/agents/openai.yaml",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "86e266974a51db3d8fc29c8c001a8cbb9c782e661d1fa313dc8e929ac437af82"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-life-economy/references/mechanics.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "3721f9b09fb067c4edc87a5d0a1044fa8ce47f03c1456ffdc31532092b14dbf8"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-level-editor/SKILL.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "9c42c47722e911c4582a84a67484ee02d84b628262228ec90be44e04203c9e47"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-level-editor/agents/openai.yaml",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "4998e9d9cb671f7ab9cdb8ee930deeed257f560d0e5a5d0a06c7bba865a3a54e"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-grid-level-editor/references/mechanics.md",
+    "source": "Agent Foundry original reusable Unity mechanic recipe",
+    "sha256": "ade459ba3f63c89d7ac2103abd04b99f46b0fb829ff6828083a1a8f9256e17dd"
   }
 ]

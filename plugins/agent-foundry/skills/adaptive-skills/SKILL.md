@@ -14,6 +14,14 @@ Choose the smallest relevant skill set:
 
 - Unity implementation, debugging, refactoring, setup, or tests:
   use `unity-game-dev`.
+- Grid dragging and gate exits: use `unity-grid-drag-puzzle`; composable
+  Arrow/Ice and cell restrictions: use `unity-grid-puzzle-effects`.
+- Inventory-backed targeting and starting boosters: use
+  `unity-transactional-boosters`; timed lives/energy and paid refills:
+  use `unity-life-economy`.
+- Grid authoring tools, Undo/reload-safe drafts, exact saves and runtime-parity
+  solving: use `unity-grid-level-editor`. These focused mechanic recipes layer
+  under `unity-game-dev` and `unity-cli`; load only the requested mechanics.
 - Unity profiling, optimization, CPU/GPU/GC bottlenecks, hot paths, UI/physics/
   rendering/loading/memory performance, or mobile thermal/battery constraints:
   use `unity-optimization`.

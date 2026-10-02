@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Transactional Boosters"
+  short_description: "Commit booster costs before owned gameplay effects"
+  default_prompt: "Use $unity-transactional-boosters to implement inventory-backed booster targeting and cancellation-safe use."

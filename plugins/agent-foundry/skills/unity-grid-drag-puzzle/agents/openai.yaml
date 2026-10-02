@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Grid Drag Puzzle"
+  short_description: "Rebuild collision-safe grid dragging and gate exits"
+  default_prompt: "Use $unity-grid-drag-puzzle to implement grid dragging and matching gate exits in this Unity project."

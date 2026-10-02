@@ -1,6 +1,15 @@
 # Changelog
 
-## Unreleased - 2026-10-02
+## Unreleased - 2026-10-03
+
+- Add five focused Unity reconstruction skills for grid drag/gate exits,
+  composable board effects, transactional boosters, timed life economies,
+  and grid level authoring with Undo, reload-safe drafts and runtime parity.
+- Each includes an implementation recipe, configurable policy boundaries,
+  failure/verification scenarios and Codex interface metadata. Add focused
+  routing and update the core inventory to 98 skills.
+- Validation scope: skill/package metadata, bundled references, export hashes
+  and independent reconstruction scenarios; no new Unity/device test claims.
 
 - Add reusable Unity ownership and authoring guidance for lifetimes, reentrant
   transitions, owned async work, data authority, committed transactions, UI
