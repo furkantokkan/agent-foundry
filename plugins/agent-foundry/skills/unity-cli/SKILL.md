@@ -186,6 +186,49 @@ Apply the repository's approval policy before running commands:
 their project and output paths as declared owned paths, and report the exit code
 plus log/report path on failure.
 
+## Editor instances and worktrees
+
+Each Unity Editor costs minutes of start-up and import plus several GB of
+memory, and nothing closes it on its own. Unity locks a project per folder, so
+worktrees of one repository never block each other. Keep the count low and
+give every Editor one owner:
+
+- **At most two Editors per repository.** Count every Editor open on any
+  checkout or worktree of the repository, whoever opened it. An orchestration
+  owns at most one, in its integration checkout; a single session owns at most
+  one. When the limit is reached, continue code-only work and queue the
+  Editor-bound step. Never open a second Editor on a checkout that already has
+  one. An Editor the user or another live session holds stays theirs.
+- **Look before opening.** Run `unity status --json` first. After a
+  `unity open` timeout, check status again instead of opening again.
+- **Own what you open.** Record the PID and checkout of every Editor you open
+  in the task handoff, or in the session report for untracked work. Close it
+  with `unity close <project>` when its Editor-bound work and final-stage tests
+  are done, or at handoff. `unity close` exits without saving, so save owned
+  assets first, and leave open (and report) an Editor holding unsaved work you
+  do not own. An owner that takes over a stopped task inherits its recorded
+  Editor: it keeps the integration checkout's Editor and closes any other.
+- **Never delete `Temp/UnityLockfile`.** It is Unity's guard against two
+  Editors on one project. If Unity reports the project open, find the process
+  that holds it.
+- **Code lanes stay Editor-free.** Never run `unity open`, `run`, `test`, or
+  `build` in a lane worktree. Give it what the
+  [Roslyn check](#development-compile-check-roslyn) needs instead:
+  1. Seed it from a compiled checkout of the same repository whose Editor is
+     closed and whose `HEAD` is the lane's base:
+     `unity vcs git worktree add <branch> <source project> --seed full --no-register`.
+     `--seed cache` is not enough, because generated projects reference
+     `Library/PackageCache` by relative path. The CLI skips seeding while the
+     source Editor runs (`skip: source-editor-running`), so seed all lanes in
+     one pass before the integration Editor opens, or close that Editor briefly
+     (after saving owned assets).
+  2. Copy the source project's generated `*.csproj` and `*.sln` into the lane's
+     project root. Seeding copies `Library` only.
+
+  A lane's `COMPILE_UNVERIFIED` (a new assembly, an `.asmdef` edit) goes to the
+  integration owner, who confirms it with Unity's compile in the integration
+  checkout after applying the lane's diff.
+
 ## Development compile check (Roslyn)
 
 During development, verify each Unity C# change with this check instead of a
@@ -209,6 +252,8 @@ python "<unity-cli skill dir>/scripts/unity_compile_check.py" --project <project
   folder.
 - It needs three things: the .NET SDK, the Unity Editor version the project
   files target, and one earlier Unity compile of the project on this machine.
+  A code lane gets that compile by seeding, not by opening Unity (see
+  [Editor instances and worktrees](#editor-instances-and-worktrees)).
 
 Verdicts:
 - `COMPILE_OK` (exit 0): continue.
@@ -217,7 +262,8 @@ Verdicts:
   example a changed `.asmdef`, missing project files or Editor, or a project
   Unity never compiled. Fall back to Unity's own compile: `recompile_status`
   with a live Editor, or MCP for Unity below Unity 6. Or regenerate the project
-  files and run the check again.
+  files and run the check again. In a code lane, hand that compile to the
+  integration owner instead.
 
 Test timing:
 - Do not run Unity tests during development.
@@ -264,7 +310,9 @@ python "<unity-cli skill dir>/scripts/unity_test_batch.py" submit --project <pro
   criterion needs the whole platform; it widens the shared run for everyone.
   `!` exclusions are rejected because they would hide other sessions' tests.
 - Requests share a run only on the same project root. Separate worktrees are
-  separate projects and run separately.
+  separate projects and run separately, so code lanes submit nothing: the
+  integration owner submits each task's tests from the integration checkout
+  after applying its diff there.
 - Record the `TEST_BATCH:` line byte-for-byte as the automated verification
   evidence, together with the result path it prints.
 

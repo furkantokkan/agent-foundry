@@ -76,6 +76,9 @@ agents; it is never task lifecycle authority.
 - Parallel writers require independent tasks, disjoint writable paths, and
   separate branches/worktrees. Reuse suitable worktrees; prefer the managed
   worktree tool when available. Use a branch name describing the change.
+  Unity lanes instead use the seeded worktrees from `unity-cli` "Editor
+  instances and worktrees", stay Editor-free, and leave the one Editor to the
+  integration checkout (tracked production, item 6).
 - Shared source files, exports, schemas, and generated outputs have one
   integration owner. Do not permit several append-only writers or resolve
   conflicts by blindly keeping both versions. Dependent changes run in order.

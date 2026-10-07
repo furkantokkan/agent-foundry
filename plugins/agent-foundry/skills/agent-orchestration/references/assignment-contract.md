@@ -13,7 +13,7 @@ Dependencies and expected handoff:
 Read scope:
 Allowed write paths (empty for read-only):
 Forbidden paths and actions:
-Exact serialized assets and runtime/Editor ownership, when applicable:
+Exact serialized assets and runtime/Editor ownership, when applicable (a Unity code lane: `Editor: none`):
 Acceptance and preservation criteria / verification commands:
 Existing authorization and any protected target still awaiting approval:
 Close authority (lifecycle owner only): automatic_verified | explicit_user | none:

@@ -587,7 +587,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-bugfixer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-bugfixer.md",
-    "sha256": "9990ac0963a7d35d2515a02747c991e18a4791520d80257ba5c46d1af9932453"
+    "sha256": "075e6e3da10e18e290b8cf4a2480043aa3aa33049f99bab8029162c1a537fbf8"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-dots-specialist.md",
@@ -597,7 +597,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-feature-implementer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-feature-implementer.md",
-    "sha256": "9cda8ab1fb59f86c2d86a72b2610ac1987baecbb759b1452f59bdbd992d38b5b"
+    "sha256": "2933b7ad32cb457833e95623899c5786f3d20433325a9bde641b94905a4d961a"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-shader-specialist.md",
@@ -612,7 +612,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-test-verifier.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-test-verifier.md",
-    "sha256": "1fd12ecf66e1dad5514fef6b05185ce6af107a4198674a1fb5f0a4289023e13b"
+    "sha256": "0c3fbca1ade4a8a79509ea99130fa7f2f2cfd94e608ff92531a1921b44b9a278"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-ui-specialist.md",
@@ -1607,12 +1607,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "904dc59eb730cc41370b52523fc28567b20b82fef45ddf725bfb12c49f520425"
+    "sha256": "800fff7d05dd69b464bf5428111aff4878c6b5fb25b5d4bda1966527892898aa"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
     "source": "local Codex skill: unity-cli/scripts/unity_compile_check.py",
-    "sha256": "33680c9aba8a52ff0eba5b89c496587d462d70c8925605b527447e950494aa23"
+    "sha256": "abb5d9e7cf59b4a42f386a47cca150f425b740c04ff2a4bd8b67332821d0a975"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_test_batch.py",
@@ -2202,17 +2202,17 @@
   {
     "path": "plugins/agent-foundry/agents/unity-feature-implementer.md",
     "source": "local Claude role: unity-feature-implementer",
-    "sha256": "cfdb39cdfeea69772525a78db3ad6fcff74600e19586b1153fa5fa54e430b5ad"
+    "sha256": "36fda178865ebbb41cd74a2bc795311e5e1476014f29b76797fb93246e714592"
   },
   {
     "path": "plugins/agent-foundry/agents/unity-test-verifier.md",
     "source": "local Claude role: unity-test-verifier",
-    "sha256": "6c88468ba288281f2bb084bf9487be3db69f07d41ff981a38b847b1c795f5534"
+    "sha256": "d1aa4c380ca1d459c0b3f1aba90a4586c1a3e1898de3fa6beb038406757841fb"
   },
   {
     "path": "plugins/agent-foundry/agents/unity-bugfixer.md",
     "source": "local Claude role: unity-bugfixer",
-    "sha256": "281cedb806d2d9f6ff6bc60a86563c316f359630ec1d6b776ce46af3a3ee9b04"
+    "sha256": "b864ea9a17a0637fdbdbafac7772b3786d2fcbc80fd2f411ffd26c1bc09bb77f"
   },
   {
     "path": "commands/agent-orchestration.md",
@@ -2222,7 +2222,7 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/SKILL.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "ce983fd8b79a715ef265ce5e9796fe5c9c8f1630f45c52814353f28cf7f8b4ef"
+    "sha256": "c3b055af192ffe74495e4116318cea86f3b1e19cf3a14a3b5e894aa7179b6631"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/LICENSE",
@@ -2232,12 +2232,12 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/assignment-contract.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "fb799620dcae5818132067eb0cf4f7d5f33fe35a509d1a7141939331c1eb9c18"
+    "sha256": "2ac0f742edada5b17c807ff4ef8223b1ef88247974caabbb4689533c50fccdc1"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/tracked-production.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "7192c58812f00bcdbc3a7f20b63841c03134d70fa3121de0ff91fe4699533ef8"
+    "sha256": "b0ece188cb37d9aca8befb912f1ca8262cc1f84faa849760556c4b8d6599866c"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/game-and-unity.md",
