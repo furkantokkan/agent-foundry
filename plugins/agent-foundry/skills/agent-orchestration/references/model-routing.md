@@ -39,7 +39,9 @@ for their actual work. Do not create a task or agent solely to change models.
 
 The Sonnet mapping and minimum version were checked against
 [Claude Code model configuration](https://code.claude.com/docs/en/model-config).
-The Sol ID was verified in the installed Codex host's model catalog and
-[OpenAI's model guidance](https://learn.chatgpt.com/docs/models).
+The Sol ID was verified in the installed Codex host's model catalog, in
+OpenAI's official [GPT-6.1 Sol model page](https://developers.openai.com/api/docs/models/gpt-6.1-sol),
+and in the [Codex model list](https://learn.chatgpt.com/docs/models). Links were
+rechecked on 2026-10-08.
 These are configuration checks, not measured workflow benchmarks or a
 guarantee that either model is available to every account or provider.

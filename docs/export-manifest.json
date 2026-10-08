@@ -2232,7 +2232,7 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/model-routing.md",
     "source": "Agent Foundry portable model-routing guidance",
-    "sha256": "b5897b38072da49591dfbc12a695d26d080f527ba8538dd7962a86327ce7e547"
+    "sha256": "761e63ef45c2fab7c44cad44e89422341d7866c0d88de2a3e532d6fd9fd7afb7"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/references/assignment-contract.md",
