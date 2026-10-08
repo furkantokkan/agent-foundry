@@ -1,6 +1,6 @@
 ---
 name: skill-improve
-description: "Improve one skill with a scoped test-fix-retest loop. Analysis is read-only unless --apply is supplied; the target skill is the only writable source file."
+description: "Improve one skill with a scoped test-fix-retest loop. Analysis stays read-only until the edit is authorized by --apply or a direct request to improve the named skill; writes are limited to that skill's SKILL.md and its necessary bundled references."
 argument-hint: "[skill-name] [--apply]"
 user-invocable: true
 allowed-tools: Read Glob Grep Write Edit
@@ -161,10 +161,11 @@ The write contract for an authorized edit is:
 
 ## Phase 5: Write and Retest
 
-Record the exact current content of the skill file in memory (for restoration
-of only this invocation's edit if needed).
+Record the exact current content of every file you will change in memory (for
+restoration of only this invocation's edit if needed).
 
-Write the improved skill to `.claude/skills/[name]/SKILL.md`.
+Write the improved skill to `.claude/skills/[name]/SKILL.md`, and any bundled
+reference inside that skill's folder that the fix needs. Write nothing else.
 
 Re-run `/skill-test static [name]` and record the new static score.
 If a category was assigned, also re-run `/skill-test category [name]` and record the new category score.

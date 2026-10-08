@@ -1262,7 +1262,7 @@
   {
     "path": "plugins/agent-foundry/skills/skill-improve/references/claude-skill.md",
     "source": "local Codex skill: skill-improve/references/claude-skill.md",
-    "sha256": "2551f917a62316d8cc0c0cac61202ea6dd29e724a4a60f52ed39bb05f0207693"
+    "sha256": "fc23ac552f7ee2d7b91f134b7a24bf6a7ef78256ac452f5755d2c69a69ad0d32"
   },
   {
     "path": "plugins/agent-foundry/skills/skill-improve/SKILL.md",
