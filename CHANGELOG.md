@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - 2026-10-08
+## 0.9.0 - 2026-10-08
 
 - Keep Unity Editors bounded during agentic work. `unity-cli` adds "Editor
   instances and worktrees": at most two Editors per repository, a status check
