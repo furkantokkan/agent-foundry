@@ -50,8 +50,10 @@ OWNER_NAME = "unity-editor-open.json"
 RESERVATIONS_NAME = "unity-editor-reservations.json"
 OLD_RESERVATION_SECONDS = 1800  # only changes the advice printed; reservations never expire by age
 # Unity accepts -projectPath in any case, with a space or `=`. The Hub passes the flag and
-# its value unquoted (the value may contain spaces); other launchers quote either or both.
-PROJECT_ARG = re.compile(r'-projectpath"?(?:=|\s+)(?:"([^"]+)"|(.+?))(?=\s+"?-[A-Za-z]|\s*$)', re.IGNORECASE)
+# its value unquoted (the value may contain spaces or ` -Name` parts); other launchers quote
+# the flag, the value, or both.
+PROJECT_FLAG = re.compile(r'-projectpath"?(?:=|\s+)', re.IGNORECASE)
+NEXT_OPTION = re.compile(r'\s+"?-[A-Za-z]')
 # Asset import workers carry `-name AssetImportWorkerN`; match that argument, not the word anywhere,
 # so an Editor whose project path happens to contain the word still counts.
 IMPORT_WORKER = re.compile(r'(?:^|\s)"?-name"?\s+"?AssetImportWorker\w*"?(?=\s|$)', re.IGNORECASE)
@@ -71,14 +73,34 @@ def inside(child: str, parent: str) -> bool:
     return child == parent or child.startswith(parent.rstrip(os.sep) + os.sep)
 
 
+def is_unity_project(path: str) -> bool:
+    return (Path(path.strip().strip('"')) / "ProjectSettings" / "ProjectVersion.txt").is_file()
+
+
 def project_of(command_line: str) -> str | None:
-    """The project of a main Editor process; None for import workers, the Hub and the CLI."""
+    """The project of a main Editor process; None for import workers, the Hub and the CLI.
+
+    An unquoted value ends at some later ` -Option`, but a path part may also start with
+    `-` (`C:/My -Game/Project`). Every candidate end is tried, longest first, and the first
+    candidate that is a Unity project on disk wins; with none on disk, the first boundary does.
+    """
     if not command_line or IMPORT_WORKER.search(command_line):
         return None
-    match = PROJECT_ARG.search(command_line)
-    if not match:
+    flag = PROJECT_FLAG.search(command_line)
+    if not flag:
         return None
-    return normalize(match.group(1) or match.group(2))
+    rest = command_line[flag.end():]
+    if rest.startswith('"'):
+        closing = rest.find('"', 1)
+        return normalize(rest[1:closing] if closing > 0 else rest[1:])
+    ends = [boundary.start() for boundary in NEXT_OPTION.finditer(rest)] + [len(rest)]
+    candidates = [rest[:end].strip() for end in ends if rest[:end].strip()]
+    if not candidates:
+        return None
+    for candidate in reversed(candidates):
+        if is_unity_project(candidate):
+            return normalize(candidate)
+    return normalize(candidates[0])
 
 
 def run_text(command: list[str]) -> subprocess.CompletedProcess:
@@ -156,9 +178,11 @@ def repository_scope(project: Path) -> tuple[list[str], Path]:
         return fallback_scope(project)
     common = run_text([git, "-C", str(project), "rev-parse", "--path-format=absolute", "--git-common-dir"])
     if common.returncode != 0:
-        if "not a git repository" in common.stderr.lower():
+        # Decide from the filesystem, not git's (localized) message: a dangling worktree link or a
+        # broken repository also says "not a git repository" and must not fall back silently.
+        if not inside_git_repository(project):
             return fallback_scope(project)
-        raise ScanError(f"git rev-parse failed: {common.stderr.strip()[-300:]}")
+        raise ScanError(f"git rev-parse failed inside a Git repository: {common.stderr.strip()[-300:]}")
     lines = [line for line in common.stdout.splitlines() if line.strip()]
     common_dir = Path(lines[-1].strip()) if lines else None
     if common_dir is None or not common_dir.is_absolute():
@@ -250,20 +274,46 @@ def load_reservations(directory: Path) -> dict[str, dict]:
     except FileNotFoundError:
         return {}
     except (OSError, ValueError) as error:
-        raise ScanError(f"unreadable reservations file {directory / RESERVATIONS_NAME}: {error}") from error
+        raise ScanError(f"unreadable reservations file {directory / RESERVATIONS_NAME} ({error}); "
+                        "delete it once no `unity open` of this repository is running") from error
     return data if isinstance(data, dict) else {}
 
 
 def save_reservations(directory: Path, reservations: dict[str, dict]) -> None:
+    """Replace the reservations file atomically; retry briefly, as scanners can hold files in .git on Windows."""
     path = directory / RESERVATIONS_NAME
     staging = path.with_suffix(".tmp")
     staging.write_text(json.dumps(reservations), encoding="utf-8")
-    os.replace(staging, path)
+    for attempt in range(3):
+        try:
+            os.replace(staging, path)
+            return
+        except PermissionError:
+            if attempt == 2:
+                raise
+            time.sleep(0.1)
 
 
 def pending_reservations(reservations: dict[str, dict], running: set[str]) -> dict[str, dict]:
-    """Reservations still waiting for their Editor. One resolves when its Editor runs or is cleared explicitly."""
-    return {project: record for project, record in reservations.items() if project not in running}
+    """Reservations still waiting for their Editor.
+
+    One resolves when its Editor runs, when it is cleared explicitly, or when its project is
+    gone (a removed worktree), since no Editor can be starting there.
+    """
+    return {
+        project: record
+        for project, record in reservations.items()
+        if project not in running and is_unity_project(project)
+    }
+
+
+def give_back(directory: Path, pending: dict[str, dict]) -> str:
+    """Return a failed launch's slot; on failure, say that the slot stays reserved and how to free it."""
+    try:
+        save_reservations(directory, pending)
+    except OSError as error:
+        return f" Its slot stays reserved ({error}); free it with --clear-reservation."
+    return ""
 
 
 def describe_reservation(record: dict, now: float) -> str:
@@ -375,7 +425,8 @@ def open_editor(options: argparse.Namespace) -> int:
         mine = [(pid, batch) for pid, path, batch in editors if path == target]
         if mine:
             pid, batch = mine[0]
-            note = " (a batch run that will exit on its own; open after it finishes)" if batch else ""
+            note = (" (a batch-mode Editor: a test or build run exits on its own, so open after it finishes)"
+                    if batch else "")
             print(f"EDITOR_OPEN: ALREADY_OPEN pid={pid} project={project} editors={count}/{options.limit}{note}")
             return EXIT_ALREADY_OPEN
         if target in pending:
@@ -403,13 +454,12 @@ def open_editor(options: argparse.Namespace) -> int:
         try:
             launcher = start_open(command, project)
         except OSError as error:
-            save_reservations(lock_dir, pending)
-            return failed(f"cannot start `unity open`: {error}. Nothing was opened.")
+            return failed(f"cannot start `unity open`: {error}. Nothing was opened.{give_back(lock_dir, pending)}")
         pid, code, scan_error = wait_for_editor(target, before, options.detect_seconds, launcher)
         if pid is None:
             if code is not None:
-                save_reservations(lock_dir, pending)  # the launch failed, so it no longer holds a slot
-                reason = f"`unity open` exited {code}"
+                # The launch failed, so it no longer holds a slot.
+                reason = f"`unity open` exited {code}{give_back(lock_dir, pending)}"
             else:
                 reason = (f"no Editor process appeared within {options.detect_seconds:g}s; the launch keeps its slot "
                           "until its Editor appears, or until --clear-reservation frees it after a failed launch")
@@ -417,7 +467,11 @@ def open_editor(options: argparse.Namespace) -> int:
                 reason += f" (last scan error: {scan_error})"
             return failed(f"{reason} for {project}. The Editor may still be starting: check `unity status` "
                           "and the process list before trying again; never open twice.")
-        save_reservations(lock_dir, pending)
+        # Tidy-up only: the next call resolves this reservation anyway, now that the Editor runs.
+        try:
+            save_reservations(lock_dir, pending)
+        except OSError:
+            pass
         print(f"EDITOR_OPEN: OPENED pid={pid} project={project} editors={count + 1}/{options.limit}")
         return EXIT_OPENED
     finally:

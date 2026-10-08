@@ -92,6 +92,12 @@ class ParsingTests(unittest.TestCase):
         for command in (worker, bare_worker, hub, cli, ""):
             self.assertIsNone(opener.project_of(command), command)
 
+    def test_unquoted_path_with_a_dash_part_is_read_whole_when_it_is_on_disk(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            project = unity_project(Path(temp).resolve() / "My -Game" / "Project")
+            command = f'"C:/Unity/Editor/Unity.exe" -projectPath {project} -useHub -hubIPC'
+            self.assertEqual(opener.project_of(command), opener.normalize(project))
+
     def test_editor_whose_path_mentions_import_workers_still_counts(self) -> None:
         editor = r'"C:\Unity\Editor\Unity.exe" -projectpath C:\Repos\AssetImportWorkerTools\Game -useHub -hubIPC'
         self.assertEqual(opener.project_of(editor), opener.normalize(r"C:\Repos\AssetImportWorkerTools\Game"))
@@ -170,14 +176,14 @@ class OpenTests(unittest.TestCase):
         code, output = self.run_main()
         self.assertEqual(code, opener.EXIT_ALREADY_OPEN, output)
         self.assertIn("pid=21", output)
-        self.assertNotIn("batch run", output)
+        self.assertNotIn("batch-mode", output)
         self.assertEqual(self.cli_calls(), [])
 
     def test_batch_run_on_the_project_is_reported_as_transient(self) -> None:
         self.set_editors(editor_row(22, self.project, "-batchmode -runTests -testResults out.xml"))
         code, output = self.run_main()
         self.assertEqual(code, opener.EXIT_ALREADY_OPEN, output)
-        self.assertIn("batch run", output)
+        self.assertIn("batch-mode Editor", output)
 
     def test_dry_run_reports_room_without_opening(self) -> None:
         self.set_editors(editor_row(31, self.other))
@@ -288,7 +294,12 @@ class OpenTests(unittest.TestCase):
         self.assertEqual(code, opener.EXIT_ALREADY_OPEN, output)
         self.assertIn("still starting", output)
         deadline = time.monotonic() + 20
-        while time.monotonic() < deadline and not json.loads(self.rows.read_text(encoding="utf-8")):
+        while time.monotonic() < deadline:
+            try:
+                if json.loads(self.rows.read_text(encoding="utf-8")):
+                    break
+            except ValueError:
+                pass  # the fake may be mid-write
             time.sleep(0.1)
         code, output = self.run_main("--dry-run", project=self.lane_project)
         self.assertEqual(code, opener.EXIT_OPENED, output)
@@ -309,6 +320,54 @@ class OpenTests(unittest.TestCase):
         self.assertIn("RESERVATION_CLEARED", output)
         self.assertEqual(self.reservations(), {})
         code, output = self.run_main("--dry-run", "--limit", "1")
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+
+    def test_reservation_for_a_removed_project_is_dropped(self) -> None:
+        self.set_editors()
+        lock_dir = opener.repository_scope(self.project)[1]
+        gone = Path(self.temp.name).resolve() / "removed-lane" / "unity" / "Game"
+        opener.save_reservations(lock_dir, {opener.normalize(gone): {"started": time.time()}})
+        code, output = self.run_main("--dry-run", "--limit", "1")
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+        self.assertEqual(self.reservations(), {})
+
+    def test_corrupt_reservations_file_opens_nothing_and_says_how_to_recover(self) -> None:
+        self.set_editors()
+        lock_dir = opener.repository_scope(self.project)[1]
+        (lock_dir / opener.RESERVATIONS_NAME).write_text("{not json", encoding="utf-8")
+        code, output = self.run_main()
+        self.assertEqual(code, opener.EXIT_OPEN_FAILED, output)
+        self.assertIn("delete it once no `unity open`", output)
+        self.assertEqual(self.cli_calls(), [])
+
+    def test_failed_tidy_up_after_a_successful_open_still_reports_opened(self) -> None:
+        self.set_editors()
+        real_save = opener.save_reservations
+        calls = []
+
+        def flaky(directory: Path, reservations: dict) -> None:
+            calls.append(dict(reservations))
+            if len(calls) >= 2:
+                raise PermissionError("held by a scanner")
+            real_save(directory, reservations)
+
+        with mock.patch.object(opener, "save_reservations", side_effect=flaky):
+            code, output = self.run_main("--detect-seconds", "20")
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+        self.assertRegex(output, r"OPENED pid=\d+ ")
+        code, output = self.run_main("--dry-run", project=self.lane_project)
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+        self.assertIn("editors=1/2", output)
+        self.assertEqual(self.reservations(), {})
+
+    def test_localized_git_failure_outside_a_repository_falls_back(self) -> None:
+        loose = unity_project(Path(self.temp.name).resolve() / "loose-tr" / "Game")
+        if opener.inside_git_repository(loose):
+            self.skipTest("the temp folder is inside a Git repository on this machine")
+        localized = subprocess.CompletedProcess([], 128, stdout="", stderr="fatal: bir git deposu değil")
+        self.set_editors()
+        with mock.patch.object(opener, "run_text", return_value=localized):
+            code, output = self.run_main("--dry-run", project=loose)
         self.assertEqual(code, opener.EXIT_OPENED, output)
 
     def test_clearing_without_a_reservation_changes_nothing(self) -> None:

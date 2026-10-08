@@ -17,7 +17,11 @@
   without a readable command line, a failing `git`, or an unexpected error
   gives an OPEN_FAILED verdict and opens nothing. Import workers are detected
   by their `-name AssetImportWorkerN` argument, so an Editor whose path
-  contains that word still counts.
+  contains that word still counts. An unquoted path with a ` -Name` part is
+  matched against the Unity project on disk. The Git fallback is decided from
+  the filesystem, not from git's localized message. A reservation for a
+  removed project is dropped, and a failed tidy-up after a successful open no
+  longer turns OPENED into OPEN_FAILED.
 - Code lanes report `COMPILE_UNVERIFIED` to the integration owner only when
   the seeded Roslyn check returns it. `COMPILE_OK` needs no Unity compile.
 - Remove the leftover `unity-preflight/agents/openai.yaml`. The skill was
@@ -27,7 +31,7 @@
 - These fixes answer the review findings on 0.9.0, on this PR's first draft,
   and an independent review of the script. Validation:
   - package/hash checks;
-  - 23 new unit tests, stable over three runs, including:
+  - 28 new unit tests, stable over three runs, including:
     - two separate processes opening at once with a limit of 1: one opens and
       the other gets LIMIT_REACHED;
     - a slow launch keeps its slot until its Editor appears, and an old

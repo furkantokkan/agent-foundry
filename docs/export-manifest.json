@@ -1627,12 +1627,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_editor_open.py",
     "source": "local Claude skill: unity-cli/scripts/unity_editor_open.py",
-    "sha256": "a92ca71d5bfd93adec4d7b915d6dbd7fc03a1c0c37c973ce61cde8b23162699f"
+    "sha256": "45d5ec9ab217de6e83b3b8d6abbb380184e33f644df212073c07966d9c3f2d3f"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/test_unity_editor_open.py",
     "source": "local Claude skill: unity-cli/scripts/test_unity_editor_open.py",
-    "sha256": "fa4709e5f97904da3ff895efd5e9fd90345a5b66925146f7043328202da1f5dd"
+    "sha256": "773eb4b725615685cb27c6fa70aefbe6fa9065c56331ef342773b6079f255360"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
