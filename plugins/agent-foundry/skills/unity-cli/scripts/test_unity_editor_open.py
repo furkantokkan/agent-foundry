@@ -98,6 +98,13 @@ class ParsingTests(unittest.TestCase):
             command = f'"C:/Unity/Editor/Unity.exe" -projectPath {project} -useHub -hubIPC'
             self.assertEqual(opener.project_of(command), opener.normalize(project))
 
+    def test_over_long_candidates_cannot_break_parsing(self) -> None:
+        tail = " ".join(f"-flag{index} {'x' * 40}" for index in range(12))
+        command = f"/Applications/Unity/Unity.app/Contents/MacOS/Unity -projectpath /Users/me/Game {tail}"
+        too_long = OSError(36, "File name too long")
+        with mock.patch.object(opener.Path, "is_file", side_effect=too_long):
+            self.assertEqual(opener.project_of(command), opener.normalize("/Users/me/Game"))
+
     def test_editor_whose_path_mentions_import_workers_still_counts(self) -> None:
         editor = r'"C:\Unity\Editor\Unity.exe" -projectpath C:\Repos\AssetImportWorkerTools\Game -useHub -hubIPC'
         self.assertEqual(opener.project_of(editor), opener.normalize(r"C:\Repos\AssetImportWorkerTools\Game"))

@@ -74,7 +74,11 @@ def inside(child: str, parent: str) -> bool:
 
 
 def is_unity_project(path: str) -> bool:
-    return (Path(path.strip().strip('"')) / "ProjectSettings" / "ProjectVersion.txt").is_file()
+    """Never raises: candidates are command-line slices, and an over-long one makes stat fail (ENAMETOOLONG)."""
+    try:
+        return (Path(path.strip().strip('"')) / "ProjectSettings" / "ProjectVersion.txt").is_file()
+    except (OSError, ValueError):
+        return False
 
 
 def project_of(command_line: str) -> str | None:

@@ -31,7 +31,7 @@
 - These fixes answer the review findings on 0.9.0, on this PR's first draft,
   and an independent review of the script. Validation:
   - package/hash checks;
-  - 28 new unit tests, stable over three runs, including:
+  - 29 new unit tests, stable over three runs, including:
     - two separate processes opening at once with a limit of 1: one opens and
       the other gets LIMIT_REACHED;
     - a slow launch keeps its slot until its Editor appears, and an old
