@@ -55,6 +55,8 @@ def main():
     agents = sorted((PLUGIN / 'agents').glob('*.md'))
     check(len(skills) == 98, 'Expected 98 Agent Foundry skills; update documented inventory for an intentional change')
     check('agent-orchestration' in names and 'unity-preflight' not in names, 'Unified orchestration/readiness migration is incomplete')
+    for folder in sorted((PLUGIN / 'skills').iterdir()):
+        check(not folder.is_dir() or (folder / 'SKILL.md').is_file(), f'Skill folder without SKILL.md: {folder.relative_to(ROOT).as_posix()}')
     active_routes = commands + aliases + [
         path for path in (PLUGIN / 'skills').rglob('*')
         if path.suffix in {'.md', '.yaml', '.yml'}

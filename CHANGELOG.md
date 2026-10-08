@@ -9,15 +9,24 @@
   lock when the script exits, so there is no stale lock to reclaim and no lock
   file is ever deleted. Editors are counted from the process table, which also
   sees Editors `unity status` cannot reach. Running Editors stay the slots, so
-  closing an Editor frees its slot.
+  closing an Editor frees its slot. The script fails closed: an unreadable
+  process table, a failing `git`, or an unexpected error gives an OPEN_FAILED
+  verdict and opens nothing.
 - Code lanes report `COMPILE_UNVERIFIED` to the integration owner only when
   the seeded Roslyn check returns it. `COMPILE_OK` needs no Unity compile.
-- Both fixes answer the review findings on 0.9.0 and on this PR's first draft.
-  Validation:
+- Remove the leftover `unity-preflight/agents/openai.yaml`. The skill was
+  retired in 0.4.0, but this Codex UI metadata kept an empty `unity-preflight`
+  folder shipping. Validation now rejects any packaged skill folder without
+  `SKILL.md`. This supersedes the unmerged 0.4.1 PR #6.
+- These fixes answer the review findings on 0.9.0, on this PR's first draft,
+  and an independent review of the script. Validation:
   - package/hash checks;
-  - 10 new unit tests: real Git worktrees; a lock held by another process
-    times out and is released when that process dies; limit,
-    already-open, open and failure paths;
+  - 17 new unit tests, including:
+    - two separate processes opening at once with a limit of 1: one opens and
+      the other gets LIMIT_REACHED;
+    - a lock holder that is killed releases the lock;
+    - real Git worktrees under a non-ASCII path with a space;
+    - fail-closed cases: process table, `git`, and an unstartable CLI;
   - a read-only scan of this machine's Editors that matches the WMI process
     list.
 
