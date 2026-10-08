@@ -36,6 +36,17 @@ run it, and verify the installed binary; never pipe a remote response into a
 shell. Environment-level network or elevation approval may still be required.
 Do not bypass installation by switching to a legacy MCP transport.
 
+On Unity 6+, the Pipeline package (`com.unity.pipeline`) is the default Editor
+bridge for the CLI. When the project lacks it, install it with
+`unity pipeline install --project-path <root> --non-interactive` under the
+user's standing authorization for that one package addition
+(`Packages/manifest.json` and the lock file Unity resolves). Install it in the
+checkout that owns the Editor, never in a code lane, while no compile, test, or
+Play Mode runs, then let the Editor resolve it and report the installed
+version. It is Editor-only: never include it in runtime (see
+[Drive a running Unity Editor](#drive-a-running-unity-editor-if-one-is-open)).
+Upgrades, pins, removal, and commits keep their approval gates.
+
 Transport order (apply the pre-Unity-6 version gate before this sequence):
 
 1. **Unity CLI / Pipeline** — use direct CLI commands for discovery, Editor
@@ -103,8 +114,9 @@ transport. The user does not need to request it for each task.
    When MCP for Unity's `unity-mcp-skill` is installed, use it for tool
    workflows only after this gate passes.
 6. Send each mutation through one transport only. When the project moves to
-   Unity 6+, return to the CLI transport order. Installing Pipeline or removing
-   fallback packages/configuration still requires explicit target approval.
+   Unity 6+, return to the CLI transport order and install Pipeline under the
+   default above. Removing fallback packages/configuration still requires
+   explicit target approval.
 
 ### Exact MCP identity gate
 
@@ -180,7 +192,8 @@ Apply the repository's approval policy before running commands:
   gates. Do not ask again for each low-risk command within that scope.
 - Editor/module/package installs or removals, builds, upgrades, auth changes,
   cloud mutations, project creation, source-control creation/push, and Unity
-  serialized-asset changes require explicit target authorization.
+  serialized-asset changes require explicit target authorization. The default
+  Pipeline install above is the one standing exception.
 
 `build`, `run`, and `test` can write generated or imported project state. Treat
 their project and output paths as declared owned paths, and report the exit code
@@ -385,6 +398,8 @@ unity command editor_play --project-path /path/to/MyProject
 A `unity status` instance's `project` field is what `--project-path` takes. For `unity command`/`list`/`job`/`mcp`, matching no running project fails with `AMBIGUOUS_EDITOR` and lists the candidates. [Details](references/integration-advanced.md#targeting-one-of-several-running-editors).
 
 Requires the project's `com.unity.pipeline` package (Unity 6.0+) — add it once with `unity pipeline install`. For an older Editor, use [the MCP for Unity fallback](#editor-older-than-unity-6-mcp-for-unity-fallback) instead. Full details — launching a headless Editor to drive, `unity list` tool discovery, and authoring custom `[CliCommand]` tools — are in [integration-advanced.md](references/integration-advanced.md).
+
+The Pipeline package is an Editor-only bridge. Its runtime assemblies (`Unity.Pipeline`, `Unity.Pipeline.IlInterpreter`) have no platform restriction and would otherwise ship, so exclude them from every player build, development builds included, with an `IFilterBuildAssemblies` filter, and confirm in the build output that none of their types remain. Keep its runtime server (`enableInBuilds`, Project Settings > Pipeline > Runtime) off. Do not use the runtime or device commands (`--runtime`, `reload_file_player_interpreter`) that need it.
 
 The package also ships a deeper `unity-pipeline` agent skill, invisible to clients inside `Library/PackageCache` — in a project with the package, run `unity skill install <client> --local` once to mirror it beside this skill.
 

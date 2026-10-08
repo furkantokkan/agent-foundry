@@ -17,6 +17,17 @@
 - Validation scope: package/hash checks, the new compile-check message on a
   project without a Library, the shared-batch unit tests, and CLI dry runs of
   the seeding modes. No orchestration run is claimed.
+- Make the Pipeline package (`com.unity.pipeline`) the default Editor bridge on
+  Unity 6+. When it is missing, `unity-cli` installs it under the standing
+  authorization in the checkout that owns the Editor, never in a code lane.
+  Upgrades, pins, and removal keep their approval gates, and it is never
+  installed below Unity 6. Readiness reports a missing package as a warning
+  and names the install as the next action.
+- Keep Pipeline Editor-only. Its runtime assemblies (`Unity.Pipeline`,
+  `Unity.Pipeline.IlInterpreter`) have no platform restriction, so they are
+  excluded from every player build with an `IFilterBuildAssemblies` filter.
+  The runtime server (`enableInBuilds`) stays off. The facts come from the
+  package's own source and documentation (0.6.0-exp.1); no build is claimed.
 
 - Add five focused Unity reconstruction skills for grid drag/gate exits,
   composable board effects, transactional boosters, timed life economies,

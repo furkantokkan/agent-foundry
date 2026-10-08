@@ -1607,7 +1607,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "800fff7d05dd69b464bf5428111aff4878c6b5fb25b5d4bda1966527892898aa"
+    "sha256": "362ae0e7afe5c6408c494adfb0ea5d557c1576b6e3aeb7f2505728abd90d7330"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
@@ -2257,7 +2257,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/references/project-readiness.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "440c3d6bc68c705bf68c15852bf64de4bfd14f4c5aa999d220b4ee90abff0e3e"
+    "sha256": "df2f6f20a0d58ac8b43fb42ccdb07c852753273eb1552a8440d4990c1ee8e45a"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/references/project-readiness-checklist.md",
