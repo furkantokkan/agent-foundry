@@ -9,9 +9,11 @@
   lock when the script exits, so there is no stale lock to reclaim and no lock
   file is ever deleted. Editors are counted from the process table, which also
   sees Editors `unity status` cannot reach. Running Editors stay the slots, so
-  closing an Editor frees its slot. The script fails closed: an unreadable
-  process table, a failing `git`, or an unexpected error gives an OPEN_FAILED
-  verdict and opens nothing.
+  closing an Editor frees its slot. A launch whose Editor has not appeared yet
+  keeps its slot as a reservation, read and written only under the lock, until
+  the Editor appears or 30 minutes pass, so a slow start cannot be overtaken.
+  The script fails closed: an unreadable process table, a failing `git`, or an
+  unexpected error gives an OPEN_FAILED verdict and opens nothing.
 - Code lanes report `COMPILE_UNVERIFIED` to the integration owner only when
   the seeded Roslyn check returns it. `COMPILE_OK` needs no Unity compile.
 - Remove the leftover `unity-preflight/agents/openai.yaml`. The skill was
@@ -21,9 +23,10 @@
 - These fixes answer the review findings on 0.9.0, on this PR's first draft,
   and an independent review of the script. Validation:
   - package/hash checks;
-  - 17 new unit tests, including:
+  - 20 new unit tests, stable over three runs, including:
     - two separate processes opening at once with a limit of 1: one opens and
       the other gets LIMIT_REACHED;
+    - a slow launch keeps its slot until its Editor appears;
     - a lock holder that is killed releases the lock;
     - real Git worktrees under a non-ASCII path with a space;
     - fail-closed cases: process table, `git`, and an unstartable CLI;

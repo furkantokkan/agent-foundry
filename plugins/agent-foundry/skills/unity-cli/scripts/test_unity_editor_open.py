@@ -11,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import textwrap
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -74,6 +75,8 @@ class ParsingTests(unittest.TestCase):
         batch = r'"C:\Unity\Editor\Unity.exe" -batchmode -runTests -projectPath C:\Repos\Coin -testResults C:\out.xml'
         quoted = r'"C:\Unity\Editor\Unity.exe" "-projectPath" "C:/Repos/BRN Game" "-logFile" "Logs/x.log"'
         equals = r'"C:\Unity\Editor\Unity.exe" -projectPath=C:\Repos\Çalışma\Game -logFile x.log'
+        double = r'"C:\Unity\Editor\Unity.exe" --projectPath=C:\Repos\Other -logFile x.log'
+        self.assertEqual(opener.project_of(double), opener.normalize(r"C:\Repos\Other"))
         last = r'/Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath /Users/me/Game'
         self.assertEqual(opener.project_of(hub), opener.normalize(r"C:\Repos\SM Launcher"))
         self.assertEqual(opener.project_of(batch), opener.normalize(r"C:\Repos\Coin"))
@@ -261,6 +264,47 @@ class OpenTests(unittest.TestCase):
         self.assertEqual(len(self.cli_calls()), 1, results)
         self.assertEqual(len(json.loads(self.rows.read_text(encoding="utf-8"))), 1)
         self.assertTrue(any(re.search(r"LIMIT_REACHED editors=1/1", output) for _, output in results), results)
+
+    def reservations(self) -> dict:
+        lock_dir = opener.repository_scope(self.project)[1]
+        path = lock_dir / opener.RESERVATIONS_NAME
+        return json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+
+    def test_slow_launch_keeps_its_slot_until_its_editor_appears(self) -> None:
+        self.set_editors()
+        with mock.patch.dict(os.environ, {"FAKE_UNITY_DELAY": "2"}):
+            code, output = self.run_main("--detect-seconds", "0.3")
+        self.assertEqual(code, opener.EXIT_OPEN_FAILED, output)
+        self.assertIn("keeps its slot", output)
+        code, output = self.run_main("--limit", "1", project=self.lane_project)
+        self.assertEqual(code, opener.EXIT_LIMIT_REACHED, output)
+        self.assertIn("starting", output)
+        code, output = self.run_main()
+        self.assertEqual(code, opener.EXIT_ALREADY_OPEN, output)
+        self.assertIn("still starting", output)
+        deadline = time.monotonic() + 20
+        while time.monotonic() < deadline and not json.loads(self.rows.read_text(encoding="utf-8")):
+            time.sleep(0.1)
+        code, output = self.run_main("--dry-run", project=self.lane_project)
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+        self.assertIn("editors=1/2", output)
+        self.assertEqual(self.reservations(), {})
+
+    def test_expired_reservation_no_longer_holds_a_slot(self) -> None:
+        self.set_editors()
+        lock_dir = opener.repository_scope(self.project)[1]
+        stale = {opener.normalize(self.lane_project): {"started": time.time() - opener.RESERVATION_SECONDS - 60}}
+        opener.save_reservations(lock_dir, stale)
+        code, output = self.run_main("--dry-run", "--limit", "1")
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+        self.assertEqual(self.reservations(), {})
+
+    def test_failed_launch_gives_its_slot_back(self) -> None:
+        self.set_editors()
+        with mock.patch.dict(os.environ, {"FAKE_UNITY_FAIL": "1"}):
+            code, output = self.run_main("--detect-seconds", "20")
+        self.assertEqual(code, opener.EXIT_OPEN_FAILED, output)
+        self.assertEqual(self.reservations(), {})
 
     def test_rejects_a_folder_that_is_not_a_unity_project(self) -> None:
         code, output = self.run_main(project=self.repo)

@@ -232,11 +232,16 @@ give every Editor one owner:
   - `LIMIT_REACHED` (4): continue code-only work and queue the Editor-bound
     step.
   - `LOCK_TIMEOUT` (5): another open is still running; retry later.
-  - `OPEN_FAILED` (6): check `unity status` and the process list before trying
-    again; never open twice.
+  - `OPEN_FAILED` (6): nothing was opened, or the Editor is still starting.
+    Check `unity status` and the process list before trying again; never open
+    twice. The script also stops here, instead of guessing, when the process
+    table or `git` cannot be read.
 
   `--dry-run` reports the count under the lock without opening. The running
-  Editors are the slots, so closing an Editor frees its slot.
+  Editors are the slots, so closing an Editor frees its slot. A launch whose
+  Editor has not appeared keeps its slot until the Editor appears, or for 30
+  minutes; a later open of that project reports `ALREADY_OPEN` while it
+  starts.
 - **Own what you open.** Record the PID and checkout of every Editor you open
   in the task handoff, or in the session report for untracked work. Close it
   with `unity close <project>` when its Editor-bound work and final-stage tests

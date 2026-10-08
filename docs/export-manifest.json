@@ -1607,7 +1607,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "5d331138ddd52ed1a67658c1bd1ecd3121ff76784e53727bb350c4270ab7de5f"
+    "sha256": "a58d06db968dd5f0d0be6f95a0317405349f26c113bfb0c2a08eb4b546363337"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
@@ -1627,12 +1627,12 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_editor_open.py",
     "source": "local Claude skill: unity-cli/scripts/unity_editor_open.py",
-    "sha256": "839337f69fe8df0d86db8d3243d23c31b0048ea37acdc28d701bdbbcbcfc7fe4"
+    "sha256": "c92a0d2a6225c402b52ac7efba6c28e6c3cdf1fd0c59705800e44aa8f3b1faa2"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/test_unity_editor_open.py",
     "source": "local Claude skill: unity-cli/scripts/test_unity_editor_open.py",
-    "sha256": "4652d6b158216e25356235fe7c6ced86fdef01f381665192cc26f60f3874b561"
+    "sha256": "9f79ef73e2d146a436b0bcbeac3b3f51ca233f703841afc2e7f61582dbb98971"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",

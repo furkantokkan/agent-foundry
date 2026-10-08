@@ -11,6 +11,9 @@ no lock file is ever deleted.
 
 Editors are counted from the process table (their `-projectPath` argument), not
 from `unity status`, which lists only Editors the Pipeline package can reach.
+A launch whose Editor has not appeared within --detect-seconds keeps its slot as a
+reservation (read and written only under the lock) until its Editor appears or
+RESERVATION_SECONDS pass, so a slow start cannot be overtaken by a later open.
 Anything that would make the count or the shared lock unreliable (an unreadable
 process table, a failing `git`) stops with OPEN_FAILED instead of opening.
 
@@ -42,6 +45,8 @@ POLL_SECONDS = 2.0
 COMMAND_TIMEOUT_SECONDS = 30
 LOCK_NAME = "unity-editor-open.lock"
 OWNER_NAME = "unity-editor-open.json"
+RESERVATIONS_NAME = "unity-editor-reservations.json"
+RESERVATION_SECONDS = 1800
 # Unity accepts -projectPath in any case, with a space or `=`. The Hub passes the flag and
 # its value unquoted (the value may contain spaces); other launchers quote either or both.
 PROJECT_ARG = re.compile(r'-projectpath"?(?:=|\s+)(?:"([^"]+)"|(.+?))(?=\s+"?-[A-Za-z]|\s*$)', re.IGNORECASE)
@@ -231,6 +236,33 @@ def describe_holder(directory: Path) -> str:
     return f"held by {record.get('owner') or 'unknown owner'} for {record.get('project')}"
 
 
+def load_reservations(directory: Path) -> dict[str, dict]:
+    """Opens that were launched but whose Editor has not appeared yet. Read and written only under the lock."""
+    try:
+        data = json.loads((directory / RESERVATIONS_NAME).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {}
+    except (OSError, ValueError) as error:
+        raise ScanError(f"unreadable reservations file {directory / RESERVATIONS_NAME}: {error}") from error
+    return data if isinstance(data, dict) else {}
+
+
+def save_reservations(directory: Path, reservations: dict[str, dict]) -> None:
+    path = directory / RESERVATIONS_NAME
+    staging = path.with_suffix(".tmp")
+    staging.write_text(json.dumps(reservations), encoding="utf-8")
+    os.replace(staging, path)
+
+
+def pending_reservations(reservations: dict[str, dict], running: set[str], now: float) -> dict[str, dict]:
+    """Reservations still waiting for their Editor: not yet running and not older than RESERVATION_SECONDS."""
+    return {
+        project: record
+        for project, record in reservations.items()
+        if project not in running and now - float(record.get("started", 0)) <= RESERVATION_SECONDS
+    }
+
+
 def unity_command(unity_bin: str) -> list[str] | None:
     override = os.environ.get("UNITY_EDITOR_OPEN_CLI")
     if override:
@@ -309,42 +341,65 @@ def open_editor(options: argparse.Namespace) -> int:
         write_owner(lock_dir, options.owner, project)
         try:
             everything = running_editors()
+            reservations = load_reservations(lock_dir)
         except (ScanError, OSError, ValueError) as error:
             return failed(f"cannot count the running Editors: {error}. Nothing was opened.")
         editors = [(pid, path, batch) for pid, path, batch in everything if any(inside(path, root) for root in roots)]
+        # A launch whose Editor has not appeared yet still holds a slot, so a slow start cannot be overtaken.
+        pending = pending_reservations(reservations, {path for _, path, _ in everything}, time.time())
+        if pending != reservations:
+            try:
+                save_reservations(lock_dir, pending)
+            except OSError as error:
+                return failed(f"cannot update the reservations file: {error}. Nothing was opened.")
+        count = len(editors) + len(pending)
         mine = [(pid, batch) for pid, path, batch in editors if path == target]
         if mine:
             pid, batch = mine[0]
             note = " (a batch run that will exit on its own; open after it finishes)" if batch else ""
-            print(f"EDITOR_OPEN: ALREADY_OPEN pid={pid} project={project} editors={len(editors)}/{options.limit}{note}")
+            print(f"EDITOR_OPEN: ALREADY_OPEN pid={pid} project={project} editors={count}/{options.limit}{note}")
             return EXIT_ALREADY_OPEN
-        if len(editors) >= options.limit:
-            listing = "; ".join(f"pid={pid} {path}" for pid, path, _ in editors)
-            print(f"EDITOR_OPEN: LIMIT_REACHED editors={len(editors)}/{options.limit} ({listing}). "
+        if target in pending:
+            started = time.time() - float(pending[target].get("started", 0))
+            print(f"EDITOR_OPEN: ALREADY_OPEN pid=starting project={project} editors={count}/{options.limit} "
+                  f"(an earlier open is still starting, {started:.0f}s ago; wait for it)")
+            return EXIT_ALREADY_OPEN
+        if count >= options.limit:
+            listing = "; ".join([f"pid={pid} {path}" for pid, path, _ in editors] + [f"starting {path}" for path in pending])
+            print(f"EDITOR_OPEN: LIMIT_REACHED editors={count}/{options.limit} ({listing}). "
                   "Continue code-only work and queue the Editor-bound step.")
             return EXIT_LIMIT_REACHED
         if options.dry_run:
-            print(f"EDITOR_OPEN: WOULD_OPEN project={project} editors={len(editors)}/{options.limit}")
+            print(f"EDITOR_OPEN: WOULD_OPEN project={project} editors={count}/{options.limit}")
             return EXIT_OPENED
         command = unity_command(options.unity_bin)
         if not command:
             return failed(f"unity CLI '{options.unity_bin}' not found on PATH. Nothing was opened.")
         before = {pid for pid, _, _ in everything}
+        reserved = {**pending, target: {"started": time.time(), "owner": options.owner}}
+        try:
+            save_reservations(lock_dir, reserved)
+        except OSError as error:
+            return failed(f"cannot write the reservations file: {error}. Nothing was opened.")
         try:
             launcher = start_open(command, project)
         except OSError as error:
+            save_reservations(lock_dir, pending)
             return failed(f"cannot start `unity open`: {error}. Nothing was opened.")
         pid, code, scan_error = wait_for_editor(target, before, options.detect_seconds, launcher)
         if pid is None:
             if code is not None:
+                save_reservations(lock_dir, pending)  # the launch failed, so it no longer holds a slot
                 reason = f"`unity open` exited {code}"
             else:
-                reason = f"no Editor process appeared within {options.detect_seconds:g}s"
+                reason = (f"no Editor process appeared within {options.detect_seconds:g}s; the launch keeps its slot "
+                          f"for up to {RESERVATION_SECONDS // 60} minutes or until its Editor appears")
             if scan_error:
                 reason += f" (last scan error: {scan_error})"
             return failed(f"{reason} for {project}. The Editor may still be starting: check `unity status` "
                           "and the process list before trying again; never open twice.")
-        print(f"EDITOR_OPEN: OPENED pid={pid} project={project} editors={len(editors) + 1}/{options.limit}")
+        save_reservations(lock_dir, pending)
+        print(f"EDITOR_OPEN: OPENED pid={pid} project={project} editors={count + 1}/{options.limit}")
         return EXIT_OPENED
     finally:
         lock.release()
