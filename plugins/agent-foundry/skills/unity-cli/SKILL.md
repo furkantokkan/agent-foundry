@@ -212,8 +212,24 @@ give every Editor one owner:
   one. When the limit is reached, continue code-only work and queue the
   Editor-bound step. Never open a second Editor on a checkout that already has
   one. An Editor the user or another live session holds stays theirs.
-- **Look before opening.** Run `unity status --json` first. After a
-  `unity open` timeout, check status again instead of opening again.
+- **Serialize opening per repository.** Checking and then opening is a race:
+  two sessions can both see one Editor and both open. Hold the repository's
+  open lock from the status check until the new Editor's PID is recorded:
+  1. Create `<git common dir>/unity-editor-open.lock` with an exclusive create
+     (Python `open(path, "x")`; PowerShell `New-Item -ItemType File` without
+     `-Force`) and write your owner (task ID or session) and the time.
+     `git rev-parse --path-format=absolute --git-common-dir` gives that
+     directory, which every worktree shares. If the file exists, another open
+     is in progress: wait and retry. A lock older than 15 minutes is stale;
+     delete it and retry.
+  2. Run `unity status --json` and count the Editors whose project lies in one
+     of the repository's checkouts (`git worktree list`). If the limit is
+     reached, or this checkout already has an Editor, delete the lock and
+     queue the Editor-bound step.
+  3. Run `unity open`. After a timeout, check status again instead of opening
+     again. Record the Editor's PID and checkout, then delete the lock.
+
+  The running Editors are the slots, so closing an Editor frees its slot.
 - **Own what you open.** Record the PID and checkout of every Editor you open
   in the task handoff, or in the session report for untracked work. Close it
   with `unity close <project>` when its Editor-bound work and final-stage tests

@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.9.2 - 2026-10-08
+
+- Enforce the two-Editor limit without a race. Before `unity open`, an agent
+  takes the repository's exclusive open lock
+  (`<git common dir>/unity-editor-open.lock`, shared by every worktree) and
+  holds it through the status count, the open, and the PID record. A lock
+  older than 15 minutes is stale. The running Editors stay the slots, so
+  closing an Editor frees its slot.
+- Code lanes report `COMPILE_UNVERIFIED` to the integration owner only when
+  the seeded Roslyn check returns it. `COMPILE_OK` needs no Unity compile.
+- Both fixes answer the review findings on 0.9.0. Validation: package/hash
+  checks, plus a probe that both exclusive-create forms refuse a second
+  create and that `--path-format=absolute` gives the same path from the main
+  checkout and a worktree.
+
 ## 0.9.1 - 2026-10-08
 
 - Add portable model-routing guidance for Sonnet 5.5 through the `sonnet`
