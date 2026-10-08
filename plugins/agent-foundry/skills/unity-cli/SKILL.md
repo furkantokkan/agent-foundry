@@ -239,9 +239,11 @@ give every Editor one owner:
 
   `--dry-run` reports the count under the lock without opening. The running
   Editors are the slots, so closing an Editor frees its slot. A launch whose
-  Editor has not appeared keeps its slot until the Editor appears, or for 30
-  minutes; a later open of that project reports `ALREADY_OPEN` while it
-  starts.
+  Editor has not appeared keeps its slot until the Editor appears; a later
+  open of that project reports `ALREADY_OPEN` while it starts. Reservations
+  never expire by age. After a launch that failed (no Editor for the project
+  and no `unity open` running), free its slot with `--clear-reservation`; the
+  script points this out once a reservation is older than 30 minutes.
 - **Own what you open.** Record the PID and checkout of every Editor you open
   in the task handoff, or in the session report for untracked work. Close it
   with `unity close <project>` when its Editor-bound work and final-stage tests

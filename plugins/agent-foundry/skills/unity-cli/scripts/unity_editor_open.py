@@ -12,13 +12,15 @@ no lock file is ever deleted.
 Editors are counted from the process table (their `-projectPath` argument), not
 from `unity status`, which lists only Editors the Pipeline package can reach.
 A launch whose Editor has not appeared within --detect-seconds keeps its slot as a
-reservation (read and written only under the lock) until its Editor appears or
-RESERVATION_SECONDS pass, so a slow start cannot be overtaken by a later open.
+reservation (read and written only under the lock) until its Editor appears, so a
+slow start cannot be overtaken by a later open. Reservations never expire by age:
+after a failed launch, free the slot explicitly with --clear-reservation.
 Anything that would make the count or the shared lock unreliable (an unreadable
 process table, a failing `git`) stops with OPEN_FAILED instead of opening.
 
-Exit codes: 0 OPENED (or WOULD_OPEN with --dry-run), 2 usage error,
-3 ALREADY_OPEN, 4 LIMIT_REACHED, 5 LOCK_TIMEOUT, 6 OPEN_FAILED.
+Exit codes: 0 OPENED (or WOULD_OPEN with --dry-run, RESERVATION_CLEARED or
+NO_RESERVATION with --clear-reservation), 2 usage error, 3 ALREADY_OPEN,
+4 LIMIT_REACHED, 5 LOCK_TIMEOUT, 6 OPEN_FAILED.
 """
 from __future__ import annotations
 
@@ -46,11 +48,13 @@ COMMAND_TIMEOUT_SECONDS = 30
 LOCK_NAME = "unity-editor-open.lock"
 OWNER_NAME = "unity-editor-open.json"
 RESERVATIONS_NAME = "unity-editor-reservations.json"
-RESERVATION_SECONDS = 1800
+OLD_RESERVATION_SECONDS = 1800  # only changes the advice printed; reservations never expire by age
 # Unity accepts -projectPath in any case, with a space or `=`. The Hub passes the flag and
 # its value unquoted (the value may contain spaces); other launchers quote either or both.
 PROJECT_ARG = re.compile(r'-projectpath"?(?:=|\s+)(?:"([^"]+)"|(.+?))(?=\s+"?-[A-Za-z]|\s*$)', re.IGNORECASE)
-IMPORT_WORKER = re.compile(r"AssetImportWorker", re.IGNORECASE)
+# Asset import workers carry `-name AssetImportWorkerN`; match that argument, not the word anywhere,
+# so an Editor whose project path happens to contain the word still counts.
+IMPORT_WORKER = re.compile(r'(?:^|\s)"?-name"?\s+"?AssetImportWorker\w*"?(?=\s|$)', re.IGNORECASE)
 BATCH_MODE = re.compile(r'(?:^|\s)"?-batchmode\b', re.IGNORECASE)
 
 
@@ -125,6 +129,9 @@ def running_editors() -> list[tuple[int, str, bool]]:
     editors = []
     for row in process_rows():
         command = row.get("command") or ""
+        if not command.strip():
+            # WMI can list a Unity.exe whose arguments it cannot read; it may be an Editor, so do not guess.
+            raise ScanError(f"Unity process pid={row.get('pid')} has no readable command line")
         project = project_of(command)
         if project:
             editors.append((int(row["pid"]), project, bool(BATCH_MODE.search(command))))
@@ -254,13 +261,18 @@ def save_reservations(directory: Path, reservations: dict[str, dict]) -> None:
     os.replace(staging, path)
 
 
-def pending_reservations(reservations: dict[str, dict], running: set[str], now: float) -> dict[str, dict]:
-    """Reservations still waiting for their Editor: not yet running and not older than RESERVATION_SECONDS."""
-    return {
-        project: record
-        for project, record in reservations.items()
-        if project not in running and now - float(record.get("started", 0)) <= RESERVATION_SECONDS
-    }
+def pending_reservations(reservations: dict[str, dict], running: set[str]) -> dict[str, dict]:
+    """Reservations still waiting for their Editor. One resolves when its Editor runs or is cleared explicitly."""
+    return {project: record for project, record in reservations.items() if project not in running}
+
+
+def describe_reservation(record: dict, now: float) -> str:
+    age = now - float(record.get("started", now))
+    text = f"started {age:.0f}s ago"
+    if age > OLD_RESERVATION_SECONDS:
+        text += (", likely failed: if no Editor for it is running and no `unity open` is still running, "
+                 "free the slot with --clear-reservation")
+    return text
 
 
 def unity_command(unity_bin: str) -> list[str] | None:
@@ -346,12 +358,19 @@ def open_editor(options: argparse.Namespace) -> int:
             return failed(f"cannot count the running Editors: {error}. Nothing was opened.")
         editors = [(pid, path, batch) for pid, path, batch in everything if any(inside(path, root) for root in roots)]
         # A launch whose Editor has not appeared yet still holds a slot, so a slow start cannot be overtaken.
-        pending = pending_reservations(reservations, {path for _, path, _ in everything}, time.time())
+        pending = pending_reservations(reservations, {path for _, path, _ in everything})
+        if options.clear_reservation:
+            cleared = pending.pop(target, None)
         if pending != reservations:
             try:
                 save_reservations(lock_dir, pending)
             except OSError as error:
                 return failed(f"cannot update the reservations file: {error}. Nothing was opened.")
+        if options.clear_reservation:
+            verdict = "RESERVATION_CLEARED" if cleared else "NO_RESERVATION"
+            print(f"EDITOR_OPEN: {verdict} project={project}")
+            return EXIT_OPENED
+        now = time.time()
         count = len(editors) + len(pending)
         mine = [(pid, batch) for pid, path, batch in editors if path == target]
         if mine:
@@ -360,12 +379,12 @@ def open_editor(options: argparse.Namespace) -> int:
             print(f"EDITOR_OPEN: ALREADY_OPEN pid={pid} project={project} editors={count}/{options.limit}{note}")
             return EXIT_ALREADY_OPEN
         if target in pending:
-            started = time.time() - float(pending[target].get("started", 0))
             print(f"EDITOR_OPEN: ALREADY_OPEN pid=starting project={project} editors={count}/{options.limit} "
-                  f"(an earlier open is still starting, {started:.0f}s ago; wait for it)")
+                  f"(an earlier open of this project is still starting: {describe_reservation(pending[target], now)})")
             return EXIT_ALREADY_OPEN
         if count >= options.limit:
-            listing = "; ".join([f"pid={pid} {path}" for pid, path, _ in editors] + [f"starting {path}" for path in pending])
+            listing = "; ".join([f"pid={pid} {path}" for pid, path, _ in editors]
+                                + [f"starting {path}, {describe_reservation(record, now)}" for path, record in pending.items()])
             print(f"EDITOR_OPEN: LIMIT_REACHED editors={count}/{options.limit} ({listing}). "
                   "Continue code-only work and queue the Editor-bound step.")
             return EXIT_LIMIT_REACHED
@@ -393,7 +412,7 @@ def open_editor(options: argparse.Namespace) -> int:
                 reason = f"`unity open` exited {code}"
             else:
                 reason = (f"no Editor process appeared within {options.detect_seconds:g}s; the launch keeps its slot "
-                          f"for up to {RESERVATION_SECONDS // 60} minutes or until its Editor appears")
+                          "until its Editor appears, or until --clear-reservation frees it after a failed launch")
             if scan_error:
                 reason += f" (last scan error: {scan_error})"
             return failed(f"{reason} for {project}. The Editor may still be starting: check `unity status` "
@@ -415,6 +434,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--wait-seconds", type=float, default=900, help="How long to wait for another open to finish (default 900).")
     parser.add_argument("--detect-seconds", type=float, default=180, help="How long to wait for the new Editor process (default 180).")
     parser.add_argument("--dry-run", action="store_true", help="Count and report under the lock, but do not open.")
+    parser.add_argument("--clear-reservation", action="store_true",
+                        help="Free this project's slot after a launch that failed (no Editor and no `unity open` running).")
     parser.add_argument("--unity-bin", default="unity", help="Unity CLI executable (default: unity on PATH).")
     try:
         options = parser.parse_args(argv)

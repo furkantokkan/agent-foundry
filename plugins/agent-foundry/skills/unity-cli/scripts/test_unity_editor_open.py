@@ -86,10 +86,15 @@ class ParsingTests(unittest.TestCase):
 
     def test_project_of_ignores_workers_hub_and_cli(self) -> None:
         worker = r'"C:\Unity\Editor\Unity.exe" "-adb2" "-batchMode" "-name" "AssetImportWorker4" "-projectPath" "C:/Repos/Coin"'
+        bare_worker = r'"C:\Unity\Editor\Unity.exe" -batchMode -name AssetImportWorker0 -projectPath C:\Repos\Coin'
         hub = r'"C:\Program Files\Unity Hub\resources\unity.exe" serve'
         cli = r"C:\Tools\Unity\bin\unity.EXE test C:\Repos\Coin --mode PlayMode"
-        for command in (worker, hub, cli, ""):
+        for command in (worker, bare_worker, hub, cli, ""):
             self.assertIsNone(opener.project_of(command), command)
+
+    def test_editor_whose_path_mentions_import_workers_still_counts(self) -> None:
+        editor = r'"C:\Unity\Editor\Unity.exe" -projectpath C:\Repos\AssetImportWorkerTools\Game -useHub -hubIPC'
+        self.assertEqual(opener.project_of(editor), opener.normalize(r"C:\Repos\AssetImportWorkerTools\Game"))
 
     def test_inside_respects_path_boundaries(self) -> None:
         root = opener.normalize("C:/Repos/game")
@@ -290,14 +295,34 @@ class OpenTests(unittest.TestCase):
         self.assertIn("editors=1/2", output)
         self.assertEqual(self.reservations(), {})
 
-    def test_expired_reservation_no_longer_holds_a_slot(self) -> None:
+    def test_old_reservation_keeps_its_slot_until_cleared(self) -> None:
         self.set_editors()
         lock_dir = opener.repository_scope(self.project)[1]
-        stale = {opener.normalize(self.lane_project): {"started": time.time() - opener.RESERVATION_SECONDS - 60}}
-        opener.save_reservations(lock_dir, stale)
+        old = {opener.normalize(self.lane_project): {"started": time.time() - opener.OLD_RESERVATION_SECONDS - 60}}
+        opener.save_reservations(lock_dir, old)
+        code, output = self.run_main("--dry-run", "--limit", "1")
+        self.assertEqual(code, opener.EXIT_LIMIT_REACHED, output)
+        self.assertIn("likely failed", output)
+        self.assertIn("--clear-reservation", output)
+        code, output = self.run_main("--clear-reservation", project=self.lane_project)
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+        self.assertIn("RESERVATION_CLEARED", output)
+        self.assertEqual(self.reservations(), {})
         code, output = self.run_main("--dry-run", "--limit", "1")
         self.assertEqual(code, opener.EXIT_OPENED, output)
-        self.assertEqual(self.reservations(), {})
+
+    def test_clearing_without_a_reservation_changes_nothing(self) -> None:
+        self.set_editors()
+        code, output = self.run_main("--clear-reservation")
+        self.assertEqual(code, opener.EXIT_OPENED, output)
+        self.assertIn("NO_RESERVATION", output)
+
+    def test_unity_process_without_a_readable_command_line_opens_nothing(self) -> None:
+        self.set_editors({"pid": 77, "command": None})
+        code, output = self.run_main()
+        self.assertEqual(code, opener.EXIT_OPEN_FAILED, output)
+        self.assertIn("no readable command line", output)
+        self.assertEqual(self.cli_calls(), [])
 
     def test_failed_launch_gives_its_slot_back(self) -> None:
         self.set_editors()
