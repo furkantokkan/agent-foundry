@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.9.2 - 2026-10-08
+
+- Enforce the two-Editor limit without a race. Agents open Editors only
+  through the new `unity-cli/scripts/unity_editor_open.py`. It holds an
+  OS-held lock in the repository's Git common dir, shared by every worktree,
+  through the Editor count, `unity open`, and the new PID. The OS drops the
+  lock when the script exits, so there is no stale lock to reclaim and no lock
+  file is ever deleted. Editors are counted from the process table, which also
+  sees Editors `unity status` cannot reach. Running Editors stay the slots, so
+  closing an Editor frees its slot. A launch whose Editor has not appeared yet
+  keeps its slot as a reservation, read and written only under the lock, until
+  the Editor appears, so a slow start cannot be overtaken. Reservations never
+  expire by age; after a failed launch, `--clear-reservation` frees the slot.
+  The script fails closed: an unreadable process table, a Unity process
+  without a readable command line, a failing `git`, or an unexpected error
+  gives an OPEN_FAILED verdict and opens nothing. Import workers are detected
+  by their `-name AssetImportWorkerN` argument, so an Editor whose path
+  contains that word still counts. An unquoted path with a ` -Name` part is
+  matched against the Unity project on disk. The Git fallback is decided from
+  the filesystem, not from git's localized message. A reservation for a
+  removed project is dropped, and a failed tidy-up after a successful open no
+  longer turns OPENED into OPEN_FAILED.
+- Code lanes report `COMPILE_UNVERIFIED` to the integration owner only when
+  the seeded Roslyn check returns it. `COMPILE_OK` needs no Unity compile.
+- Remove the leftover `unity-preflight/agents/openai.yaml`. The skill was
+  retired in 0.4.0, but this Codex UI metadata kept an empty `unity-preflight`
+  folder shipping. Validation now rejects any packaged skill folder without
+  `SKILL.md`. This supersedes the unmerged 0.4.1 PR #6.
+- These fixes answer the review findings on 0.9.0, on this PR's first draft,
+  and an independent review of the script. Validation:
+  - package/hash checks;
+  - 29 new unit tests, stable over three runs, including:
+    - two separate processes opening at once with a limit of 1: one opens and
+      the other gets LIMIT_REACHED;
+    - a slow launch keeps its slot until its Editor appears, and an old
+      reservation keeps it until it is cleared;
+    - a lock holder that is killed releases the lock;
+    - real Git worktrees under a non-ASCII path with a space;
+    - fail-closed cases: process table, `git`, and an unstartable CLI;
+  - a read-only scan of this machine's Editors that matches the WMI process
+    list.
+
 ## 0.9.1 - 2026-10-08
 
 - Add portable model-routing guidance for Sonnet 5.5 through the `sonnet`

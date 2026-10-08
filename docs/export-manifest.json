@@ -597,7 +597,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-feature-implementer.md",
     "source": "local Codex skill: game-studio-orchestration/references/agents/unity-feature-implementer.md",
-    "sha256": "2933b7ad32cb457833e95623899c5786f3d20433325a9bde641b94905a4d961a"
+    "sha256": "8c2c62cce0f35d19fbd49b6f8197742733a68ec987373235e2ea300c69a311cb"
   },
   {
     "path": "plugins/agent-foundry/skills/game-studio-orchestration/references/agents/unity-shader-specialist.md",
@@ -1607,7 +1607,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "362ae0e7afe5c6408c494adfb0ea5d557c1576b6e3aeb7f2505728abd90d7330"
+    "sha256": "a9b74cf4fff41ff349ea3030ff80d8fc2eae2851a7749536f627c75cdd42882e"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
@@ -1623,6 +1623,16 @@
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/test_unity_test_batch.py",
     "source": "local Claude skill: unity-cli/scripts/test_unity_test_batch.py",
     "sha256": "4025d0fcbe1e97653e4366a589367deefdc88b7100b9013cb6dadba5db9d0678"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_editor_open.py",
+    "source": "local Claude skill: unity-cli/scripts/unity_editor_open.py",
+    "sha256": "1b4cd9365677cef13844dd6284f974e2606f196da290fba2bbb151a65053605d"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/unity-cli/scripts/test_unity_editor_open.py",
+    "source": "local Claude skill: unity-cli/scripts/test_unity_editor_open.py",
+    "sha256": "aa0f846a42ba65c1825d341a1d5e37b26bc3e4a419f5422b735856d2e65bc35b"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-game-dev/references/cysharp-packages.md",
@@ -2202,7 +2212,7 @@
   {
     "path": "plugins/agent-foundry/agents/unity-feature-implementer.md",
     "source": "local Claude role: unity-feature-implementer",
-    "sha256": "36fda178865ebbb41cd74a2bc795311e5e1476014f29b76797fb93246e714592"
+    "sha256": "68607da7bfeca5962cfd49678ee45ab01d49252d1195a060a3b8d439925fae85"
   },
   {
     "path": "plugins/agent-foundry/agents/unity-test-verifier.md",

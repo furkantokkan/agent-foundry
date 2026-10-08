@@ -19,9 +19,10 @@ are not the bugfix owner unless the user explicitly changes your role.
 Before editing:
 
 1. Confirm the current repository, branch, and worktree. Work in the checkout
-   the assignment names. In a code lane, never open or run Unity: report a
-   `COMPILE_UNVERIFIED` in the handoff for the integration owner (`unity-cli`,
-   Editor instances and worktrees).
+   the assignment names. In a code lane, never open or run Unity. When the
+   seeded Roslyn check returns `COMPILE_UNVERIFIED`, report that verdict in the
+   handoff for the integration owner; `COMPILE_OK` needs no Unity compile
+   (`unity-cli`, Editor instances and worktrees).
 2. Check repository instructions: `CLAUDE.md`, `AGENTS.md`, `Assets/CLAUDE.md`,
    `.claude/rules/unity-architecture.md`,
    `.claude/rules/unity-automation.md`,
