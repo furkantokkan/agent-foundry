@@ -12,7 +12,7 @@
   {
     "path": "plugins/agent-foundry/skills/adaptive-skills/SKILL.md",
     "source": "local Codex skill: adaptive-skills/SKILL.md",
-    "sha256": "d18fff8a9c094b99df3b100f6f04423ba46cd85bf61f3ae0243a813aaf406391"
+    "sha256": "69415888513513103d0b2062682aebffc6b178f40b811200fbfe95664c2908f2"
   },
   {
     "path": "plugins/agent-foundry/skills/adopt/references/claude-skill.md",
@@ -1262,12 +1262,17 @@
   {
     "path": "plugins/agent-foundry/skills/skill-improve/references/claude-skill.md",
     "source": "local Codex skill: skill-improve/references/claude-skill.md",
-    "sha256": "cf67624f6e1b07b01ed2661603cae48c8fe11c23a03a63d671ce33df6cbdf5c4"
+    "sha256": "fc23ac552f7ee2d7b91f134b7a24bf6a7ef78256ac452f5755d2c69a69ad0d32"
   },
   {
     "path": "plugins/agent-foundry/skills/skill-improve/SKILL.md",
     "source": "local Codex skill: skill-improve/SKILL.md",
-    "sha256": "9118d913b46443a669310e953da9fb5339bc8184b67ef83053f481b710f54c07"
+    "sha256": "acccc91e544041540e3e7766a86be4b802ebfa6ac8430e78284a30ca2ef4cf73"
+  },
+  {
+    "path": "plugins/agent-foundry/skills/verification-before-completion/SKILL.md",
+    "source": "Agent Foundry adaptation of Claude Code Templates verification-before-completion at d5bded92ae52cc1f956ece130852c9e7ec22e9be",
+    "sha256": "e1b1be29422468b2ecc34fc4e1812167c8c9f034d3ad7e56e0ebaae2ca7380b1"
   },
   {
     "path": "plugins/agent-foundry/skills/skill-test/references/claude-skill.md",
