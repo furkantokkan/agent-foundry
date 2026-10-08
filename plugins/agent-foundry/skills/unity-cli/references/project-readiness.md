@@ -43,6 +43,10 @@ preflight. The installation bootstrap is a machine-level prerequisite outside
 the read-only preflight itself. Do not substitute a legacy MCP connection merely
 because the CLI was absent.
 
+On Unity 6+, a project without `com.unity.pipeline` is `READY WITH WARNINGS`.
+Name the default Pipeline install from `SKILL.md` as the next action; it runs
+after this read-only preflight, not inside it.
+
 For Unity 6+, use built-in `unity mcp` when direct CLI/Pipeline commands cannot
 expose required live state, pinned to the same proven project. Legacy MCP and
 UnitySkills REST still require an explicit current-task request, except MCP

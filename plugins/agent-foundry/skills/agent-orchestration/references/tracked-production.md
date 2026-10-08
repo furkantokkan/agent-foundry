@@ -61,8 +61,9 @@ $agent-orchestration GAME-201 GAME-202 GAME-203
    returns, it queues behind whoever now owns its paths. If that result is
    `FAIL`, tell the successor's owner that its base failed tests.
 4. Give independent tasks separate branches/worktrees and run them in parallel
-   up to safe available capacity. Do not create extra writers merely to consume
-   capacity. A failed or blocked independent task does not stop unrelated tasks.
+   up to safe available capacity. For Unity, these are Editor-free code lanes
+   (item 6). Do not create extra writers merely to consume capacity. A failed
+   or blocked independent task does not stop unrelated tasks.
 5. Keep one sequential role chain under one lifecycle owner per task. A direct
    initial lane requires no `CycleContext`, task state `ready`, `Attempt count:
    0`, and a header-only empty defect ledger; `$implement-task` owns its
@@ -74,14 +75,26 @@ $agent-orchestration GAME-201 GAME-202 GAME-203
    which records/deduplicates each `D-xxx` row and `defects/D-xxx.md` record
    before optional bugfixer -> verifier work. Populated-ledger or resumed
    defect work starts with `$task-cycle`.
-6. Queue Editor-bound mutation and verification through one confirmed Unity
-   Editor connection. Parallel Editor operations require separately matched
-   Editor instances rooted at their own worktrees. Code-only work may continue
-   while the single Editor slot is occupied. During implementation every lane
-   uses the Roslyn compile check, which needs no Editor slot. Final-stage Unity
-   test runs from several tasks or sessions on one project root go through the
-   `unity-cli` shared test batch, which merges them into one Unity launch per
-   test platform; do not schedule them as separate Editor-queue slots.
+6. Run Unity tasks as Editor-free code lanes plus one integration checkout,
+   following `unity-cli` "Editor instances and worktrees":
+   - Each lane worktree is seeded so the Roslyn compile check runs there. A
+     lane never opens or runs Unity. Seed all lanes in one pass while the seed
+     source's Editor is closed.
+   - The integration checkout holds this orchestration's one Editor slot,
+     within the limit of two Editors per repository. Use the main checkout when
+     no other session works there; otherwise a dedicated integration worktree.
+   - Its owner applies each finished lane's diff there in order, including new
+     files (a patch, or a merge when commits are authorized). Then it runs that
+     task's Editor-bound steps, the Unity compile for any lane
+     `COMPILE_UNVERIFIED`, and the final-stage tests through the `unity-cli`
+     shared test batch. All requests then share one project root, so the batch
+     merges them into one Unity launch per test platform; do not schedule them
+     as separate Editor-queue slots.
+   - After integration, that task's verifier and bugfixer work in the
+     integration checkout, one writer at a time. A code-only repair may return
+     to its lane and integrate again.
+   - Code-only work continues while the Editor slot is busy. The owner closes
+     the Editor when no Editor-bound step or test remains.
 7. For Unity targets, apply the installed `unity-cli` version gate: Unity 6+
    uses CLI/Pipeline; pre-6 live Editor work uses the approved MCP for Unity
    route. Pin exact project/version/instance. Do not ask the user to repeat
@@ -137,7 +150,9 @@ takeover-able, not locked. This covers a claim whose owner process is gone or
 idle past the lease window under the lock protocol's liveness rules, and an
 `in_progress`, `reopened`, or `awaiting_tests` task with no claim at all. Take
 the predecessor over in the same worktree through its lifecycle skill, keep its
-uncommitted changes, and finish it; then dispatch the successor. Do not wait
+uncommitted changes, and finish it; it also inherits the predecessor's
+recorded Editor under the `unity-cli` ownership rule. Then dispatch the
+successor. Do not wait
 for a stopped session or ask the user to recover it.
 If this provider cannot remain active or observe a wake signal, say that
 automatic wake-up is not armed and return `WAITING_FOR_OWNER`; never pretend a
@@ -168,8 +183,8 @@ every ledger row is fresh `VERIFIED` and every other required evidence channel
 passes.
 
 Before writing, report the resolved contracts, ownership/conflict result,
-worktree plan, role chains, Editor queue, verification gates, and any approval
-needed. Then execute without file-by-file permission prompts inside approved
+worktree plan (code lanes, integration checkout), role chains, Editor slot and
+queue, verification gates, and any approval needed. Then execute without file-by-file permission prompts inside approved
 low-risk scope.
 
 Invocation-only overrides may select one exact repository, use plan-only mode,

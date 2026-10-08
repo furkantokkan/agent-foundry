@@ -1,6 +1,33 @@
 # Changelog
 
-## Unreleased - 2026-10-03
+## 0.9.0 - 2026-10-08
+
+- Keep Unity Editors bounded during agentic work. `unity-cli` adds "Editor
+  instances and worktrees": at most two Editors per repository, a status check
+  before `unity open` and after a timeout, a recorded owner who closes the
+  Editor, no `Temp/UnityLockfile` deletion, and Editor-free code lanes. A lane
+  is seeded with `unity vcs git worktree add --seed full` plus the generated
+  project files, so the Roslyn check runs there without Unity.
+- Tracked orchestration runs Unity tasks as code lanes plus one integration
+  checkout. That checkout owns the Editor, applies lane diffs in order, and
+  runs final-stage tests in one shared batch.
+- The three Unity role agents no longer request `isolation: worktree`. It
+  created unseeded worktrees, and the compile check then told agents to open
+  Unity there. The compile check's messages now point lanes to seeding.
+- Validation scope: package/hash checks, the new compile-check message on a
+  project without a Library, the shared-batch unit tests, and CLI dry runs of
+  the seeding modes. No orchestration run is claimed.
+- Make the Pipeline package (`com.unity.pipeline`) the default Editor bridge on
+  Unity 6+. When it is missing, `unity-cli` installs it under the standing
+  authorization in the checkout that owns the Editor, never in a code lane.
+  Upgrades, pins, and removal keep their approval gates, and it is never
+  installed below Unity 6. Readiness reports a missing package as a warning
+  and names the install as the next action.
+- Keep Pipeline Editor-only. Its runtime assemblies (`Unity.Pipeline`,
+  `Unity.Pipeline.IlInterpreter`) have no platform restriction, so they are
+  excluded from every player build with an `IFilterBuildAssemblies` filter.
+  The runtime server (`enableInBuilds`) stays off. The facts come from the
+  package's own source and documentation (0.6.0-exp.1); no build is claimed.
 
 - Add five focused Unity reconstruction skills for grid drag/gate exits,
   composable board effects, transactional boosters, timed life economies,

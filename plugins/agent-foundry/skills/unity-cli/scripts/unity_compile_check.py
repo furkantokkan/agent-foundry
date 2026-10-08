@@ -109,13 +109,15 @@ class UnityProject:
         if not compiled:
             raise UnverifiedError(
                 "Library/ScriptAssemblies is empty, so Unity has not compiled this project on this machine. "
-                "Open it in Unity once, then run the check again."
+                "In a code lane worktree, seed its Library instead of opening Unity (unity-cli SKILL.md, "
+                "Editor instances and worktrees); otherwise compile it in Unity once. Then run the check again."
             )
         generated = [CsProject(path) for path in sorted(root.glob("*.csproj"))]
         if not generated:
             raise UnverifiedError(
-                "No generated .csproj files. Regenerate project files from the Unity Editor "
-                "(Preferences > External Tools) and run the check again."
+                "No generated .csproj files. In a code lane worktree, copy them from the checkout its Library "
+                "was seeded from; otherwise regenerate them from the Unity Editor (Preferences > External Tools). "
+                "Then run the check again."
             )
         # Unity never deletes .csproj files of removed assemblies; only compiled assemblies are current.
         current = [project for project in generated if project.assembly.lower() in compiled]
