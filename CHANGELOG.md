@@ -2,18 +2,24 @@
 
 ## 0.9.2 - 2026-10-08
 
-- Enforce the two-Editor limit without a race. Before `unity open`, an agent
-  takes the repository's exclusive open lock
-  (`<git common dir>/unity-editor-open.lock`, shared by every worktree) and
-  holds it through the status count, the open, and the PID record. A lock
-  older than 15 minutes is stale. The running Editors stay the slots, so
+- Enforce the two-Editor limit without a race. Agents open Editors only
+  through the new `unity-cli/scripts/unity_editor_open.py`. It holds an
+  OS-held lock in the repository's Git common dir, shared by every worktree,
+  through the Editor count, `unity open`, and the new PID. The OS drops the
+  lock when the script exits, so there is no stale lock to reclaim and no lock
+  file is ever deleted. Editors are counted from the process table, which also
+  sees Editors `unity status` cannot reach. Running Editors stay the slots, so
   closing an Editor frees its slot.
 - Code lanes report `COMPILE_UNVERIFIED` to the integration owner only when
   the seeded Roslyn check returns it. `COMPILE_OK` needs no Unity compile.
-- Both fixes answer the review findings on 0.9.0. Validation: package/hash
-  checks, plus a probe that both exclusive-create forms refuse a second
-  create and that `--path-format=absolute` gives the same path from the main
-  checkout and a worktree.
+- Both fixes answer the review findings on 0.9.0 and on this PR's first draft.
+  Validation:
+  - package/hash checks;
+  - 10 new unit tests: real Git worktrees; a lock held by another process
+    times out and is released when that process dies; limit,
+    already-open, open and failure paths;
+  - a read-only scan of this machine's Editors that matches the WMI process
+    list.
 
 ## 0.9.1 - 2026-10-08
 

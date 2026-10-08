@@ -212,24 +212,31 @@ give every Editor one owner:
   one. When the limit is reached, continue code-only work and queue the
   Editor-bound step. Never open a second Editor on a checkout that already has
   one. An Editor the user or another live session holds stays theirs.
-- **Serialize opening per repository.** Checking and then opening is a race:
-  two sessions can both see one Editor and both open. Hold the repository's
-  open lock from the status check until the new Editor's PID is recorded:
-  1. Create `<git common dir>/unity-editor-open.lock` with an exclusive create
-     (Python `open(path, "x")`; PowerShell `New-Item -ItemType File` without
-     `-Force`) and write your owner (task ID or session) and the time.
-     `git rev-parse --path-format=absolute --git-common-dir` gives that
-     directory, which every worktree shares. If the file exists, another open
-     is in progress: wait and retry. A lock older than 15 minutes is stale;
-     delete it and retry.
-  2. Run `unity status --json` and count the Editors whose project lies in one
-     of the repository's checkouts (`git worktree list`). If the limit is
-     reached, or this checkout already has an Editor, delete the lock and
-     queue the Editor-bound step.
-  3. Run `unity open`. After a timeout, check status again instead of opening
-     again. Record the Editor's PID and checkout, then delete the lock.
+- **Open through the repository lock.** Checking and then opening is a race:
+  two sessions can both see one Editor and both open. Agents never call
+  `unity open` directly; they run:
 
-  The running Editors are the slots, so closing an Editor frees its slot.
+  ```bash
+  python "<unity-cli skill dir>/scripts/unity_editor_open.py" --project <project root> --owner <task ID or session>
+  ```
+
+  It takes an OS-held lock in the repository's Git common dir, which every
+  worktree shares, and holds it through the Editor count, the open, and the new
+  PID. The OS releases the lock when the script exits, so no lock is ever stale
+  or deleted. It counts Editors from the process table, so it also sees Editors
+  that `unity status` cannot reach (no Pipeline package, below Unity 6). It
+  prints one `EDITOR_OPEN:` line:
+  - `OPENED` (0): record the printed PID and checkout.
+  - `ALREADY_OPEN` (3): this checkout has an Editor. Use it when it is yours
+    or you take its task over; otherwise it stays its owner's, so queue.
+  - `LIMIT_REACHED` (4): continue code-only work and queue the Editor-bound
+    step.
+  - `LOCK_TIMEOUT` (5): another open is still running; retry later.
+  - `OPEN_FAILED` (6): check `unity status` and the process list before trying
+    again; never open twice.
+
+  `--dry-run` reports the count under the lock without opening. The running
+  Editors are the slots, so closing an Editor frees its slot.
 - **Own what you open.** Record the PID and checkout of every Editor you open
   in the task handoff, or in the session report for untracked work. Close it
   with `unity close <project>` when its Editor-bound work and final-stage tests
@@ -767,6 +774,10 @@ unity editors --installed --format json
 # 3. Open (warns if the editor version is missing)
 unity open /path/to/MyProject
 ```
+
+Agents run step 3 through `scripts/unity_editor_open.py` instead, so the
+repository's Editor limit holds (see
+[Editor instances and worktrees](#editor-instances-and-worktrees)).
 
 ### CI: activate a license, then build
 
