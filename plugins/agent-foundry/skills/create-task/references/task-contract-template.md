@@ -54,7 +54,7 @@ unavailable. A `ready` task cannot contain placeholders.
 - Story/GDD/ADR/design/log/image: <references or none>
 - Unity version/platform: <version/platform or not applicable>
 - Package/architecture constraints: <constraints>
-- Explicit out of scope: <non-goals>
+- Explicit out of scope: <non-goals; never task closure>
 
 ## Verification and risk
 
@@ -69,7 +69,7 @@ unavailable. A `ready` task cannot contain placeholders.
 - Approval already granted (exact target only): <scope or none>
 - Commit/checkin constraint: allowed-on-explicit-invocation | forbidden
 - Current invocation permission: none
-- Handoff destination: <role or command>
+- Handoff destination: <role or command>; Close authority: automatic_verified | explicit_user ("<user's own close order>")
 
 ## Stop conditions
 

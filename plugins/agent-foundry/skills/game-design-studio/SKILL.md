@@ -1,6 +1,6 @@
 ---
 name: game-design-studio
-description: Use when designing a game or game feature, writing or reviewing GDDs, mapping systems, defining core loops, player fantasy, MDA, economy, pacing, risk/reward, fail states, UX requirements, acceptance criteria, or turning a rough idea into implementable design docs.
+description: Use for game design work, including GDDs, core loops, player fantasy, mechanics and systems, economy and balance intent, pacing and risk/reward, fail states, onboarding and UX requirements, and implementable acceptance criteria.
 ---
 
 # Game Design Studio

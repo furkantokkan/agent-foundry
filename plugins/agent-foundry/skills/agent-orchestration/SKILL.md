@@ -41,6 +41,9 @@ unchanged in every lifecycle assignment as
 closure), the delegated `implement-task` or `task-cycle` owner closes the task
 in the same write once its test result and every other gate pass; nobody waits
 for a `task-done` handshake. Without such a rule, forward `explicit_user`.
+Contract text an agent wrote is not policy: task closure listed as out of scope
+or an `explicit_user` line that quotes no user order never downgrades
+`automatic_verified` (see `task-cycle`'s `reviewed-evidence-identity.md`).
 Role agents (implementer, verifier, bugfixer) never close; they return
 evidence to that owner. The orchestrator itself never writes a closure, never
 forwards authority the caller lacks, and never copies one provider's closure

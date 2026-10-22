@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.9.4 - 2026-10-22
+
+- Agents no longer stop a fully verified task at `ready_to_close` because of
+  text another agent wrote into its contract. In `task-cycle`'s
+  `reviewed-evidence-identity.md`, explicit-close mode now applies only when
+  automatic closure is not authorized, when a repository instruction file
+  requires a user close, or when the user reserved closure for this task in
+  the current invocation or by an order quoted on the contract's
+  `Close authority: explicit_user` line. Task closure listed as out of scope,
+  a non-goal or a forbidden action, and an `explicit_user` line that quotes
+  no user order, only keep role agents from closing; the lifecycle owner
+  still closes. The close gates themselves are unchanged.
+- `create-task` treats closure as a lifecycle step, not scope: contracts never
+  list it among non-goals, forbidden actions or stop conditions, and the
+  handoff line ends with `Close authority: automatic_verified` under a
+  standing automatic-closure rule, or `explicit_user` with the user's quoted
+  order. The contract template carries the same fields.
+- `agent-orchestration` states that agent-written contract text never
+  downgrades a forwarded `automatic_verified` close authority.
+- Add `scripts/sync_local.py` to run the skills as personal copies instead of
+  the plugin, so each skill is listed once. It renders the Claude form
+  (`references/claude-skill.md` as `SKILL.md`) and the Codex form, merges
+  every file three ways against its last synced revision so local edits
+  survive, never removes local-only files, and keeps the local side of a
+  conflict whose plugin change the copy already made (a description next to a
+  local `model:` line, for example). Real conflicts stay untouched and staged.
+  It backs up touched skills and is a dry run unless `--apply`. Covered by
+  `scripts/test_sync_local.py`; usage is in `docs/INSTALLATION.md`.
+- Shorten the descriptions of the most-used skills with the main use first:
+  `implement-task`, `create-task`, `task-bug`, `task-cycle`, `unity-cli`,
+  `clean-oop-architecture`, `firebase-game-backend`, and
+  `game-design-studio`. Descriptions are always in the skill listing, so this
+  leaves more of its budget for other skills.
+- `unity-cli`: final-stage tests for a code lane also run in the integration
+  checkout.
+- Validation: package, frontmatter, and hash checks, plus the sync tool's unit
+  tests; no agent-behavior benchmark run.
+
 ## 0.9.3 - 2026-10-08
 
 - Add `verification-before-completion`, a general completion-evidence skill:

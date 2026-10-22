@@ -162,7 +162,7 @@
   {
     "path": "plugins/agent-foundry/skills/clean-oop-architecture/SKILL.md",
     "source": "local Codex skill: clean-oop-architecture/SKILL.md",
-    "sha256": "9f82981104548fd0537ca901de7b1b58ccabd73025149844ca3bed393f15018e"
+    "sha256": "d4f8cd791fd9c7f7adb7d51d6da5207c715dd3bc24aba744a4ae2902ad6a5940"
   },
   {
     "path": "plugins/agent-foundry/skills/consistency-check/references/claude-skill.md",
@@ -232,12 +232,12 @@
   {
     "path": "plugins/agent-foundry/skills/create-task/references/task-contract-template.md",
     "source": "local Codex skill: create-task/references/task-contract-template.md",
-    "sha256": "ea8122457627da4ea4483880612e16fa2558934ff49eb6de5252325338bf0e70"
+    "sha256": "3a00a0c17782202eb2f6f1da718b1711cdbc6e7297db951537bc8518dff13f1b"
   },
   {
     "path": "plugins/agent-foundry/skills/create-task/SKILL.md",
     "source": "local Codex skill: create-task/SKILL.md",
-    "sha256": "a2ccf6e7df9e260359f0bae9f98ec0c63ad6fc62fe48912eaa27494b5ca61755"
+    "sha256": "49cda60aa6f259a0238a832f0fcbcfd1abaa00788775f8dbb9cca495c74fa2a2"
   },
   {
     "path": "plugins/agent-foundry/skills/daily-handoff/agents/openai.yaml",
@@ -322,7 +322,7 @@
   {
     "path": "plugins/agent-foundry/skills/firebase-game-backend/SKILL.md",
     "source": "local Codex skill: firebase-game-backend/SKILL.md",
-    "sha256": "17c56d6d152fa2d3eb5806ef5e7fc3b942343c0f6561469a5600836093a6798c"
+    "sha256": "2084ec87a7a6e04c1ed6974949e5ea0a21e82d17960ade4eed4fcd1d88ea39ac"
   },
   {
     "path": "plugins/agent-foundry/skills/game-code-review/SKILL.md",
@@ -337,7 +337,7 @@
   {
     "path": "plugins/agent-foundry/skills/game-design-studio/SKILL.md",
     "source": "local Codex skill: game-design-studio/SKILL.md",
-    "sha256": "6f9efc14dfd7006e131ef55a07036c9d60b73f9dffbfa8a41a81f934a365035b"
+    "sha256": "8f2976c1ef7ffc3b403e1c2ab93d5d7ddb1b53f3a10f482f5feeeb7e9bc6ddea"
   },
   {
     "path": "plugins/agent-foundry/skills/game-feel-polish/agents/openai.yaml",
@@ -1037,7 +1037,7 @@
   {
     "path": "plugins/agent-foundry/skills/implement-task/SKILL.md",
     "source": "local Codex skill: implement-task/SKILL.md",
-    "sha256": "ebe7dec525c9ed30350ca868314a9dbb733a4846825bea7b0acec44b437407b7"
+    "sha256": "a5ba070e91f26938155f2470c07fd4e695cdf241d529bdaa2a25b10d1fe35e26"
   },
   {
     "path": "plugins/agent-foundry/skills/javascript-game-tools/references/javascript-patterns.md",
@@ -1392,7 +1392,7 @@
   {
     "path": "plugins/agent-foundry/skills/task-bug/SKILL.md",
     "source": "local Codex skill: task-bug/SKILL.md",
-    "sha256": "202d570f91d114d24097a5e1a98a5f8d5c8368211dfc7f1ed3f1c9e4ebcc2073"
+    "sha256": "4a9d367a5a5dd7268266066999e3307ec369d70e6c3359b7037f458f4178c65b"
   },
   {
     "path": "plugins/agent-foundry/skills/task-cycle/agents/openai.yaml",
@@ -1412,12 +1412,12 @@
   {
     "path": "plugins/agent-foundry/skills/task-cycle/references/reviewed-evidence-identity.md",
     "source": "local Codex skill: task-cycle/references/reviewed-evidence-identity.md",
-    "sha256": "5382d61f920d49b622390bf491f8615b637aacb39738ff3acf1db402c09e15b7"
+    "sha256": "81858fd4547e4c3d1b4aa95da9b6a1a667c01bb35af9c076132d58e217721491"
   },
   {
     "path": "plugins/agent-foundry/skills/task-cycle/SKILL.md",
     "source": "local Codex skill: task-cycle/SKILL.md",
-    "sha256": "e4f35c0e8997c103150fb9d5dcb83c1d2bcd0dc3738b48fe796374c9ffee6c62"
+    "sha256": "335062465e2f4f36b01c96e5a79c1632c3942b1ca46fcc0764d4facf60a7d74c"
   },
   {
     "path": "plugins/agent-foundry/skills/task-done/agents/openai.yaml",
@@ -1612,7 +1612,7 @@
   {
     "path": "plugins/agent-foundry/skills/unity-cli/SKILL.md",
     "source": "local Codex skill: unity-cli/SKILL.md",
-    "sha256": "a9b74cf4fff41ff349ea3030ff80d8fc2eae2851a7749536f627c75cdd42882e"
+    "sha256": "932c89ad93bf291b21e25e2f8c1cb28853c947e30c15bb8bd597d775e6d87eb0"
   },
   {
     "path": "plugins/agent-foundry/skills/unity-cli/scripts/unity_compile_check.py",
@@ -2237,7 +2237,7 @@
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/SKILL.md",
     "source": "Agent Foundry unified orchestration/readiness adaptation",
-    "sha256": "3ab37e75cefb43dd1122b9fbb69eb58e95b6f54a04debc634b641a06f80063c1"
+    "sha256": "6ec8697e66e47c0a71e751a48160b1f6a76edb50cc05f9f8c99f6973c656b11b"
   },
   {
     "path": "plugins/agent-foundry/skills/agent-orchestration/LICENSE",

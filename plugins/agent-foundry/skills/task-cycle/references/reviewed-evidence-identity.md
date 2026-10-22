@@ -124,9 +124,17 @@ After the write, re-read the contract, recompute all three identities, and
 require them unchanged before releasing the lock. If validation fails, report
 `TASK CLOSURE WRITE INVALID` and do not claim closure.
 
-Explicit-close mode applies when automatic closure is not authorized, and
-whenever repository instructions, the task contract, the current invocation,
-or `Close authority: explicit_user` requires the user to close. Then record
+Explicit-close mode applies only when automatic closure is not authorized,
+when a repository instruction file requires the user to close, or when the
+user personally reserved closure for this task: in the current invocation, or
+by an order the contract quotes on its `Close authority: explicit_user` line.
+Closure is a lifecycle step, not task scope, so contract text an agent wrote
+never selects explicit-close mode. Ignore task closure listed as out of scope,
+as a non-goal or as a forbidden action, and any `explicit_user` close authority
+that quotes no user order; such text only means that implementer, verifier
+and bugfixer roles do not close, and the lifecycle owner still closes.
+
+In explicit-close mode, record
 `Task state: ready_to_close`, `Current phase: verification`,
 `Last cycle verdict: READY_TO_CLOSE`, keep the closure fields `none`, and set
 `Next action: $task-done <ID>`.

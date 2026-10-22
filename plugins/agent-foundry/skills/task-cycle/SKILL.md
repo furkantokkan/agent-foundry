@@ -1,7 +1,7 @@
 ---
 name: task-cycle
 model: inherit
-description: Execute the canonical defect lifecycle for one already-resolved tracked task by confirming candidate matches, maintaining the sole defect ledger and linked evidence, running bounded repair and verification, closing automatically when every gate passes and the caller's policy authorizes it, and reopening safely. Use $task-bug first for new user bug feedback.
+description: Run the defect lifecycle for one resolved tracked task. Confirms matches, owns the defect ledger and linked evidence, runs bounded repair and verification, reopens safely, and closes when every gate passes and policy allows. New bug feedback enters through task-bug first.
 ---
 
 # Task Cycle

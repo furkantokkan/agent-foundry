@@ -83,7 +83,33 @@ copied obsolete `unity-preflight` entry from the installation you own. Do not
 edit vendor cache files. Manual exports should copy the complete skill folders,
 including relative references and license notices, rather than entry files alone.
 Avoid maintaining both standalone and plugin copies unless you deliberately
-manage which version is invoked.
+manage which version is invoked; [personal copies](#personal-copies-instead-of-the-plugin)
+describes one way.
+
+## Personal copies instead of the plugin
+
+Personal copies list each skill once instead of beside its
+`agent-foundry:<name>` plugin entry, which keeps the skill listing within its
+context budget. Disable the plugin in that client, then keep the copies current
+from a clean checkout:
+
+```bash
+python scripts/sync_local.py
+python scripts/sync_local.py --apply
+```
+
+The first command is a dry run. Claude receives each skill's Claude form
+(`references/claude-skill.md` becomes `SKILL.md`; Codex agent metadata is
+skipped) in `~/.claude/skills`, and Codex receives the published folder in
+`~/.codex/skills`. Every file is merged three ways against the revision it was
+last synced from, so your own edits survive and local-only files are never
+removed. `--apply` backs up each touched skill under
+`~/.agent-context/agent-foundry-sync/backups/`. A conflicting file stays
+untouched: merge it by hand from its staged copy under
+`~/.agent-context/agent-foundry-sync/conflicts/`, then record it with
+`--resolve <client>:<skill>/<file>`. `--pin <client>:<skill>` keeps a skill you
+replaced with your own adapter out of the sync. Existing copies need
+`--base <revision they came from>` on their first sync.
 
 Read the [Unity guide](../plugins/agent-foundry/skills/game-feel-polish/references/unity-port.md)
 for system responsibilities and the

@@ -1,7 +1,7 @@
 ---
 name: create-task
 model: sonnet
-description: Create one production-ready task contract from a short request or optional structured brief, optional task ID, repository context, and attached references without implementing it. In the canonical task-first workflow this contract is also the implementable story; use separate story files only in an explicitly legacy story repository.
+description: Create one tracked task contract, which is also the implementable story, from a request, brief, task ID, or attached references without implementing it. Use separate story files only in an explicitly legacy story repository.
 ---
 
 # Create Task
@@ -309,6 +309,14 @@ The contract contains:
   BLOCKED`, and relations `AC_FAILURE | PRESERVATION_FAILURE |
   TASK_REGRESSION`. Only `task-cycle` may populate or transition it and create
   the linked `defects/D-xxx.md` evidence records.
+
+Closure is a lifecycle step, not scope: never list task closure among the
+non-goals, forbidden actions, or stop conditions. End the handoff line with
+`Close authority: automatic_verified` when the user, global, or repository
+policy has a standing rule for verified automatic closure, and with
+`Close authority: explicit_user` otherwise. When the user asked to close this
+task themself, write `explicit_user` and quote that order on the line; only a
+quoted user order outranks a standing automatic rule.
 
 Keep every machine-enforced path or glob in its own ownership-list item; never
 combine several paths into one prose bullet. Unless a Unity task explicitly

@@ -1,7 +1,7 @@
 ---
 name: task-bug
 model: sonnet
-description: Automatically intake explicit commands or raw post-implementation bug feedback, resolve the one tracked task that owns the failed behavior, and dispatch it to task-cycle without pre-classifying a defect; when natural-language feedback has no task match, route it once to create-task.
+description: Intake new post-implementation bug feedback or explicit task-bug commands. Resolve the one tracked task that owns the failed behavior and send the raw evidence to task-cycle without pre-classifying it; feedback with no task match goes once to create-task.
 ---
 
 # Task Bug

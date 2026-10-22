@@ -1,7 +1,7 @@
 ---
 name: unity-cli
 model: inherit
-description: Use for Agent Foundry's Unity CLI operating contract: verify exact project and Editor identity, choose CLI or built-in MCP transport, run focused checks, apply task ownership and risk gates, and install the official CLI safely when missing. For a guided idea-to-running-project flow, use the separately installed official unity:new-unity-project skill.
+description: Unity CLI operating contract for every Unity task. Prove the exact project and Editor, choose CLI or built-in MCP transport, run Roslyn and focused test checks, apply ownership and risk gates, and install the official CLI safely. For idea-to-project setup use unity:new-unity-project.
 allowed-tools:
   - Bash
 ---
@@ -270,7 +270,7 @@ give every Editor one owner:
 
   A lane's `COMPILE_UNVERIFIED` (a new assembly, an `.asmdef` edit) goes to the
   integration owner, who confirms it with Unity's compile in the integration
-  checkout after applying the lane's diff.
+  checkout after applying the lane's diff. Final-stage tests also run there.
 
 ## Development compile check (Roslyn)
 

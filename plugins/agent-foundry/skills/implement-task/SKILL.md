@@ -1,7 +1,7 @@
 ---
 name: implement-task
 model: inherit
-description: Resolve and initially execute a task ID, contract path, story path, or bounded ad-hoc request with focused verification, and close a clean empty-ledger task automatically when its verified tests and every other gate pass and the caller's policy authorizes it. Automatically route raw post-implementation bug feedback through task-bug. Treat an explicit user acceptance of named criteria as a verification continuation for the exact or sole retained task; it needs no artifact. Treat an immediate plain continue phrase as execution only for the sole newly returned ready task.
+description: Implement a ready task ID, contract, story, or one bounded ad-hoc change with focused verification, closing a clean empty-ledger task when every gate passes and policy allows. Also runs on a plain continue or an explicit criteria acceptance for the sole retained task. New bug feedback goes to task-bug.
 ---
 
 # Implement Task

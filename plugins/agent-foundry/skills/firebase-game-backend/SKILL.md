@@ -1,6 +1,6 @@
 ---
 name: firebase-game-backend
-description: Use when building or reviewing Firebase-backed game features for Unity or JavaScript, including Firebase Auth, Cloud Firestore, Realtime Database, Cloud Functions Gen2, Express.js HTTP APIs, Unity request/response clients, Cloud Storage, Remote Config, Analytics, App Check, security rules, local emulators, deployment, data modeling, and client/server boundaries.
+description: Use for Firebase-backed game features in Unity or JavaScript, including Auth, Firestore, Realtime Database, Cloud Functions Gen2 with Express APIs, typed Unity request/response clients, Remote Config, App Check, security rules, emulators, deployment, and client/server boundaries.
 ---
 
 # Firebase Game Backend
